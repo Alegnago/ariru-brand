@@ -24,7 +24,7 @@ b{font-weight:600}
 section{border-top:1px solid var(--line);margin-top:72px;padding-top:44px}
 
 /* biglietti da visita 3D, verticali */
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:28px 32px;justify-items:center;padding-top:24px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:28px 28px;align-items:center;justify-items:center;padding-top:24px}
 .cards figure{margin:0;display:grid;grid-template-columns:minmax(0,1fr);gap:12px;justify-items:center;width:100%;min-width:0}
 .cards figcaption{font-size:13px;color:var(--muted);text-align:center;line-height:1.4}
 .cards figcaption b{display:block;color:var(--fg);font-weight:500}
@@ -64,6 +64,10 @@ section{border-top:1px solid var(--line);margin-top:72px;padding-top:44px}
 .xs.xl p{margin:0}
 .xs.xl b{font-weight:600}
 .sc{position:absolute;height:auto}
+.stage.vert{width:280px}
+.stage.vert .bc{aspect-ratio:55/85}
+.vcent{display:grid;gap:9cqw;margin:auto 0;font-family:var(--geo);font-size:4.4cqw;line-height:1.45}
+.vcent p{margin:0}.vcent b{font-weight:600;font-size:4.8cqw}
 .face.x{padding:0}
 .face.x .in{position:absolute;inset:5.5cqw 6cqw 5cqw;display:flex;flex-direction:column}
 .frow{display:flex;align-items:flex-end;justify-content:space-between;gap:.12em;font-size:20px}
@@ -865,6 +869,9 @@ const front=(bg,fg,cls)=>'<div class="face '+cls+'" style="background:'+bg+';col
 const CARDS=[
  {n:'Versione 1',d:'Fronte e retro nel neutro chiaro.',f:()=>front('var(--paper)','var(--ink)',''),b:back},
  {n:'Versione 2',d:'Fronte nel pieno con testo chiaro e nome leggero; retro nel neutro chiaro.',f:()=>front('var(--cd)','var(--paper)','lite'),b:back},
+ {v:1,n:'Verticale',d:'55 × 85 mm. Nome e cognome a tutta larghezza in alto, ruolo e mail in basso a destra. Dietro: nome e ruolo in alto, i due centri uno sotto l\'altro.',
+  f:()=>'<div class="face x" style="background:var(--paper);color:var(--ink)"><div class="in" style="inset:8cqw"><div class="fol"><span class="wm" style="font-weight:300">Arianna</span></div><div class="fol" style="margin-top:2cqw"><span class="wm" style="font-weight:300">Ruaro</span></div><div style="margin-top:auto;text-align:right"><p class="bk-n" style="font-size:5.4cqw;font-weight:500">'+D.ruolo+'</p><p class="bk-r" style="font-size:4.6cqw;margin-top:1.6cqw">'+D.mail+'</p></div></div></div>',
+  b:()=>'<div class="face b x" style="background:var(--paper);color:var(--ink)"><div class="in" style="inset:8cqw"><p class="bk-n" style="font-size:6cqw">'+D.nome+'</p><p class="bk-r" style="font-size:4.6cqw;margin-top:1cqw">'+D.ruolo+'</p><div class="vcent">'+D.centri.map(c=>'<div><p><b>'+c[0]+'</b></p><p>'+c[1]+'</p><p>'+c[2]+'</p><p>'+c[3]+'</p></div>').join('')+'</div></div></div>'},
  {x:1,n:'Fila di frutti',d:'Dalla reference Arketype: frutti e verdure colorati in fila, stessa altezza e stessa base, come una parola. Testi piccoli in maiuscolo.',
   f:()=>'<div class="face x" style="background:var(--paper);color:var(--ink)"><div class="in" style="justify-content:center"><div class="frow">'+['fragola','pera','carota','melograno','limone','broccolo','mela','foglia'].map(f=>'<svg data-f="'+f+'"></svg>').join('')+'</div><div class="xs" style="position:absolute;right:0;bottom:0;text-align:right">ARIANNA RUARO<br>BIOLOGA NUTRIZIONISTA</div></div></div>',
   b:()=>'<div class="face b x" style="background:var(--paper);color:var(--ink)"><div class="in"><p class="xs">ARIANNA RUARO<br>BIOLOGA NUTRIZIONISTA</p><div class="frow sm">'+['fragola','pera','carota'].map(f=>'<svg data-f="'+f+'"></svg>').join('')+'</div><div class="xs xl" style="margin-top:auto">'+D.centri.map(c=>'<p><b>'+c[0].toUpperCase()+'</b><br>'+c[1].toUpperCase()+', '+c[2].toUpperCase()+' · '+c[3]+'</p>').join('')+'<p>'+D.mail.toUpperCase()+'</p></div></div></div>'},
@@ -890,7 +897,7 @@ function drag(st,bc){let ry=-14,rx=6,sx=0,sy=0,bx=0,by=0,moved=false,down=false;
  st.addEventListener('pointerup',up);st.addEventListener('pointercancel',up);st.tabIndex=0;
  st.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();ry+=180;set()}})}
 function drawCards(){[['cards',CARDS.filter(c=>!c.x)],['xcards',CARDS.filter(c=>c.x)]].forEach(([id,list])=>{const box=document.getElementById(id);if(!box)return;
- if(!box.children.length){box.innerHTML=list.map(c=>'<figure><div class="stage" aria-label="'+c.n+', trascina per girarlo"><div class="bc"></div></div><figcaption><b>'+c.n+'</b>'+c.d+'</figcaption></figure>').join('');box.querySelectorAll('.stage').forEach(st=>drag(st,st.firstElementChild))}
+ if(!box.children.length){box.innerHTML=list.map(c=>'<figure><div class="stage'+(c.v?' vert':'')+'" aria-label="'+c.n+', trascina per girarlo"><div class="bc"></div></div><figcaption><b>'+c.n+'</b>'+c.d+'</figcaption></figure>').join('');box.querySelectorAll('.stage').forEach(st=>drag(st,st.firstElementChild))}
  box.querySelectorAll('.bc').forEach((bc,i)=>{bc.innerHTML='<div class="shadow"></div>'+[-0.9,-0.3,0.3,0.9].map(z=>'<div class="edge" style="--z:'+z+'px"></div>').join('')+list[i].f()+list[i].b();bc.querySelectorAll('svg[data-f]').forEach(fill)})});fitName()}
 document.fonts.ready.then(fitName);addEventListener('load',()=>{fitName();setTimeout(fitName,400)});addEventListener('resize',fitName);new MutationObserver(fitName).observe(document.documentElement,{attributes:true,attributeFilter:['data-font']});
 drawCards();
