@@ -32,10 +32,12 @@ section{border-top:1px solid var(--line);margin-top:72px;padding-top:44px}
 .stage:active{cursor:grabbing}
 .bc{position:relative;width:100%;aspect-ratio:85/55;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.2,.7,.2,1)}
 .bc.drag{transition:none}
-.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;container-type:inline-size;overflow:hidden;display:flex;flex-direction:column;padding:10cqw;box-shadow:0 1px 0 rgba(0,0,0,.04),0 20px 40px -16px rgba(30,25,20,.4),0 4px 10px -4px rgba(30,25,20,.2)}
-.face.b{transform:rotateY(180deg)}
-.face::before{content:"";position:absolute;inset:0;z-index:5;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='4' seed='3'/%3E%3CfeDiffuseLighting surfaceScale='2.4' lighting-color='%23fff'%3E%3CfeDistantLight azimuth='225' elevation='52'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");background-size:180px;opacity:.24;mix-blend-mode:soft-light;pointer-events:none}
-.face::after{content:"";position:absolute;inset:0;z-index:6;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' seed='11'/%3E%3CfeColorMatrix values='0 0 0 0 .25  0 0 0 0 .21  0 0 0 0 .17  10 0 0 0 -6.3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)'/%3E%3C/svg%3E");background-size:240px;opacity:.6;mix-blend-mode:multiply;pointer-events:none}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;container-type:inline-size;overflow:hidden;display:flex;flex-direction:column;padding:10cqw;transform:translateZ(1.2px)}
+.bc .edge{position:absolute;inset:0;background:#E9E4DA;transform:translateZ(var(--z));box-shadow:none}
+.bc .shadow{position:absolute;inset:0;transform:translateZ(-2px);box-shadow:14px 18px 10px -4px rgba(40,32,24,.28),4px 6px 6px rgba(40,32,24,.12);background:transparent}
+.face.b{transform:rotateY(180deg) translateZ(1.2px)}
+.face::before{content:"";position:absolute;inset:0;z-index:5;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='p' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' seed='3' stitchTiles='stitch'/%3E%3CfeDiffuseLighting surfaceScale='1.6' lighting-color='%23fff' diffuseConstant='1.05'%3E%3CfeDistantLight azimuth='235' elevation='58'/%3E%3C/feDiffuseLighting%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='1.16'/%3E%3CfeFuncG type='linear' slope='1.16'/%3E%3CfeFuncB type='linear' slope='1.16'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");background-size:160px;opacity:.7;mix-blend-mode:multiply;pointer-events:none}
+.face::after{content:"";position:absolute;inset:0;z-index:6;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cfilter id='m' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012' numOctaves='3' seed='9' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .5 -.12'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23m)'/%3E%3C/svg%3E"),linear-gradient(118deg,rgba(255,255,255,.07),rgba(255,255,255,0) 45%,rgba(0,0,0,.05));background-size:600px,100% 100%;opacity:.22;mix-blend-mode:multiply;pointer-events:none}
 .face > *{position:relative;z-index:2}
 .bn{font-family:var(--serif);font-weight:300;font-size:11cqw;line-height:1.02;letter-spacing:-.015em}
 .br{font-family:var(--sans);font-size:4.8cqw;margin-top:2.4cqw;opacity:.9}
@@ -203,18 +205,83 @@ html[data-font="serif"] .ti{font-variation-settings:normal}
 .igside{display:grid;gap:26px;padding-top:8px}
 .igside p{font-size:15.5px;line-height:1.6;max-width:52ch}
 .igside .label{margin-bottom:4px}
+.ptabs{display:flex;gap:6px;flex-wrap:wrap;margin-top:72px;border-bottom:1px solid var(--line)}
+.ptabs button{font:inherit;font-size:16px;background:none;border:0;border-bottom:2px solid transparent;padding:12px 14px;margin-bottom:-1px;cursor:pointer;color:var(--muted)}
+.ptabs button[aria-selected="true"]{color:var(--fg);border-color:var(--fg)}
+.ptabs small{font-size:12px;opacity:.7;margin-left:2px}
+.panel > section:first-child{border-top:0;margin-top:28px;padding-top:0}
+.donut-w{display:flex;align-items:center;gap:5cqw;margin:auto 0}
+.donut{width:40cqw;aspect-ratio:1;border-radius:50%;flex:none;background:conic-gradient(var(--acc) 0 calc(var(--a)*1%),color-mix(in srgb,var(--f) 55%,var(--l)) 0 calc((var(--a) + var(--b))*1%),var(--ink) 0);-webkit-mask:radial-gradient(circle,transparent 34%,#000 35%);mask:radial-gradient(circle,transparent 34%,#000 35%)}
+.leg{display:grid;gap:2cqw;font-size:3.5cqw}
+.leg p{display:flex;align-items:center;gap:2cqw;margin:0}
+.leg i{width:3.4cqw;height:3.4cqw;border-radius:50%;flex:none}
+.leg.row2{grid-template-columns:1fr 1fr}
+.vs{display:grid;gap:3cqw;margin-top:auto;margin-bottom:auto}
+.vs > div{border-radius:3cqw;padding:4cqw;background:var(--l)}
+.vs > div.ev{background:var(--f);color:var(--o)}
+.vs .lab{margin-bottom:1cqw}
+.ring-w{display:flex;gap:6cqw;justify-content:center;margin:auto 0}
+.ring{width:32cqw;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--acc) 0 calc(var(--p)*1%),var(--acc2) 0)}
+.ring span{width:76%;aspect-ratio:1;border-radius:50%;background:var(--f);display:grid;place-items:center;font-family:var(--serif);font-size:7cqw}
+.season{display:grid;grid-template-columns:repeat(3,1fr);gap:4cqw 3cqw;margin-top:auto}
+.season figure{margin:0;display:grid;justify-items:center;gap:1.4cqw;container-type:normal}
+.season svg{width:15cqw;height:15cqw}
+.season span{font-size:3cqw}
+.freq{display:grid;gap:4cqw;margin:auto 0}
+.freq > div{display:grid;grid-template-columns:24cqw 1fr auto;align-items:center;gap:3cqw;font-size:3.6cqw}
+.freq p{display:flex;gap:1.6cqw;margin:0}
+.freq i{width:5cqw;height:5cqw;border-radius:50%;background:var(--acc)}
+.freq i.h{background:var(--acc2)}
+.freq b{font-weight:500}
+.hbar{display:grid;gap:2.6cqw;margin:auto 0}
+.hbar div{display:grid;grid-template-columns:28cqw 1fr;align-items:center;gap:3cqw;font-size:3.3cqw}
+.hbar i{display:block;height:4cqw;border-radius:99px;background:var(--acc)}
+.tl{display:grid;gap:3cqw;margin-top:auto;position:relative}
+.tl > div{display:grid;grid-template-columns:7.4cqw 1fr;gap:3cqw;align-items:start;font-size:3.5cqw;line-height:1.3}
+.tl b{width:7.4cqw;height:7.4cqw;border-radius:50%;background:var(--f);color:var(--o);display:grid;place-items:center;font-size:3.4cqw}
+.tl p{margin:0}.tl strong{font-weight:600;display:block}
+.ck{display:grid;gap:2.6cqw;margin-top:auto}
+.ck p{display:flex;gap:2.6cqw;align-items:flex-start;font-size:3.7cqw;line-height:1.3;margin:0}
+.ck i{width:5cqw;height:5cqw;border-radius:50%;background:var(--acc);flex:none;margin-top:.2cqw;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='10'/%3E%3C/svg%3E")}
+.ck i{position:relative;background:var(--acc);-webkit-mask:none}
+.ck i::after{content:"";position:absolute;left:31%;top:22%;width:26%;height:44%;border:solid var(--l);border-width:0 .7cqw .7cqw 0;transform:rotate(45deg)}
+.por{display:grid;grid-template-columns:1fr 1fr;gap:4cqw;margin:auto 0}
+.por div{display:grid;justify-items:start;gap:1cqw}
+.por svg{width:12cqw;height:12cqw}
+.por b{font-family:var(--serif);font-weight:400;font-size:7cqw}
+.por span{font-size:3cqw;opacity:.9}
+.qa{display:grid;gap:4cqw;margin:auto 0}
+.qa .q{font-family:var(--serif);font-size:8.4cqw;line-height:1.08;font-weight:300}
+.qa .a{font-size:4.2cqw;line-height:1.4;background:var(--paper);border-radius:3cqw;padding:4cqw}
+svg.line{width:100%;height:36cqw;margin-top:auto;overflow:visible}
+svg.line polyline{fill:none;stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke}
+svg.line polyline:last-child{stroke-width:3.4}
+.dots7{display:grid;grid-template-columns:repeat(6,1fr);gap:3cqw;width:70%;margin:6cqw auto 0}
+.dots7 i{aspect-ratio:1;border-radius:50%;background:var(--acc)}
+.dots7 i:nth-child(n+16){background:var(--acc2)}
+.verdict{margin:auto 0;align-self:center}
+.verdict span{display:inline-block;font-family:var(--serif);font-size:15cqw;color:var(--acc);border:.8cqw solid var(--acc);border-radius:3cqw;padding:1cqw 6cqw 2cqw;transform:rotate(-8deg)}
 </style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
-<symbol id="emb-fragola" viewBox="0 0 100 112"><g filter="url(#rilievo)"><path d="M18 34 L50 24 L84 34 L92 56 L78 86 L52 108 L28 90 L10 62 Z" fill="currentColor"/><path d="M28 30 L34 8 L44 24 L52 4 L60 24 L72 10 L72 32 L50 26 Z" fill="currentColor"/></g><g filter="url(#incavo)" fill="currentColor"><path d="M32 46l3.5 10h-5z"/><path d="M50 42l3.5 10h-5z"/><path d="M68 48l3.5 10h-5z"/><path d="M40 64l3.5 10h-5z"/><path d="M60 66l3.5 10h-5z"/><path d="M50 86l3 9h-5z"/><path d="M26 66l3 9h-5z"/><path d="M76 68l2.5 8h-4z"/></g></symbol>
-<filter id="rilievo" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="-.7" dy="-.7" stdDeviation=".5" flood-color="#fff" flood-opacity=".85"/><feDropShadow dx=".8" dy=".9" stdDeviation=".7" flood-color="#000" flood-opacity=".22"/></filter>
-<filter id="incavo" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx=".5" dy=".5" stdDeviation=".3" flood-color="#fff" flood-opacity=".8"/><feDropShadow dx="-.5" dy="-.5" stdDeviation=".35" flood-color="#000" flood-opacity=".25"/></filter>
-<filter id="sil"><feFlood style="flood-color:var(--ink)"/><feComposite in2="SourceAlpha" operator="in"/></filter>
-<filter id="sil1l"><feFlood style="flood-color:var(--c1l)"/><feComposite in2="SourceAlpha" operator="in"/></filter>
-<filter id="sil2l"><feFlood style="flood-color:var(--c2l)"/><feComposite in2="SourceAlpha" operator="in"/></filter>
-<filter id="sil3l"><feFlood style="flood-color:var(--c3l)"/><feComposite in2="SourceAlpha" operator="in"/></filter>
-<filter id="sil-f"><feFlood style="flood-color:var(--c1)"/><feComposite in2="SourceAlpha" operator="in"/></filter>
+<symbol id="emb-fragola" viewBox="-6 -6 112 124"><g filter="url(#secco)"><path d="M18 34 L50 24 L84 34 L92 56 L78 86 L52 108 L28 90 L10 62 Z"/><path d="M28 30 L34 8 L44 24 L52 4 L60 24 L72 10 L72 32 L50 26 Z"/></g><g filter="url(#secco-in)"><path d="M32 46l3.5 10h-5z"/><path d="M50 42l3.5 10h-5z"/><path d="M68 48l3.5 10h-5z"/><path d="M40 64l3.5 10h-5z"/><path d="M60 66l3.5 10h-5z"/><path d="M50 86l3 9h-5z"/><path d="M26 66l3 9h-5z"/><path d="M76 68l2.5 8h-4z"/></g></symbol>
+<filter id="secco" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
+<feGaussianBlur in="SourceAlpha" stdDeviation="1.1" result="a"/>
+<feOffset in="a" dx="1.3" dy="1.3" result="ao"/><feComposite in="a" in2="ao" operator="arithmetic" k2="1" k3="-1" result="hi"/>
+<feOffset in="a" dx="-1.3" dy="-1.3" result="ai"/><feComposite in="a" in2="ai" operator="arithmetic" k2="1" k3="-1" result="lo"/>
+<feOffset in="SourceAlpha" dx="1" dy="1.2" result="so"/><feGaussianBlur in="so" stdDeviation="1.4" result="sb"/><feComposite in="sb" in2="SourceAlpha" operator="out" result="cast"/>
+<feFlood flood-color="#fff" flood-opacity=".42"/><feComposite in2="hi" operator="in" result="H"/>
+<feFlood flood-color="#000" flood-opacity=".32"/><feComposite in2="lo" operator="in" result="L"/>
+<feFlood flood-color="#000" flood-opacity=".18"/><feComposite in2="cast" operator="in" result="C"/>
+<feMerge><feMergeNode in="C"/><feMergeNode in="L"/><feMergeNode in="H"/></feMerge></filter>
+<filter id="secco-in" x="-50%" y="-50%" width="200%" height="200%" color-interpolation-filters="sRGB">
+<feGaussianBlur in="SourceAlpha" stdDeviation=".5" result="a"/>
+<feOffset in="a" dx=".7" dy=".7" result="ao"/><feComposite in="a" in2="ao" operator="arithmetic" k2="1" k3="-1" result="lo"/>
+<feOffset in="a" dx="-.7" dy="-.7" result="ai"/><feComposite in="a" in2="ai" operator="arithmetic" k2="1" k3="-1" result="hi"/>
+<feFlood flood-color="#fff" flood-opacity=".5"/><feComposite in2="hi" operator="in" result="H"/>
+<feFlood flood-color="#000" flood-opacity=".3"/><feComposite in2="lo" operator="in" result="L"/>
+<feMerge><feMergeNode in="L"/><feMergeNode in="H"/></feMerge></filter>
 <filter id="grana"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" seed="4"/><feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .55 0"/></filter>
 <symbol id="fragola" viewBox="0 0 100 112"><path d="M18 34 L50 24 L84 34 L92 56 L78 86 L52 108 L28 90 L10 62 Z" style="fill:var(--fr-red)"/><path d="M28 30 L34 8 L44 24 L52 4 L60 24 L72 10 L72 32 L50 26 Z" style="fill:var(--fr-green)"/><g style="fill:var(--fr-light)"><path d="M32 46l3.5 10h-5z"/><path d="M50 42l3.5 10h-5z"/><path d="M68 48l3.5 10h-5z"/><path d="M40 64l3.5 10h-5z"/><path d="M60 66l3.5 10h-5z"/><path d="M50 86l3 9h-5z"/><path d="M26 66l3 9h-5z"/><path d="M76 68l2.5 8h-4z"/></g></symbol>
 <symbol id="carota" viewBox="0 0 60 140"><path d="M24 34 L16 4 M30 34 L32 0 M36 34 L48 8" style="stroke:var(--fr-green)" stroke-width="6"/><path d="M12 36 L48 34 L40 76 L26 138 L18 84 Z" style="fill:var(--fr-orange)"/><path d="M20 52 L32 50 M24 70 L36 68 M24 92 L32 91" style="stroke:var(--fr-orange-l)" stroke-width="3"/></symbol>
@@ -252,36 +319,7 @@ html[data-font="serif"] .ti{font-variation-settings:normal}
 <div class="tabs" role="toolbar" aria-label="Versione" id="tabs"><span>Font</span><button data-font="petrona" style="font-family:Petrona">Petrona + Geologica</button><button data-font="sans" style="font-family:Geologica">Solo Geologica</button><span style="margin-left:10px">Colori</span></div>
 
 <div id="sys">
-<section id="ig">
-<h2>Il profilo Instagram.</h2>
-<p class="note">Dal 2025 la griglia del profilo mostra i post in 3:4: per questo tutti i post sono ora 1080×1440, e nella griglia non si taglia niente. I post si pubblicano sempre in sequenza di tre, foto → scheda piena → scheda chiara: quando la griglia slitta di uno a ogni nuovo post, le colonne restano ordinate. Tre post fissati in alto fanno da presentazione.</p>
-<div class="igwrap">
-<div class="phone"><div class="scr">
-<div class="ig-top"><b>ariannaruaro.nutrizionista</b><span>≡</span></div>
-<div class="ig-head">
-<div class="ig-av"></div>
-<div class="ig-stats"><div><b>15</b>post</div><div><b>143</b>follower</div><div><b>—</b>seguiti</div></div>
-</div>
-<div class="ig-bio">
-<b>Arianna Ruaro</b>
-<span class="cat">Nutrizionista</span>
-<p>Biologa nutrizionista · Vicenza e Valdagno<br>Educazione alimentare basata sulle evidenze. Niente diete, più autonomia.<br>Prima visita: scrivimi in DM</p>
-<a>link per prenotare</a>
-</div>
-<div class="ig-btns"><span>Segui</span><span>Messaggio</span><span>Contatta</span></div>
-<div class="ig-hl" id="hl"></div>
-<div class="ig-tabs"><span class="on">▦</span><span>▷</span><span>☺</span></div>
-<div class="ig-grid" id="iggrid"></div>
-</div></div>
-<div class="igside">
-<div><p class="label">Fissati in alto</p><p>Chi sono, l'apertura della serie "Mito o evidenza?" e il congresso ESPEN. Si cambiano di rado: dicono chi è, cosa fa e perché fidarsi.</p></div>
-<div><p class="label">Storie in evidenza</p><p>Cinque cerchi, ognuno nel chiaro di una coppia con un frutto: Chi sono, Visite, Miti, Fasi della vita, Congresso.</p></div>
-<div><p class="label">Le tre colonne</p><p>Colonna di sinistra: foto. Centro: scheda piena o scura. Destra: scheda chiara o neutra, con dati e passi. Postando sempre in quest'ordine, la griglia resta a colonne anche quando slitta.</p></div>
-<div><p class="label">Bio</p><p>Chi è, dove riceve, cosa promette, cosa fare: in quattro righe, senza emoji. Il link va alla prenotazione.</p></div>
-<div><p class="label">Da sostituire</p><p>Il numero dei seguiti, il link e la foto profilo (oggi ritagliata dal post del blazer rosa).</p></div>
-</div>
-</div>
-</section>
+
 <section>
 <h2 id="vname"></h2>
 <p class="note" id="vdesc"></p>
@@ -307,8 +345,14 @@ html[data-font="serif"] .ti{font-variation-settings:normal}
 <div class="fruits" id="fruits"></div>
 </section>
 
+<nav class="ptabs" role="tablist" aria-label="Sezioni">
+<button role="tab" data-p="post" aria-selected="true">Post <small>40</small></button>
+<button role="tab" data-p="ig" aria-selected="false">Profilo Instagram</button>
+<button role="tab" data-p="rifatti" aria-selected="false">Post di Arianna rifatti <small>9</small></button>
+</nav>
+<div class="panel" data-p="post">
 <section>
-<h2>Dodici post.</h2>
+<h2>Quaranta post.</h2>
 <p class="note">Formato 3:4 (1080×1440), una coppia colore per post. Foto Unsplash caricate dal loro sito, segnaposto per la foto di Arianna fino allo shooting. Testi in bozza da far rivedere ad Arianna.</p>
 <div class="feed">
 
@@ -402,9 +446,241 @@ html[data-font="serif"] .ti{font-variation-settings:normal}
 <div class="half place"><span>Foto di Arianna in studio (dallo shooting)</span></div>
 </div><figcaption>12 · Chi sono · neutro chiaro, coppia 2</figcaption></figure>
 
+
+<figure><div class="c p3 bl">
+<span class="pill">Come si fa</span>
+<p class="ti sm">Il piatto, in proporzioni.</p>
+<div class="donut-w"><div class="donut" style="--a:50;--b:25"></div>
+<div class="leg"><p><i style="background:var(--acc)"></i>½ verdura e frutta</p><p><i style="background:color-mix(in srgb,var(--f) 55%,var(--l))"></i>¼ cereali integrali</p><p><i style="background:var(--ink)"></i>¼ proteine</p></div></div>
+<p class="src">Fonte: Harvard T.H. Chan School of Public Health, Healthy Eating Plate</p>
+</div><figcaption>13 · Grafico a torta · coppia 3, chiaro</figcaption></figure>
+
+<figure><div class="c p1 bf">
+<p class="lab">Sale</p>
+<p class="num">5<small>g</small></p>
+<p class="ti sm">al giorno al massimo: circa un cucchiaino, contando anche quello già nei cibi.</p>
+<p class="src" style="margin-top:auto">Fonte: OMS, Sodium intake for adults and children, 2012</p>
+</div><figcaption>14 · Numero grande · coppia 1, pieno</figcaption></figure>
+
+<figure><div class="c p2 bp">
+<span class="pill">Mito o evidenza?</span>
+<div class="vs"><div><p class="lab">Mito</p><p class="tx">La frutta a fine pasto "fermenta" nello stomaco.</p></div><div class="ev"><p class="lab">Evidenza</p><p class="tx">Lo stomaco digerisce il pasto insieme. Mangiala quando preferisci.</p></div></div>
+<svg class="bigf" data-f="mela" style="width:26cqw;right:6cqw;bottom:10cqw;transform:rotate(10deg)"></svg>
+</div><figcaption>15 · Mito e evidenza affiancati · coppia 2</figcaption></figure>
+
+<figure><div class="c p3 bf">
+<p class="ti sm">Zuccheri liberi: meno del 10% delle calorie, meglio sotto il 5%.</p>
+<div class="ring-w"><div class="ring" style="--p:10"><span>10%</span></div><div class="ring" style="--p:5"><span>5%</span></div></div>
+<p class="src" style="margin-top:auto">Fonte: OMS, Guideline: sugars intake for adults and children, 2015</p>
+</div><figcaption>16 · Anelli percentuali · coppia 3, pieno</figcaption></figure>
+
+<figure><div class="c p1 bl">
+<span class="pill">Stagione · ottobre</span>
+<p class="ti sm">Cosa trovi adesso al mercato.</p>
+<div class="season"><figure><svg data-f="mela"></svg><span>Mele</span></figure><figure><svg data-f="pera"></svg><span>Pere</span></figure><figure><svg data-f="melograno"></svg><span>Melograno</span></figure><figure><svg data-f="broccolo"></svg><span>Broccoli</span></figure><figure><svg data-f="bietola"></svg><span>Barbabietole</span></figure><figure><svg data-f="carota"></svg><span>Carote</span></figure></div>
+</div><figcaption>17 · Griglia di stagione · coppia 1, chiaro</figcaption></figure>
+
+<figure><div class="c p2 bi">
+<p class="lab">Carni lavorate</p>
+<p class="ti">Salumi e insaccati: meglio poco e di rado.</p>
+<p class="tx">L'OMS li classifica come cancerogeni per l'uomo: il rischio cresce con la quantità.</p>
+<p class="src" style="margin-top:auto">Fonte: IARC, Monografia 114, 2015</p>
+</div><figcaption>18 · Solo testo · neutro scuro</figcaption></figure>
+
+<figure><div class="c p3 bp">
+<span class="pill">Settimana tipo</span>
+<p class="ti sm">Quante volte a settimana?</p>
+<div class="freq">
+<div><span>Pesce</span><p><i></i><i></i><i class="h"></i></p><b>2–3</b></div>
+<div><span>Carne rossa</span><p><i></i><i class="h"></i></p><b>max 350–500 g</b></div>
+<div><span>Uova</span><p><i></i><i></i><i class="h"></i><i class="h"></i></p><b>2–4</b></div>
+</div>
+<p class="src" style="margin-top:auto">Fonti: CREA, Linee guida 2018; World Cancer Research Fund, 2018</p>
+</div><figcaption>19 · Frequenze a punti · neutro chiaro, coppia 3</figcaption></figure>
+
+<figure><div class="c p1 ph" style="background-image:url(https://images.unsplash.com/photo-1488459716781-31db52582fe9?w=1080&h=1440&fit=crop&q=80&auto=format)"><div class="shade"></div>
+<span class="pill">Come si fa</span>
+<p class="ti" style="margin-top:auto">Più colori nel carrello, più varietà nel piatto.</p>
+</div><figcaption>20 · Foto piena · mercato</figcaption></figure>
+
+<figure><div class="c p2 bl">
+<span class="pill">Fasi della vita · gravidanza</span>
+<p class="num" style="font-size:24cqw">0,4<small>mg</small></p>
+<p class="ti sm">di acido folico al giorno, già da quando cerchi una gravidanza.</p>
+<p class="src" style="margin-top:auto">Fonte: Istituto Superiore di Sanità</p>
+</div><figcaption>21 · Numero · coppia 2, chiaro</figcaption></figure>
+
+<figure><div class="c p3 bl">
+<span class="pill">Fibra</span>
+<p class="ti sm">Almeno 25 g di fibra al giorno. Ecco da dove arriva.</p>
+<div class="hbar"><div><span>Legumi</span><i style="width:90%"></i></div><div><span>Cereali integrali</span><i style="width:70%"></i></div><div><span>Verdura</span><i style="width:55%"></i></div><div><span>Frutta</span><i style="width:45%"></i></div><div><span>Frutta a guscio</span><i style="width:40%"></i></div></div>
+<p class="src">Grafico indicativo. Fonte: EFSA, valori di riferimento per i carboidrati e la fibra, 2010</p>
+</div><figcaption>22 · Barre orizzontali · coppia 3, chiaro</figcaption></figure>
+
+<figure><div class="c p1 bp">
+<span class="pill">In studio</span>
+<p class="ti sm">La prima visita, in quattro passi.</p>
+<div class="tl"><div><b>1</b><p><strong>Ascolto</strong> abitudini, storia clinica, obiettivi</p></div><div><b>2</b><p><strong>Misure</strong> peso, circonferenze, composizione corporea</p></div><div><b>3</b><p><strong>Piano</strong> costruito insieme, non imposto</p></div><div><b>4</b><p><strong>Controllo</strong> si aggiusta il tiro</p></div></div>
+</div><figcaption>23 · Linea del tempo · neutro chiaro, coppia 1</figcaption></figure>
+
+<figure><div class="c p2 bf">
+<span class="pill">Mito</span>
+<p class="ti big" style="font-size:15cqw">Detox?</p>
+<p class="tx">Fegato e reni lo fanno già, tutti i giorni. Nessun succo li sostituisce.</p>
+<svg class="bigf" data-f="limone" style="width:58cqw;right:-10cqw;bottom:-4cqw;transform:rotate(-18deg)"></svg>
+</div><figcaption>24 · Titolo grande e frutto · coppia 2, pieno</figcaption></figure>
+
+<figure><div class="c p3 bp">
+<span class="pill">Mito o evidenza?</span>
+<div class="vs"><div><p class="lab">Mito</p><p class="tx">Senza glutine è più sano per tutti.</p></div><div class="ev"><p class="lab">Evidenza</p><p class="tx">Serve a chi ha celiachia o sensibilità diagnosticata. Per gli altri non porta vantaggi.</p></div></div>
+</div><figcaption>25 · Mito e evidenza · coppia 3</figcaption></figure>
+
+<figure><div class="c p1 bl">
+<span class="pill">Ricetta veloce</span>
+<p class="ti sm">Il pranzo da portare al lavoro.</p>
+<div class="ck">
+<p><i></i>Una base di cereali integrali: farro, orzo, riso</p>
+<p><i></i>Una proteina: legumi, uova, pesce o tofu</p>
+<p><i></i>Tanta verdura, cruda o cotta</p>
+<p><i></i>Un filo d'olio extravergine</p>
+</div>
+<svg class="bigf" data-f="pomodoro" style="width:22cqw;right:6cqw;top:7cqw;transform:rotate(12deg)"></svg>
+</div><figcaption>26 · Lista di controllo · coppia 1, chiaro</figcaption></figure>
+
+<figure><div class="c p2 ph" style="background-image:url(https://images.unsplash.com/photo-1758524151953-d87150127c63?w=1080&h=1440&fit=crop&q=80&auto=format)"><div class="shade"></div>
+<p class="num" style="margin-top:auto">7<small>ore</small></p>
+<p class="tx">Almeno 7 ore a notte per un adulto. Dormire poco è legato a più fame e scelte peggiori.</p>
+<p class="src">Fonte: American Academy of Sleep Medicine, 2015</p>
+</div><figcaption>27 · Numero su foto piena</figcaption></figure>
+
+<figure><div class="c p3 bf">
+<span class="pill">Porzioni</span>
+<p class="ti sm">Quanto è una porzione?</p>
+<div class="por">
+<div><svg data-f="arancia"></svg><b>150 g</b><span>frutta, un frutto medio</span></div>
+<div><svg data-f="foglia"></svg><b>200 g</b><span>verdura</span></div>
+<div><svg data-f="ribes"></svg><b>30 g</b><span>frutta a guscio</span></div>
+<div><svg data-f="uovo"></svg><b>50 g</b><span>un uovo</span></div>
+</div>
+<p class="src" style="margin-top:auto">Fonte: SINU, LARN, porzioni standard</p>
+</div><figcaption>28 · Porzioni con icone · coppia 3, pieno</figcaption></figure>
+
+<figure><div class="c p1 bi">
+<p class="ti">«Non esistono cibi buoni o cattivi. Esistono abitudini.»</p>
+<p class="tx" style="margin-top:auto">Arianna Ruaro</p>
+<svg class="bigf" data-f="fragola" style="width:16cqw;right:7cqw;bottom:9cqw"></svg>
+</div><figcaption>29 · Citazione · neutro scuro, coppia 1</figcaption></figure>
+
+<figure><div class="c p2 bl">
+<span class="pill">Domande dal box</span>
+<div class="qa"><p class="q">«Posso mangiare la pasta la sera?»</p><p class="a">Sì. Conta quanto mangi nella giornata, non l'orario. Scegli porzioni adatte e aggiungi verdura.</p></div>
+</div><figcaption>30 · Domanda e risposta · coppia 2, chiaro</figcaption></figure>
+
+<figure><div class="c p3 bl">
+<span class="pill">Costanza</span>
+<p class="ti sm">Dieta lampo o abitudini?</p>
+<svg class="line" viewBox="0 0 100 60" preserveAspectRatio="none"><polyline points="0,20 10,44 20,48 30,30 40,16 50,42 60,50 70,24 80,14 90,40 100,46" style="stroke:var(--acc2)"/><polyline points="0,22 20,25 40,28 60,30 80,32 100,33" style="stroke:var(--acc)"/></svg>
+<div class="leg row2"><p><i style="background:var(--acc2)"></i>Su e giù delle diete</p><p><i style="background:var(--acc)"></i>Piccoli cambi che restano</p></div>
+<p class="src">Grafico illustrativo, non dati reali</p>
+</div><figcaption>31 · Grafico a linee · coppia 3, chiaro</figcaption></figure>
+
+<figure><div class="c p1 bf">
+<span class="pill">Carosello · 1/5</span>
+<p class="ti big" style="font-size:14cqw">Cinque cose che controllo in un'etichetta.</p>
+<p class="tx" style="margin-top:auto">Scorri →</p>
+</div><figcaption>32 · Copertina carosello · coppia 1, pieno</figcaption></figure>
+
+<figure><div class="c p2 bp">
+<span class="pill">Pediatria</span>
+<p class="ti sm">Nel primo anno, niente sale e zucchero aggiunti.</p>
+<p class="tx">Il gusto si forma presto: lascia che scopra il sapore vero degli alimenti.</p>
+<svg class="bigf" data-f="carota" style="width:13cqw;left:14cqw;bottom:10cqw;transform:rotate(-20deg)"></svg>
+<svg class="bigf" data-f="pera" style="width:22cqw;left:36cqw;bottom:9cqw;transform:rotate(6deg)"></svg>
+<svg class="bigf" data-f="broccolo" style="width:22cqw;left:62cqw;bottom:9cqw;transform:rotate(-8deg)"></svg>
+</div><figcaption>33 · Frutti in fila · neutro chiaro, coppia 2</figcaption></figure>
+
+<figure><div class="c p3 bi">
+<p class="lab">Olio extravergine</p>
+<p class="num" style="color:var(--f)">10<small>g</small></p>
+<p class="ti sm">è una porzione: un cucchiaio. Usalo come condimento principale.</p>
+<p class="src" style="margin-top:auto">Fonte: CREA, Linee guida 2018</p>
+</div><figcaption>34 · Numero nel pieno · neutro scuro, coppia 3</figcaption></figure>
+
+<figure><div class="c p1 bl">
+<span class="pill">Fasi della vita · menopausa</span>
+<p class="ti sm">Tre cose su cui lavorare a tavola.</p>
+<div class="steps"><div><b>1</b>Calcio e vitamina D, per le ossa.</div><div><b>2</b>Proteine a ogni pasto, per i muscoli.</div><div><b>3</b>Fibra e verdura, per cuore e intestino.</div></div>
+</div><figcaption>35 · Passi · coppia 1, chiaro</figcaption></figure>
+
+<figure><div class="c p2 bf">
+<p class="ti sm">Quanto pesa una scelta ripetuta?</p>
+<div class="dots7"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+<p class="tx" style="margin-top:auto">Un bicchiere di bibita al giorno sono 30 in un mese. Basta cambiarne metà.</p>
+</div><figcaption>36 · Punti come quantità · coppia 2, pieno</figcaption></figure>
+
+<figure><div class="c p3 bp">
+<span class="pill">Spesa</span>
+<p class="ti sm">Legumi secchi, in scatola o surgelati: vanno bene tutti.</p>
+<p class="tx">Quelli in scatola sciacquali sotto l'acqua: perdono parte del sale.</p>
+<div class="row" style="justify-content:flex-start;gap:4cqw"><svg data-f="pomodoro" style="width:22cqw"></svg><svg data-f="carota" style="width:9cqw"></svg><svg data-f="foglia" style="width:13cqw"></svg></div>
+</div><figcaption>37 · Frutti in fila · neutro chiaro, coppia 3</figcaption></figure>
+
+<figure><div class="c p1 bp">
+<span class="pill">Mito o evidenza?</span>
+<p class="ti sm">I carboidrati la sera fanno ingrassare?</p>
+<div class="verdict"><span>Mito</span></div>
+<p class="tx">Conta il totale della giornata. A cena possono aiutare anche a dormire meglio.</p>
+</div><figcaption>38 · Timbro del verdetto · neutro chiaro, coppia 1</figcaption></figure>
+
+<figure><div class="c p2 bl">
+<span class="pill">Frutta a guscio</span>
+<p class="num">30<small>g</small></p>
+<p class="ti sm">al giorno: una manciata di noci, mandorle o nocciole, al naturale.</p>
+<p class="src" style="margin-top:auto">Fonte: CREA, Linee guida 2018</p>
+</div><figcaption>39 · Numero grande · coppia 2, chiaro</figcaption></figure>
+
+<figure><div class="c p3 bf">
+<span class="pill">Prenota</span>
+<p class="ti big" style="font-size:14cqw">Prima visita a Vicenza e Valdagno.</p>
+<p class="tx" style="margin-top:auto">Scrivimi in DM o prenota dal link in bio.</p>
+</div><figcaption>40 · Invito a prenotare · coppia 3, pieno</figcaption></figure>
 </div>
 </section>
 
+</div>
+<div class="panel" data-p="ig" hidden>
+<section id="ig">
+<h2>Il profilo Instagram.</h2>
+<p class="note">Dal 2025 la griglia del profilo mostra i post in 3:4: per questo tutti i post sono ora 1080×1440, e nella griglia non si taglia niente. I post si pubblicano sempre in sequenza di tre, foto → scheda piena → scheda chiara: quando la griglia slitta di uno a ogni nuovo post, le colonne restano ordinate. Tre post fissati in alto fanno da presentazione.</p>
+<div class="igwrap">
+<div class="phone"><div class="scr">
+<div class="ig-top"><b>ariannaruaro.nutrizionista</b><span>≡</span></div>
+<div class="ig-head">
+<div class="ig-av"></div>
+<div class="ig-stats"><div><b>15</b>post</div><div><b>143</b>follower</div><div><b>—</b>seguiti</div></div>
+</div>
+<div class="ig-bio">
+<b>Arianna Ruaro</b>
+<span class="cat">Nutrizionista</span>
+<p>Biologa nutrizionista · Vicenza e Valdagno<br>Educazione alimentare basata sulle evidenze. Niente diete, più autonomia.<br>Prima visita: scrivimi in DM</p>
+<a>link per prenotare</a>
+</div>
+<div class="ig-btns"><span>Segui</span><span>Messaggio</span><span>Contatta</span></div>
+<div class="ig-hl" id="hl"></div>
+<div class="ig-tabs"><span class="on">▦</span><span>▷</span><span>☺</span></div>
+<div class="ig-grid" id="iggrid"></div>
+</div></div>
+<div class="igside">
+<div><p class="label">Fissati in alto</p><p>Chi sono, l'apertura della serie "Mito o evidenza?" e il congresso ESPEN. Si cambiano di rado: dicono chi è, cosa fa e perché fidarsi.</p></div>
+<div><p class="label">Storie in evidenza</p><p>Cinque cerchi, ognuno nel chiaro di una coppia con un frutto: Chi sono, Visite, Miti, Fasi della vita, Congresso.</p></div>
+<div><p class="label">Le tre colonne</p><p>Colonna di sinistra: foto. Centro: scheda piena o scura. Destra: scheda chiara o neutra, con dati e passi. Postando sempre in quest'ordine, la griglia resta a colonne anche quando slitta.</p></div>
+<div><p class="label">Bio</p><p>Chi è, dove riceve, cosa promette, cosa fare: in quattro righe, senza emoji. Il link va alla prenotazione.</p></div>
+<div><p class="label">Da sostituire</p><p>Il numero dei seguiti, il link e la foto profilo (oggi ritagliata dal post del blazer rosa).</p></div>
+</div>
+</div>
+</section>
+</div>
+<div class="panel" data-p="rifatti" hidden>
 <section id="arianna">
 <h2>I post di Arianna, rifatti.</h2>
 <p class="note">I nove post pubblicati, stessi temi e stesse foto sue, nel nuovo sistema. Via le immagini generate con l'AI, le line-art e le emoji: al loro posto frutti a ritaglio, foto vere e una fonte quando c'è un'affermazione. Testi corretti e a "tu". Sotto ogni post, l'originale.</p>
@@ -481,6 +757,7 @@ html[data-font="serif"] .ti{font-variation-settings:normal}
 </section>
 </div>
 </div>
+</div>
 
 <script>
 /* c1/c2/c3 = pieno, c1l… = chiaro, o1… = colore del testo sul pieno */
@@ -525,8 +802,8 @@ setV(start);
 <script>
 /* griglia IG: 3 fissati, poi terne foto → pieno → chiaro, dal più recente */
 (function(){
- const figs=[...document.querySelectorAll('.feed figure')];
- const PIN=[20,0,14], ORDER=[13,16,15, 17,12,19, 18,5,2, 7,8,10];
+ const figs=[...document.querySelectorAll('.feed > figure')];
+ const PIN=[48,0,42], ORDER=[41,44,43, 45,40,47, 46,5,2, 7,8,10];
  const g=document.getElementById('iggrid');
  [...PIN,...ORDER].forEach((i,n)=>{const c=figs[i].querySelector('.c').cloneNode(true);const t=document.createElement('div');t.className='tile';t.appendChild(c);if(n<3)t.insertAdjacentHTML('beforeend','<svg class="pin" viewBox="0 0 16 16" width="13" height="13"><path d="M10 1l5 5-2 1-3 3 1 3-1 1-3-3-4 4-1-1 4-4-3-3 1-1 3 1 3-3z" fill="#fff"/></svg>');g.appendChild(t)});
  const HL=[['Chi sono','p1','mela'],['Visite','p2','foglia'],['Miti','p1','melograno'],['Fasi della vita','p3','pera'],['Congresso','p2','mirtilli']];
@@ -540,7 +817,7 @@ const D={nome:'Arianna Ruaro',ruolo:'Biologa nutrizionista',mail:'info@ariannaru
  centri:[['Centro Medico Piscine di Vicenza','Viale Arturo Ferrarin, 71','Vicenza','0444 929397'],['Poliambulatorio Al Maglio in Salute','Via Cesare Battisti, 19','Maglio di Sopra, Valdagno','0445 1947715 · 340 740 1357']]};
 const addr=()=>'<div class="addr">'+D.centri.map(c=>'<div><b>'+c[0]+'</b><p>'+c[1]+'</p><p>'+c[2]+'</p><p>'+c[3]+'</p></div>').join('')+'</div>';
 const who=(st)=>'<div style="'+(st||'')+'"><p class="bn">'+D.nome.replace(' ','<br>')+'</p><p class="br">'+D.ruolo+'</p><p class="bm">'+D.mail+'</p></div>';
-const emb=(w,col,st)=>'<svg class="emb" viewBox="0 0 100 112" style="width:'+w+'cqw;color:'+col+';'+(st||'')+'" aria-hidden="true"><use href="#emb-fragola"/></svg>';
+const emb=(w,col,st)=>'<svg class="emb" viewBox="-6 -6 112 124" style="width:'+w+'cqw;color:'+col+';'+(st||'')+'" aria-hidden="true"><use href="#emb-fragola"/></svg>';
 const SV=c=>['red','orange','orange-l','yellow','green','lime','blue','deep','light','dark'].map(k=>'--fr-'+k+':'+c).join(';');
 function rnd(seed){return()=>{seed=(seed*16807)%2147483647;return seed/2147483647}}
 function pattern(seed,fil,clear){const r=rnd(seed),F=['fragola','pomodoro','melograno','mela','pera','limone','foglia','broccolo','carota','ribes','arancia','bietola'];let h='<div class="pat">';
@@ -553,7 +830,7 @@ function tearTop(seed,bot,col){const r=rnd(seed);let pts=[];for(let x=100;x>=0;x
 const CARDS=[
  {n:'Biglietto',d:'',
   f:()=>'<div class="face" style="background:var(--ink);color:var(--paper);align-items:center;justify-content:center">'+emb(24.07,'var(--ink)')+'</div>',
-  b:()=>'<div class="face b" style="background:var(--paper);color:var(--ink);padding:7cqw 7cqw 6.5cqw">'+emb(36,'var(--paper)','position:absolute;right:-6cqw;top:-7cqw;transform:rotate(-14deg);z-index:1')+'<p class="wm sm">'+D.nome+'.</p><div style="margin-top:auto"><p class="bk-n">'+D.nome+'</p><p class="bk-r">'+D.ruolo+'</p><p class="bk-c">'+D.mail+'</p></div><div class="bk-cols">'+D.centri.map(c=>'<div><p>'+c[0]+'</p><p>'+c[1]+'</p><p>'+c[2]+'</p><p>'+c[3]+'</p></div>').join('')+'</div></div>'}
+  b:()=>'<div class="face b" style="background:var(--paper);color:var(--ink);padding:7cqw 7cqw 6.5cqw">'+emb(36,'var(--paper)','position:absolute;right:-6cqw;top:-7cqw;transform:rotate(-14deg);z-index:1')+'<div style="margin-top:auto"><p class="bk-n">'+D.nome+'</p><p class="bk-r">'+D.ruolo+'</p><p class="bk-c">'+D.mail+'</p></div><div class="bk-cols">'+D.centri.map(c=>'<div><p>'+c[0]+'</p><p>'+c[1]+'</p><p>'+c[2]+'</p><p>'+c[3]+'</p></div>').join('')+'</div></div>'}
 ];
 function fitName(){document.querySelectorAll('.bigname').forEach(bn=>{const sp=[...bn.children];sp.forEach(x=>x.style.fontSize='100px');const h=bn.clientHeight;if(!h)return;const k=Math.min(...sp.map(x=>h/x.scrollHeight));sp.forEach(x=>x.style.fontSize=(100*k*0.99)+'px')})}
 function drag(st,bc){let ry=-14,rx=6,sx=0,sy=0,bx=0,by=0,moved=false,down=false;const set=()=>bc.style.transform='rotateX('+rx+'deg) rotateY('+ry+'deg)';set();
@@ -565,9 +842,13 @@ function drag(st,bc){let ry=-14,rx=6,sx=0,sy=0,bx=0,by=0,moved=false,down=false;
 function drawCards(){const box=document.getElementById('cards');if(!box)return;
  if(!box.children.length){box.innerHTML=CARDS.map((c,i)=>'<figure><div class="stage" aria-label="Biglietto da visita, trascina per girarlo"><div class="bc"></div></div></figure>').join('');
   box.querySelectorAll('.stage').forEach(st=>drag(st,st.firstElementChild))}
- box.querySelectorAll('.bc').forEach((bc,i)=>{bc.innerHTML=CARDS[i].f()+CARDS[i].b();bc.querySelectorAll('svg[data-f]').forEach(fill)});fitName()}
+ box.querySelectorAll('.bc').forEach((bc,i)=>{bc.innerHTML='<div class="shadow"></div>'+[-0.9,-0.3,0.3,0.9].map(z=>'<div class="edge" style="--z:'+z+'px"></div>').join('')+CARDS[i].f()+CARDS[i].b();bc.querySelectorAll('svg[data-f]').forEach(fill)});fitName()}
 document.fonts.ready.then(fitName);addEventListener('resize',fitName);new MutationObserver(fitName).observe(document.documentElement,{attributes:true,attributeFilter:['data-font']});
 drawCards();
+</script>
+<script>
+document.querySelectorAll('.ptabs button').forEach(b=>b.addEventListener('click',()=>{const k=b.dataset.p;document.querySelectorAll('.ptabs button').forEach(x=>x.setAttribute('aria-selected',x===b));document.querySelectorAll('.panel').forEach(p=>p.hidden=p.dataset.p!==k);try{localStorage.setItem('ariru-12-tab',k)}catch(e){}}));
+try{const t=localStorage.getItem('ariru-12-tab');if(t)document.querySelector('.ptabs button[data-p="'+t+'"]')?.click()}catch(e){}
 </script>
 </body>
 </html>
