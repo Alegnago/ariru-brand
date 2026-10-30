@@ -25,7 +25,7 @@ section{border-top:1px solid var(--line);margin-top:72px;padding-top:44px}
 
 /* biglietti da visita 3D, verticali */
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:40px 32px;justify-items:center;padding-top:44px}
-.cards figure{margin:0;display:grid;gap:12px;justify-items:center;width:100%}
+.cards figure{margin:0;display:grid;grid-template-columns:minmax(0,1fr);gap:12px;justify-items:center;width:100%;min-width:0}
 .cards figcaption{font-size:13px;color:var(--muted);text-align:center;line-height:1.4}
 .cards figcaption b{display:block;color:var(--fg);font-weight:500}
 .stage{perspective:1600px;width:440px;max-width:100%;container-type:inline-size;touch-action:pan-y;cursor:grab;user-select:none}
@@ -130,7 +130,7 @@ section{border-top:1px solid var(--line);margin-top:72px;padding-top:44px}
 /* feed */
 .feed{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px 22px;margin-top:22px}
 @media (max-width:900px){.feed{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 14px}}
-@media (max-width:520px){.feed{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:520px){.feed{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 10px}.feed figcaption{font-size:11px}.ptabs button{font-size:14px;padding:10px 8px}section{margin-top:52px;padding-top:32px}.igwrap{gap:28px}.phone{border-width:7px;border-radius:34px}}
 .feed figure{margin:0;display:grid;gap:6px;min-width:0;align-content:start;container-type:inline-size}
 .feed figcaption{font-size:12px;color:var(--muted);line-height:1.35}
 
