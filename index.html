@@ -24,7 +24,7 @@ b{font-weight:600}
 section{border-top:1px solid var(--line);margin-top:72px;padding-top:44px}
 
 /* biglietti da visita 3D, verticali */
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:40px 32px;justify-items:center;padding-top:44px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:28px 32px;justify-items:center;padding-top:24px}
 .cards figure{margin:0;display:grid;grid-template-columns:minmax(0,1fr);gap:12px;justify-items:center;width:100%;min-width:0}
 .cards figcaption{font-size:13px;color:var(--muted);text-align:center;line-height:1.4}
 .cards figcaption b{display:block;color:var(--fg);font-weight:500}
@@ -856,7 +856,7 @@ function tear(seed,top,col){const r=rnd(seed);let pts=[];for(let x=0;x<=100;x+=4
 function tearTop(seed,bot,col){const r=rnd(seed);let pts=[];for(let x=100;x>=0;x-=4){pts.push(x+','+(bot+(r()-.5)*7+Math.sin(x/14)*3).toFixed(1))}
  return '<svg class="tear" viewBox="0 0 100 100" preserveAspectRatio="none" style="height:100%;width:100%;top:0"><polygon points="0,0 100,0 '+pts.join(' ')+'" style="fill:'+col+'"/></svg>'}
 const back=()=>'<div class="face b" style="background:var(--paper);color:var(--ink);padding:7cqw 7.5cqw 6.5cqw"><p class="wm sm2">'+D.nome+'</p><p class="bk-r" style="margin-top:2cqw;font-size:3.4cqw;letter-spacing:.01em">'+D.ruolo+'</p><div class="bk-cols" style="margin-top:auto">'+D.centri.map(c=>'<div><p>'+c[0]+'</p><p>'+c[1]+'</p><p>'+c[2]+'</p><p>'+c[3]+'</p></div>').join('')+'</div></div>';
-const front=(bg,fg,cls)=>'<div class="face '+cls+'" style="background:'+bg+';color:'+fg+';align-items:center;justify-content:center;text-align:center"><p class="wm big">'+D.nome+'</p><p class="bk-r" style="margin-top:5cqw;font-size:3.6cqw;letter-spacing:.01em">'+D.ruolo+'</p><p class="bk-r" style="margin-top:1.4cqw;font-size:3.2cqw;letter-spacing:.02em;opacity:.85">'+D.mail+'</p></div>';
+const front=(bg,fg,cls)=>'<div class="face '+cls+'" style="background:'+bg+';color:'+fg+';align-items:center;justify-content:center;text-align:center;padding:7cqw"><div class="fol" style="text-align:center"><span class="wm big">'+D.nome+'</span></div><p class="bk-r" style="margin-top:4cqw;font-size:3.8cqw;letter-spacing:.01em">'+D.ruolo+'</p><p class="bk-r" style="margin-top:1.4cqw;font-size:3.2cqw;letter-spacing:.02em;opacity:.85">'+D.mail+'</p></div>';
 const CARDS=[
  {n:'Versione 1',d:'Fronte e retro nel neutro chiaro.',f:()=>front('var(--paper)','var(--ink)',''),b:back},
  {n:'Versione 2',d:'Fronte nel pieno con testo chiaro e nome leggero; retro nel neutro chiaro.',f:()=>front('var(--cd)','var(--paper)','lite'),b:back},
