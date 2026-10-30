@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="it" style="color-scheme:light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sistema finale</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Petrona:wght@200..700&family=Geologica:wght@200..700&display=swap">
+<style>
+/* Sistema finale: 1 neutro chiaro, 1 neutro scuro, 3 coppie colore (pieno + chiaro). Una coppia per post; i frutti possono mescolare. */
+:root{--lit:"Petrona",Georgia,serif;--geo:"Geologica",system-ui,sans-serif;--serif:var(--lit);--sans:var(--lit);--bg:#FFFFFF;--fg:#1F1F1F;--muted:#6B6866;--line:#E7E3DE}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:16px;line-height:1.55;padding:0 16px 80px;font-weight:350}
+.wrap{max-width:1120px;margin:0 auto}
+h1,h2,h3{font-family:var(--serif);font-weight:300;margin:0;letter-spacing:-.01em;text-wrap:balance}
+h1{font-size:clamp(36px,6vw,64px);line-height:1.02;padding-top:44px}
+h2{font-size:clamp(26px,3.6vw,38px);line-height:1.1;margin-bottom:8px}
+h3{font-size:22px;margin-bottom:6px}
+p{margin:0}
+b{font-weight:600}
+.lead{color:var(--muted);font-size:17.5px;margin-top:16px;max-width:68ch}
+.label{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 10px;font-weight:500}
+.note{font-size:15px;color:var(--muted);margin:0 0 18px;max-width:72ch;line-height:1.6}
+section{border-top:1px solid var(--line);margin-top:72px;padding-top:44px}
+
+/* biglietto da visita 3D */
+.stage{perspective:1400px;display:grid;place-items:center;padding:46px 0 8px;touch-action:pan-y;cursor:grab;user-select:none}
+.stage:active{cursor:grabbing}
+.bc{position:relative;width:min(100%,460px);aspect-ratio:85/55;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+.bc.drag{transition:none}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;container-type:inline-size;overflow:hidden;box-shadow:0 1px 0 rgba(0,0,0,.04),0 18px 40px -14px rgba(30,25,20,.35),0 4px 10px -4px rgba(30,25,20,.18)}
+.face::before{content:"";position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 .3  0 0 0 0 .27  0 0 0 0 .24  0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:.22;mix-blend-mode:multiply;pointer-events:none}
+.face::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,rgba(255,255,255,.10),rgba(255,255,255,0) 40%,rgba(0,0,0,.03));pointer-events:none}
+.front{background:var(--paper);color:var(--ink);padding:8cqw 8cqw 7cqw;display:flex;flex-direction:column}
+.back{background:var(--c1);color:var(--o1);transform:rotateY(180deg);padding:8cqw;display:flex;align-items:center;gap:7cqw}
+.front .who{margin-top:auto}
+.bn{font-family:var(--serif);font-weight:300;font-size:7.4cqw;line-height:1.05;letter-spacing:-.01em}
+.br{font-family:var(--sans);font-weight:400;font-size:3.5cqw;margin-top:1.6cqw;letter-spacing:.02em;opacity:.85}
+.bm{font-family:var(--sans);font-size:3.3cqw;margin-top:4.5cqw;letter-spacing:.01em}
+.emb{display:block;height:auto}
+.emb.sm{width:9cqw;position:absolute;top:8cqw;right:8cqw;color:var(--paper)}
+.emb.lg{width:19cqw;flex:none;color:var(--c1)}
+.back .data{font-family:var(--sans);font-size:2.9cqw;line-height:1.45;display:grid;gap:4.5cqw}
+.back .data p{margin:0}
+.back .data b{font-weight:500;display:block;font-size:3.3cqw;margin-bottom:.6cqw}
+/* confronto versioni */
+.cmp{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+.vcard{border:1px solid var(--line);border-radius:18px;padding:16px;cursor:pointer;background:#fff;text-align:left;font:inherit;color:inherit}
+.vcard[aria-pressed="true"]{border-color:var(--fg);box-shadow:inset 0 0 0 1px var(--fg)}
+.vcard h3{display:flex;justify-content:space-between;align-items:baseline}
+.vcard h3 small{font-family:var(--sans);font-size:12px;color:var(--muted)}
+.vcard p{font-size:14px;color:var(--muted);margin-top:4px}
+.strip{display:flex;height:54px;border-radius:10px;overflow:hidden;margin-top:12px}
+.strip i{flex:1}
+.strip i.n{flex:.8}
+
+/* tab versioni */
+.tabs{position:sticky;top:0;z-index:40;background:#fff;border-bottom:1px solid var(--line);margin:0 -16px;padding:10px 16px;display:flex;gap:8px;flex-wrap:nowrap;overflow-x:auto;align-items:center}
+.tabs span{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-right:4px;flex:none}
+.tabs button{flex:none;font:inherit;font-size:14px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 14px;cursor:pointer;display:inline-flex;gap:6px;align-items:center;color:var(--fg)}
+.tabs button[aria-pressed="true"]{border-color:var(--fg);box-shadow:inset 0 0 0 1px var(--fg)}
+.tabs button i{width:12px;height:12px;border-radius:50%;margin-right:-3px}
+
+/* palette della versione */
+.pal{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:16px;margin-top:18px}
+.sw{border-radius:16px;overflow:hidden;border:1px solid var(--line)}
+.sw .pair{display:grid;grid-template-rows:96px 52px}
+.sw .pair div,.sw .one{padding:10px 12px;font-size:12.5px;display:flex;flex-direction:column;justify-content:flex-end}
+.sw .one{height:148px}
+.sw code{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;opacity:.85}
+.sw b{font-size:14px}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:16px;margin-top:24px}
+.rules div{border:1px solid var(--line);border-radius:14px;padding:13px 15px;font-size:14.5px}
+.rules span{color:var(--muted);display:block}
+.ok-no{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:14px;margin-top:14px}
+.ok-no figure{margin:0}
+
+/* tipografia */
+.type{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:18px}
+.type > div{border:1px solid var(--line);border-radius:16px;padding:18px}
+.type .s1{font-family:var(--lit);font-variation-settings:normal;font-weight:300;font-size:44px;line-height:1.05;margin:6px 0 10px}
+.type .s2{font-family:var(--geo);font-size:44px;line-height:1.05;font-weight:300;letter-spacing:-.02em;margin:6px 0 10px}
+.type p.m{color:var(--muted);font-size:14px}
+
+/* frutti */
+.fruits{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:16px}
+.fruits figure{margin:0;border-radius:14px;padding:14px 10px 8px;display:grid;justify-items:center;gap:6px;background:var(--paper)}
+.fruits svg{height:64px;width:auto}
+.fruits figcaption{font-size:11.5px;color:var(--muted)}
+
+/* feed */
+.feed{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px 22px;margin-top:22px}
+@media (max-width:900px){.feed{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 14px}}
+@media (max-width:520px){.feed{grid-template-columns:minmax(0,1fr)}}
+.feed figure{margin:0;display:grid;gap:6px;min-width:0;align-content:start;container-type:inline-size}
+.feed figcaption{font-size:12px;color:var(--muted);line-height:1.35}
+
+/* scheda 4:5 */
+.c{position:relative;aspect-ratio:3/4;container-type:inline-size;overflow:hidden;border-radius:4.5cqw;padding:7cqw 7cqw 9cqw;display:flex;flex-direction:column;gap:3.2cqw;background-size:cover;background-position:center;isolation:isolate}
+.c > *{position:relative;z-index:2}
+.c::after{content:"ariannaruaro.nutrizionista";position:absolute;left:7cqw;bottom:3cqw;z-index:3;font-size:2.4cqw;font-weight:500;opacity:.75}
+.p1{--f:var(--c1);--l:var(--c1l);--o:var(--o1)}
+.p2{--f:var(--c2);--l:var(--c2l);--o:var(--o2)}
+.p3{--f:var(--c3);--l:var(--c3l);--o:var(--o3)}
+.bf{background-color:var(--f);color:var(--o);--acc:var(--l);--acc2:color-mix(in srgb,var(--l) 40%,var(--f));--pb:var(--l);--pf:var(--ink)}
+.bl{background-color:var(--l);color:var(--ink);--acc:color-mix(in srgb,var(--f) 72%,var(--ink));--acc2:color-mix(in srgb,var(--f) 28%,var(--l));--pb:var(--f);--pf:var(--o)}
+.bp{background-color:var(--paper);color:var(--ink);--acc:color-mix(in srgb,var(--f) 72%,var(--ink));--acc2:var(--l);--pb:var(--l);--pf:var(--ink)}
+.bi{background-color:var(--ink);color:var(--paper);--acc:var(--f);--acc2:color-mix(in srgb,var(--paper) 16%,var(--ink));--pb:var(--f);--pf:var(--o)}
+.ph{color:#fff;--pb:var(--l);--pf:var(--ink)}
+.ph::after{opacity:.85}
+.c:has(.half)::after{color:#fff;opacity:.85}
+.shade{position:absolute!important;inset:0;z-index:1!important;background:linear-gradient(180deg,rgba(15,12,10,0) 30%,rgba(15,12,10,.55) 58%,rgba(15,12,10,.82) 100%)}
+.ph .ti,.ph .tx{text-shadow:0 .3cqw 1.6cqw rgba(0,0,0,.35)}
+.ti{font-family:var(--serif);font-weight:300;letter-spacing:-.02em;line-height:1.04;font-size:10.4cqw;text-wrap:balance}
+.ti.big{font-size:17cqw;line-height:.94;letter-spacing:-.03em}
+.ti.sm{font-size:8.6cqw}
+.tx{font-size:4.2cqw;line-height:1.4}
+.src{font-size:2.9cqw;opacity:.88;font-weight:400;line-height:1.3}
+.lab{font-size:3.5cqw;font-weight:500;margin-bottom:1.6cqw}
+.num{font-family:var(--serif);font-weight:250;font-size:36cqw;line-height:.86;letter-spacing:-.04em}
+.num small{font-size:.32em;letter-spacing:-.01em;margin-left:1.5cqw}
+.pill{align-self:flex-start;display:inline-flex;align-items:center;gap:1.6cqw;background:var(--pb);color:var(--pf);border-radius:999px;padding:1.6cqw 3.6cqw;font-size:3.4cqw;font-weight:500}
+.pill svg{width:4.6cqw;height:auto;margin-left:-1cqw}
+.half{margin:auto calc(-7cqw / .86) calc(-9cqw / .86);height:calc(66.667cqw / .86);flex:none;background-size:cover;background-position:center}
+.half.place{background:repeating-linear-gradient(45deg,color-mix(in srgb,var(--l) 70%,#fff) 0 8px,var(--l) 8px 16px);display:grid;place-items:center;text-align:center;font-size:3.2cqw;color:var(--ink);padding:0 10cqw}
+.prog{height:2.6cqw;border-radius:999px;background:var(--acc2);overflow:hidden}
+.prog i{display:block;height:100%;border-radius:999px;background:var(--acc)}
+.bars{display:flex;align-items:flex-end;gap:2.4cqw;height:44cqw;margin-top:auto}
+.bars div{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:1.4cqw;height:100%}
+.bars i{display:block;width:100%;border-radius:1.8cqw;background:var(--acc2)}
+.bars i.ok{background:var(--acc)}
+.bars span{font-size:2.8cqw;opacity:.75}
+.glasses{display:grid;grid-template-columns:repeat(4,1fr);gap:3cqw 6cqw;width:66%;margin:2cqw auto 0}
+.glasses svg{width:100%;height:auto}
+.glasses .off{opacity:.3}
+.steps{display:grid;gap:2.4cqw;margin-top:auto}
+.steps div{display:flex;align-items:center;gap:3cqw;background:var(--l);border-radius:999px;padding:2cqw 4cqw 2cqw 2cqw;font-size:3.5cqw;line-height:1.25}
+.steps b{width:7.4cqw;height:7.4cqw;border-radius:50%;background:var(--f);color:var(--o);display:grid;place-items:center;font-size:3.6cqw;flex:none}
+.bigf{position:absolute!important;z-index:1!important;height:auto}
+.obj{height:auto}
+.row{display:flex;align-items:flex-end;justify-content:space-between;gap:3cqw;margin-top:auto}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:2cqw;margin-top:auto}
+.week div{display:grid;justify-items:center;gap:1.4cqw}
+.week i{width:100%;aspect-ratio:1;border-radius:50%;background:var(--acc)}
+.week span{font-size:2.8cqw;opacity:.75}
+.plate{position:relative;width:60cqw;aspect-ratio:1;border-radius:50%;background:var(--l);margin:1cqw auto 0;box-shadow:inset 0 0 0 2.4cqw color-mix(in srgb,var(--l) 85%,var(--ink))}
+.plate svg{position:absolute;height:auto}
+img.prima{display:block;width:44px;height:44px;object-fit:cover;border-radius:6px;margin-top:6px;opacity:.9}
+#arianna figcaption{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+#arianna figcaption img{margin-top:0;flex:none}
+.feed .c{width:100%;min-width:0}
+html[data-font="sans"]{--serif:var(--geo);--sans:var(--geo)}
+html[data-font="sans"] .ti{letter-spacing:-.03em}
+html[data-font="serif"] .ti{font-variation-settings:normal}
+.tx{font-weight:400}
+.bf .src,.bi .src{opacity:1}
+.igwrap{display:grid;grid-template-columns:minmax(0,400px) minmax(0,1fr);gap:48px;align-items:start;margin-top:26px}
+@media (max-width:820px){.igwrap{grid-template-columns:minmax(0,1fr)}}
+.phone{border:10px solid #161616;border-radius:44px;overflow:hidden;background:#fff;max-width:400px;width:100%}
+.scr{font-family:system-ui,-apple-system,sans-serif;color:#111;font-size:13px;line-height:1.35;padding-top:14px}
+.ig-top{display:flex;justify-content:space-between;padding:6px 14px 10px;font-size:16px}
+.ig-head{display:flex;align-items:center;gap:22px;padding:4px 14px}
+.ig-av{width:84px;height:84px;border-radius:50%;flex:none;background:url(assets/ig/09.jpg) 42% 34%/230% auto;box-shadow:0 0 0 3px #fff,0 0 0 5px var(--c1)}
+.ig-stats{display:flex;flex:1;justify-content:space-around;text-align:center;font-size:13px}
+.ig-stats b{display:block;font-size:16px}
+.ig-bio{padding:10px 14px 0}
+.ig-bio .cat{display:block;color:#737373}
+.ig-bio p{margin-top:2px}
+.ig-bio a{color:#00376B;font-weight:600}
+.ig-btns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;padding:12px 14px}
+.ig-btns span{background:#EFEFEF;border-radius:8px;text-align:center;padding:7px 0;font-weight:600}
+.ig-btns span:first-child{background:#0095F6;color:#fff}
+.ig-hl{display:flex;gap:14px;padding:6px 14px 14px;overflow-x:auto}
+.ig-hl figure{margin:0;display:grid;justify-items:center;gap:5px;flex:none;width:64px}
+.ig-hl .ring{width:62px;height:62px;border-radius:50%;border:1px solid #DBDBDB;padding:3px}
+.ig-hl .ring div{width:100%;height:100%;border-radius:50%;display:grid;place-items:center}
+.ig-hl svg{width:58%;height:auto}
+.ig-hl figcaption{font-size:11.5px;text-align:center;white-space:nowrap}
+.ig-tabs{display:flex;justify-content:space-around;border-top:1px solid #DBDBDB;font-size:18px;color:#8e8e8e}
+.ig-tabs span{padding:8px 0;flex:1;text-align:center}
+.ig-tabs .on{color:#111;border-bottom:1px solid #111}
+.ig-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.tile{position:relative;container-type:inline-size;overflow:hidden}
+.tile .c{border-radius:0}
+.tile .pin{position:absolute;top:5px;right:6px;z-index:5;color:#fff;font-size:12px;filter:drop-shadow(0 0 2px rgba(0,0,0,.6))}
+.igside{display:grid;gap:26px;padding-top:8px}
+.igside p{font-size:15.5px;line-height:1.6;max-width:52ch}
+.igside .label{margin-bottom:4px}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="emb-fragola" viewBox="0 0 100 112"><g filter="url(#rilievo)"><path d="M18 34 L50 24 L84 34 L92 56 L78 86 L52 108 L28 90 L10 62 Z" fill="currentColor"/><path d="M28 30 L34 8 L44 24 L52 4 L60 24 L72 10 L72 32 L50 26 Z" fill="currentColor"/></g><g filter="url(#incavo)" fill="currentColor"><path d="M32 46l3.5 10h-5z"/><path d="M50 42l3.5 10h-5z"/><path d="M68 48l3.5 10h-5z"/><path d="M40 64l3.5 10h-5z"/><path d="M60 66l3.5 10h-5z"/><path d="M50 86l3 9h-5z"/><path d="M26 66l3 9h-5z"/><path d="M76 68l2.5 8h-4z"/></g></symbol>
+<filter id="rilievo" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="-.7" dy="-.7" stdDeviation=".5" flood-color="#fff" flood-opacity=".85"/><feDropShadow dx=".8" dy=".9" stdDeviation=".7" flood-color="#000" flood-opacity=".22"/></filter>
+<filter id="incavo" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx=".5" dy=".5" stdDeviation=".3" flood-color="#fff" flood-opacity=".8"/><feDropShadow dx="-.5" dy="-.5" stdDeviation=".35" flood-color="#000" flood-opacity=".25"/></filter>
+<filter id="grana"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" seed="4"/><feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .55 0"/></filter>
+<symbol id="fragola" viewBox="0 0 100 112"><path d="M18 34 L50 24 L84 34 L92 56 L78 86 L52 108 L28 90 L10 62 Z" style="fill:var(--fr-red)"/><path d="M28 30 L34 8 L44 24 L52 4 L60 24 L72 10 L72 32 L50 26 Z" style="fill:var(--fr-green)"/><g style="fill:var(--fr-light)"><path d="M32 46l3.5 10h-5z"/><path d="M50 42l3.5 10h-5z"/><path d="M68 48l3.5 10h-5z"/><path d="M40 64l3.5 10h-5z"/><path d="M60 66l3.5 10h-5z"/><path d="M50 86l3 9h-5z"/><path d="M26 66l3 9h-5z"/><path d="M76 68l2.5 8h-4z"/></g></symbol>
+<symbol id="carota" viewBox="0 0 60 140"><path d="M24 34 L16 4 M30 34 L32 0 M36 34 L48 8" style="stroke:var(--fr-green)" stroke-width="6"/><path d="M12 36 L48 34 L40 76 L26 138 L18 84 Z" style="fill:var(--fr-orange)"/><path d="M20 52 L32 50 M24 70 L36 68 M24 92 L32 91" style="stroke:var(--fr-orange-l)" stroke-width="3"/></symbol>
+<symbol id="mirtilli" viewBox="0 0 100 100"><g style="fill:var(--fr-blue)"><circle cx="30" cy="24" r="14"/><circle cx="66" cy="20" r="13"/><circle cx="48" cy="52" r="15"/><circle cx="18" cy="62" r="13"/><circle cx="80" cy="56" r="13"/><circle cx="40" cy="86" r="12"/><circle cx="72" cy="86" r="12"/></g><g style="fill:var(--fr-dark)"><path d="M30 18l2.5 6h-5z"/><path d="M48 46l2.5 6h-5z"/><path d="M80 50l2.5 6h-5z"/><path d="M72 80l2.5 6h-5z"/><path d="M18 56l2.5 6h-5z"/></g></symbol>
+<symbol id="melograno" viewBox="0 0 120 122"><path d="M48 20 L42 2 L55 13 L60 0 L65 13 L78 2 L72 20 Z" style="fill:var(--fr-deep)"/><path d="M22 36 L60 18 L98 36 L112 72 L94 106 L60 118 L26 106 L8 72 Z" style="fill:var(--fr-red)"/><g style="fill:var(--fr-light)"><rect x="30" y="46" width="8" height="7" transform="rotate(12 34 49)"/><rect x="44" y="40" width="8" height="7" transform="rotate(-10 48 43)"/><rect x="34" y="62" width="8" height="7" transform="rotate(20 38 65)"/><rect x="48" y="56" width="7" height="7"/><rect x="26" y="78" width="8" height="7" transform="rotate(-14 30 81)"/><rect x="42" y="74" width="8" height="7" transform="rotate(8 46 77)"/><rect x="36" y="92" width="8" height="7" transform="rotate(-6 40 95)"/><rect x="50" y="88" width="7" height="7" transform="rotate(16 53 91)"/><rect x="66" y="42" width="8" height="7" transform="rotate(14 70 45)"/><rect x="80" y="50" width="7" height="7" transform="rotate(-8 83 53)"/><rect x="68" y="60" width="8" height="7" transform="rotate(-18 72 63)"/><rect x="84" y="68" width="8" height="7" transform="rotate(10 88 71)"/><rect x="70" y="78" width="8" height="7" transform="rotate(6 74 81)"/><rect x="64" y="96" width="8" height="7" transform="rotate(-12 68 99)"/><rect x="82" y="88" width="7" height="7" transform="rotate(20 85 91)"/></g></symbol>
+<symbol id="bietola" viewBox="0 0 100 122"><path d="M42 42 L34 6 M50 42 L52 2 M58 42 L72 8" style="stroke:var(--fr-green)" stroke-width="7"/><path d="M16 54 L50 40 L84 54 L90 82 L70 102 L55 106 L50 121 L45 106 L28 100 L10 80 Z" style="fill:var(--fr-deep)"/></symbol>
+<symbol id="ribes" viewBox="0 0 100 92"><g style="fill:var(--fr-red)"><circle cx="24" cy="22" r="13"/><circle cx="60" cy="16" r="13"/><circle cx="44" cy="46" r="13"/><circle cx="80" cy="44" r="13"/><circle cx="18" cy="62" r="12"/><circle cx="56" cy="76" r="13"/></g><g style="fill:var(--fr-dark)"><rect x="22" y="20" width="4" height="4"/><rect x="58" y="14" width="4" height="4"/><rect x="42" y="44" width="4" height="4"/><rect x="78" y="42" width="4" height="4"/><rect x="54" y="74" width="4" height="4"/></g></symbol>
+<symbol id="limone" viewBox="0 0 120 84"><path d="M4 44 L18 26 L44 12 L80 12 L104 26 L116 40 L104 60 L78 74 L42 74 L16 62 Z" style="fill:var(--fr-yellow)"/><path d="M112 40 L120 36 L118 46 Z" style="fill:var(--fr-yellow)"/><g style="fill:var(--fr-light)"><path d="M40 24 l14 -3 l-2 4 z"/><path d="M64 22 l10 0 l-1 3 z"/></g><path d="M78 12 L86 0 L92 6 L84 14 Z" style="fill:var(--fr-green)"/></symbol>
+<symbol id="uovo" viewBox="0 0 80 104"><path d="M40 2 L60 16 L74 42 L76 70 L62 94 L40 102 L18 94 L4 70 L6 42 L20 16 Z" style="fill:var(--fr-light)"/><path d="M30 22 l8 -4 l-2 6 z" style="fill:var(--fr-yellow)"/></symbol>
+<symbol id="arancia" viewBox="0 0 110 110"><path d="M55 2 L88 12 L106 40 L106 72 L88 98 L55 108 L22 98 L4 72 L4 40 L22 12 Z" style="fill:var(--fr-orange)"/><path d="M55 14 L82 22 L96 44 L96 68 L82 90 L55 98 L28 90 L14 68 L14 44 L28 22 Z" style="fill:var(--fr-orange-l)"/><g style="fill:var(--fr-orange)"><path d="M55 56 L53 18 L57 18 Z"/><path d="M55 56 L88 37 L90 41 Z"/><path d="M55 56 L90 71 L88 75 Z"/><path d="M55 56 L57 94 L53 94 Z"/><path d="M55 56 L22 75 L20 71 Z"/><path d="M55 56 L20 41 L22 37 Z"/></g></symbol>
+<symbol id="mela" viewBox="0 0 100 106"><path d="M50 24 L52 4 L58 4 L56 24 Z" style="fill:var(--fr-dark)"/><path d="M58 18 L80 6 L74 22 Z" style="fill:var(--fr-green)"/><path d="M50 26 L72 18 L92 34 L94 64 L78 94 L58 102 L50 96 L42 102 L22 94 L6 64 L8 34 L28 18 Z" style="fill:var(--fr-red)"/><path d="M24 40 l10 -8 l-1 8 z" style="fill:var(--fr-light)"/></symbol>
+<symbol id="pera" viewBox="0 0 84 120"><path d="M42 20 L44 2 L50 2 L48 20 Z" style="fill:var(--fr-dark)"/><path d="M38 20 L52 18 L58 38 L74 62 L80 88 L68 110 L42 118 L16 110 L4 88 L10 62 L26 38 Z" style="fill:var(--fr-lime)"/><path d="M18 76 l8 -10 l0 9 z" style="fill:var(--fr-light)"/></symbol>
+<symbol id="pomodoro" viewBox="0 0 110 100"><path d="M14 34 L40 20 L70 20 L96 34 L104 60 L86 88 L55 98 L24 88 L6 60 Z" style="fill:var(--fr-red)"/><path d="M36 28 L46 12 L54 22 L62 6 L66 22 L82 18 L72 30 L55 27 Z" style="fill:var(--fr-green)"/><path d="M24 46 l12 -8 l-2 9 z" style="fill:var(--fr-light)"/></symbol>
+<symbol id="broccolo" viewBox="0 0 100 120"><path d="M40 62 L60 62 L64 118 L36 118 Z" style="fill:var(--fr-lime)"/><path d="M50 64 L30 50 M50 64 L70 50" style="stroke:var(--fr-lime)" stroke-width="7"/><g style="fill:var(--fr-green)"><circle cx="26" cy="44" r="18"/><circle cx="50" cy="30" r="22"/><circle cx="74" cy="44" r="18"/><circle cx="38" cy="58" r="12"/><circle cx="62" cy="58" r="12"/></g><g style="fill:var(--fr-lime)"><rect x="44" y="22" width="5" height="5"/><rect x="24" y="40" width="5" height="5"/><rect x="70" y="40" width="5" height="5"/><rect x="58" y="30" width="4" height="4"/></g></symbol>
+<symbol id="foglia" viewBox="0 0 80 120"><path d="M40 4 L66 26 L76 58 L64 92 L40 110 L16 92 L4 58 L14 26 Z" style="fill:var(--fr-green)"/><path d="M40 14 L40 118 M40 44 L60 32 M40 44 L20 32 M40 70 L64 56 M40 70 L16 56" style="stroke:var(--fr-lime)" stroke-width="3"/></symbol>
+<symbol id="bicchiere" viewBox="0 0 70 100"><path d="M8 6 L62 6 L56 94 L14 94 Z" style="fill:var(--fr-light)"/><path d="M11 40 L59 40 L56 94 L14 94 Z" style="fill:var(--fr-water)"/><path d="M42 40 L59 40 L56 94 L46 94 Z" style="fill:var(--fr-water-d)"/><path d="M17 14 L23 14 L21 80 L18 80 Z" style="fill:#fff" opacity=".7"/></symbol>
+<symbol id="confezione" viewBox="0 0 82 112"><path d="M6 10 L64 6 L70 104 L10 106 Z" style="fill:var(--l)"/><path d="M64 6 L77 14 L79 100 L70 104 Z" style="fill:color-mix(in srgb,var(--l) 82%,#000)"/><path d="M14 24 L60 21 L61 36 L15 38 Z" style="fill:var(--f)"/><path d="M16 50 L58 48 L58 52 L16 54 Z M16 60 L52 58 L52 62 L16 64 Z" style="fill:var(--ink)" opacity=".5"/><path d="M16 74 L46 73 L46 96 L16 97 Z" style="fill:var(--paper)"/></symbol>
+<symbol id="scarpa" viewBox="0 0 120 60"><path d="M4 46 L112 44 L116 54 L6 56 Z" style="fill:var(--paper)"/><path d="M8 46 L14 22 L40 18 L58 30 L96 32 L112 44 Z" style="fill:var(--l)"/><path d="M58 30 L96 32 L112 44 L60 44 Z" style="fill:color-mix(in srgb,var(--l) 85%,#000)"/><path d="M30 25 L37 23 L38 28 Z M41 28 L48 26 L49 31 Z" style="fill:var(--f)"/><path d="M8 46 L14 22 L22 22 L18 46 Z" style="fill:var(--ink)"/></symbol>
+</defs></svg>
+
+<div class="wrap">
+
+<section id="biz" style="border-top:0;margin-top:28px;padding-top:0">
+<div class="stage" id="stage" aria-label="Biglietto da visita, trascina per ruotarlo">
+<div class="bc" id="bc">
+<div class="face front">
+<svg class="emb sm" viewBox="0 0 100 112" aria-hidden="true"><use href="#emb-fragola"/></svg>
+<div class="who"><p class="bn" data-k="nome">Arianna Ruaro</p><p class="br" data-k="ruolo">Biologa nutrizionista</p></div>
+<p class="bm" data-k="mail">info@ariannaruaro.it</p>
+</div>
+<div class="face back">
+<svg class="emb lg" viewBox="0 0 100 112" aria-hidden="true"><use href="#emb-fragola"/></svg>
+<div class="data" id="bdata">
+<div><b>Centro Medico Piscine di Vicenza</b><p>Viale Arturo Ferrarin, 71 · Vicenza</p><p>0444 929397</p></div>
+<div><b>Poliambulatorio Al Maglio in Salute</b><p>Via Cesare Battisti, 19 · Maglio di Sopra, Valdagno</p><p>0445 1947715 · 340 740 1357</p></div>
+</div>
+</div>
+</div>
+</div>
+<p class="note" style="text-align:center;margin-top:14px">Trascina per girarlo · 85 × 55 mm, cartoncino opaco, fragola a secco (rilievo senza inchiostro)</p>
+</section>
+<h1>Sistema finale.</h1>
+<p class="lead">Un neutro chiaro, un neutro scuro e tre coppie colore: ogni coppia ha un pieno e un chiaro e si usa sempre da sola, senza mescolarsi con le altre. Fanno eccezione i frutti e le illustrazioni, che possono usare tutta la tavolozza. Due versioni di carattere, tutta serif (Petrona) o tutta sans (Geologica), sempre in pesi leggeri. Tre versioni di colore sugli stessi post.</p>
+
+<section>
+<p class="label">Tre versioni</p>
+<div class="cmp" id="cmp"></div>
+</section>
+
+<div class="tabs" role="toolbar" aria-label="Versione" id="tabs"><span>Font</span><button data-font="petrona" style="font-family:Petrona">Serif · Petrona</button><button data-font="sans" style="font-family:Geologica">Sans · Geologica</button><span style="margin-left:10px">Colori</span></div>
+
+<div id="sys">
+<section id="ig">
+<h2>Il profilo Instagram.</h2>
+<p class="note">Dal 2025 la griglia del profilo mostra i post in 3:4: per questo tutti i post sono ora 1080×1440, e nella griglia non si taglia niente. I post si pubblicano sempre in sequenza di tre, foto → scheda piena → scheda chiara: quando la griglia slitta di uno a ogni nuovo post, le colonne restano ordinate. Tre post fissati in alto fanno da presentazione.</p>
+<div class="igwrap">
+<div class="phone"><div class="scr">
+<div class="ig-top"><b>ariannaruaro.nutrizionista</b><span>≡</span></div>
+<div class="ig-head">
+<div class="ig-av"></div>
+<div class="ig-stats"><div><b>15</b>post</div><div><b>143</b>follower</div><div><b>—</b>seguiti</div></div>
+</div>
+<div class="ig-bio">
+<b>Arianna Ruaro</b>
+<span class="cat">Nutrizionista</span>
+<p>Biologa nutrizionista · Vicenza e Valdagno<br>Educazione alimentare basata sulle evidenze. Niente diete, più autonomia.<br>Prima visita: scrivimi in DM</p>
+<a>link per prenotare</a>
+</div>
+<div class="ig-btns"><span>Segui</span><span>Messaggio</span><span>Contatta</span></div>
+<div class="ig-hl" id="hl"></div>
+<div class="ig-tabs"><span class="on">▦</span><span>▷</span><span>☺</span></div>
+<div class="ig-grid" id="iggrid"></div>
+</div></div>
+<div class="igside">
+<div><p class="label">Fissati in alto</p><p>Chi sono, l'apertura della serie "Mito o evidenza?" e il congresso ESPEN. Si cambiano di rado: dicono chi è, cosa fa e perché fidarsi.</p></div>
+<div><p class="label">Storie in evidenza</p><p>Cinque cerchi, ognuno nel chiaro di una coppia con un frutto: Chi sono, Visite, Miti, Fasi della vita, Congresso.</p></div>
+<div><p class="label">Le tre colonne</p><p>Colonna di sinistra: foto. Centro: scheda piena o scura. Destra: scheda chiara o neutra, con dati e passi. Postando sempre in quest'ordine, la griglia resta a colonne anche quando slitta.</p></div>
+<div><p class="label">Bio</p><p>Chi è, dove riceve, cosa promette, cosa fare: in quattro righe, senza emoji. Il link va alla prenotazione.</p></div>
+<div><p class="label">Da sostituire</p><p>Il numero dei seguiti, il link e la foto profilo (oggi ritagliata dal post del blazer rosa).</p></div>
+</div>
+</div>
+</section>
+<section>
+<h2 id="vname"></h2>
+<p class="note" id="vdesc"></p>
+<div class="pal" id="pal"></div>
+<div class="rules">
+<div><b>Una coppia per post</b><span>Pieno e chiaro della stessa coppia, più i due neutri. Mai due coppie nello stesso post.</span></div>
+<div><b>Quattro fondi</b><span>Pieno, chiaro, neutro chiaro, neutro scuro. Sulle foto, solo la pillola nel chiaro.</span></div>
+<div><b>Frutti liberi</b><span>Frutti e illustrazioni usano tutti i colori della versione, anche mescolati.</span></div>
+<div><b>Un dato, una fonte</b><span>Ogni numero ha la sua fonte in piccolo, in fondo al post.</span></div>
+</div>
+</section>
+
+<section>
+<p class="label">Tipografia</p>
+<div class="type">
+<div><p class="label" id="serlab">Versione serif · Petrona</p><p class="s1">Mito o evidenza? Le uova e il colesterolo.</p><p class="m">Serif morbida e calda, con un disegno un po' artigianale ma leggibile: titoli in 300, testo in 350–400, etichette in 500. Seria senza essere fredda.</p></div>
+<div><p class="label">Versione sans · Geologica</p><p class="s2">Mito o evidenza? Le uova e il colesterolo.</p><p class="m">Sans dal disegno tecnico ma con angoli morbidi: titoli in 300, testo in 350–400, etichette in 500. Pulita e moderna.</p></div>
+</div>
+</section>
+
+<section>
+<p class="label">Frutti e verdure · ricolorati per la versione</p>
+<div class="fruits" id="fruits"></div>
+</section>
+
+<section>
+<h2>Dodici post.</h2>
+<p class="note">Formato 3:4 (1080×1440), una coppia colore per post. Foto Unsplash caricate dal loro sito, segnaposto per la foto di Arianna fino allo shooting. Testi in bozza da far rivedere ad Arianna.</p>
+<div class="feed">
+
+<figure><div class="c p1 bf">
+<span class="pill">Nuova serie</span>
+<p class="ti big" style="margin-top:2cqw">Mito o evi&shy;denza?</p>
+<p class="tx" style="max-width:60%">Ogni settimana un mito sul cibo, smontato con le fonti. Senza sensi di colpa.</p>
+<svg class="bigf" data-f="melograno" style="width:60cqw;right:-9cqw;bottom:-7cqw;transform:rotate(-12deg)"></svg>
+<div style="margin-top:auto;width:50%"><p class="lab">La serie · 1 di 12</p><div class="prog"><i style="width:8%"></i></div></div>
+</div><figcaption>1 · Apertura della serie · coppia 1, pieno</figcaption></figure>
+
+<figure><div class="c p1 ph" style="background-image:url(https://images.unsplash.com/photo-1597854710119-dbb43d562f78?w=1080&h=1350&fit=crop&q=80&auto=format)"><div class="shade"></div>
+<span class="pill"><svg data-f="melograno"></svg>Mito</span>
+<p class="ti" style="margin-top:auto">I superfood non esistono.</p>
+<p class="tx">Nessun cibo fa miracoli da solo. Conta quello che mangi ogni giorno, nel suo insieme.</p>
+</div><figcaption>2 · Foto piena · pillola nel chiaro</figcaption></figure>
+
+<figure><div class="c p3 bl">
+<p class="ti sm"><svg data-f="fragola" style="width:8cqw;height:auto;vertical-align:-1cqw;margin-right:2cqw"></svg>Frutta e verdura nella tua settimana</p>
+<p class="tx">Porzioni al giorno, obiettivo 5.</p>
+<div class="bars">
+<div><i style="height:60%"></i><span>Lu</span></div><div><i style="height:72%"></i><span>Ma</span></div><div><i class="ok" style="height:100%"></i><span>Me</span></div><div><i style="height:40%"></i><span>Gi</span></div><div><i class="ok" style="height:100%"></i><span>Ve</span></div><div><i class="ok" style="height:100%"></i><span>Sa</span></div><div><i style="height:80%"></i><span>Do</span></div>
+</div>
+<p class="src">Fonte: CREA, Linee guida per una sana alimentazione, 2018</p>
+</div><figcaption>3 · Grafico · coppia 3, chiaro</figcaption></figure>
+
+<figure><div class="c p2 bl">
+<span class="pill">Fasi della vita</span>
+<p class="ti">Menopausa: cosa cambia davvero a tavola.</p>
+<div class="half" style="background-image:url(https://images.unsplash.com/photo-1758686254593-7c4cd55b2621?w=900&h=700&fit=crop&q=80&auto=format)"></div>
+</div><figcaption>4 · Foto a metà · apre un carosello</figcaption></figure>
+
+<figure><div class="c p1 bi">
+<span class="pill">Evidenza</span>
+<p class="ti" style="margin-top:auto">Nessun alimento da solo protegge dal cancro. Conta il modello alimentare.</p>
+<p class="src">Fonte: World Cancer Research Fund, Third Expert Report, 2018</p>
+</div><figcaption>5 · Solo testo · neutro scuro</figcaption></figure>
+
+<figure><div class="c p3 bf">
+<p class="ti sm">Hai bevuto abbastanza oggi?</p>
+<div class="glasses">
+<svg data-f="bicchiere"></svg><svg data-f="bicchiere"></svg><svg data-f="bicchiere"></svg><svg data-f="bicchiere"></svg>
+<svg data-f="bicchiere"></svg><svg data-f="bicchiere" class="off"></svg><svg data-f="bicchiere" class="off"></svg><svg data-f="bicchiere" class="off"></svg>
+</div>
+<div style="margin-top:auto"><p class="lab">Circa 2 litri al giorno per una donna adulta, cibo compreso</p><div class="prog"><i style="width:62%"></i></div></div>
+<p class="src">Fonte: EFSA, valori di riferimento per l'acqua, 2010</p>
+</div><figcaption>6 · Oggetti come dato · coppia 3, pieno</figcaption></figure>
+
+<figure><div class="c p1 bp">
+<span class="pill">Come si fa</span>
+<p class="ti">Leggere l'etichetta in tre mosse.</p>
+<div class="steps">
+<div><b>1</b>Gli ingredienti sono in ordine di quantità.</div>
+<div><b>2</b>Confronta i valori per 100 g, non per porzione.</div>
+<div><b>3</b>"Light" e "integrale": leggi comunque la tabella.</div>
+</div>
+<p class="src">Fonte: Regolamento UE 1169/2011</p>
+</div><figcaption>7 · Passi · neutro chiaro, coppia 1</figcaption></figure>
+
+<figure><div class="c p2 bl">
+<span class="pill"><svg data-f="uovo"></svg>Mito</span>
+<p class="ti sm">Uova e colesterolo: <span style="white-space:nowrap">2–4</span> a settimana vanno bene per la maggior parte delle persone.</p>
+<p class="src">Fonte: CREA, Linee guida 2018</p>
+<div class="half" style="background-image:url(https://images.unsplash.com/photo-1587486913049-53fc88980cfc?w=900&h=700&fit=crop&q=80&auto=format)"></div>
+</div><figcaption>8 · Foto a metà · coppia 2, chiaro</figcaption></figure>
+
+<figure><div class="c p2 bf">
+<p class="lab">Movimento</p>
+<p class="num">150<small>min</small></p>
+<p class="ti sm">a settimana di attività moderata, per gli adulti.</p>
+<div class="row"><p class="src" style="max-width:52%">Fonte: OMS, Linee guida su attività fisica, 2020</p><svg class="obj" data-f="scarpa" style="width:46cqw"></svg></div>
+</div><figcaption>9 · Numero grande · coppia 2, pieno</figcaption></figure>
+
+<figure><div class="c p1 bl">
+<span class="pill">Pediatria</span>
+<p class="ti">Il gusto si educa, dai primi anni.</p>
+<div class="half" style="background-image:url(https://images.unsplash.com/photo-1653126597520-73efb5fce868?w=900&h=700&fit=crop&q=80&auto=format);background-position:50% 25%"></div>
+</div><figcaption>10 · Foto a metà · coppia 1, chiaro</figcaption></figure>
+
+<figure><div class="c p3 bp">
+<span class="pill">Mito</span>
+<p class="ti sm">La vitamina C non previene il raffreddore nella popolazione generale.</p>
+<svg class="bigf" data-f="arancia" style="width:54cqw;left:50%;top:52%;transform:translate(-50%,-50%) rotate(8deg)"></svg>
+<svg class="bigf" data-f="limone" style="width:30cqw;right:4cqw;top:64%;transform:rotate(-14deg)"></svg>
+<p class="src" style="margin-top:auto">Fonte: Hemilä e Chalker, Cochrane, 2013</p>
+</div><figcaption>11 · Frutti illustrati · neutro chiaro, coppia 3</figcaption></figure>
+
+<figure><div class="c p2 bp">
+<span class="pill">In studio</span>
+<p class="ti sm">Arianna Ruaro, biologa nutrizionista. Vicenza e Valdagno.</p>
+<div class="half place"><span>Foto di Arianna in studio (dallo shooting)</span></div>
+</div><figcaption>12 · Chi sono · neutro chiaro, coppia 2</figcaption></figure>
+
+</div>
+</section>
+
+<section id="arianna">
+<h2>I post di Arianna, rifatti.</h2>
+<p class="note">I nove post pubblicati, stessi temi e stesse foto sue, nel nuovo sistema. Via le immagini generate con l'AI, le line-art e le emoji: al loro posto frutti a ritaglio, foto vere e una fonte quando c'è un'affermazione. Testi corretti e a "tu". Sotto ogni post, l'originale.</p>
+<div class="feed">
+
+<figure><div class="c p1 bf">
+<span class="pill">Mito</span>
+<p class="ti">Esistono i superfood anti&shy;cancro?</p>
+<p class="tx">Spoiler: no. La forza sta nella varietà, non in un singolo cibo.</p>
+<div class="row" style="align-items:center">
+<div style="text-align:center;width:30%"><svg data-f="limone" style="width:100%;height:auto;opacity:.55"></svg><p class="src" style="margin-top:1cqw">un cibo</p></div>
+<div style="width:62%;display:grid;grid-template-columns:repeat(3,1fr);gap:1.5cqw;align-items:end"><svg data-f="pomodoro" style="width:100%;height:auto"></svg><svg data-f="broccolo" style="width:100%;height:auto"></svg><svg data-f="carota" style="width:60%;height:auto;justify-self:center"></svg><svg data-f="mirtilli" style="width:100%;height:auto"></svg><svg data-f="arancia" style="width:100%;height:auto"></svg><svg data-f="foglia" style="width:70%;height:auto;justify-self:center"></svg><p class="src" style="grid-column:1/-1;text-align:center">tanti cibi, nel tempo</p></div>
+</div>
+<p class="src">Fonte: World Cancer Research Fund, 2018</p>
+</div><figcaption>Superfood anticancro<img class="prima" src="assets/ig/01.jpg" alt="Post originale"></figcaption></figure>
+
+<figure><div class="c p2 bi">
+<span class="pill">Intervista · Story Time</span>
+<p class="ti sm">«Si deve partire dalle prime fasi di vita, con la corretta alimentazione.»</p>
+<p class="src">Arianna a Story Time, Canale Italia</p>
+<div class="half" style="background-image:url(assets/ig/02.jpg);background-size:112% auto;background-position:50% 50%"></div>
+</div><figcaption>Intervista podcast<img class="prima" src="assets/ig/02.jpg" alt="Post originale"></figcaption></figure>
+
+<figure><div class="c p3 bl">
+<span class="pill">Dal congresso</span>
+<p class="ti sm">Il mio poster al 48° congresso ESPEN.</p>
+<p class="tx">Nutrizione clinica e metabolismo, Berlino, 5–8 settembre 2026.</p>
+<div class="half" style="background-image:url(assets/ig/03.jpg);background-position:50% 38%"></div>
+</div><figcaption>Congresso ESPEN<img class="prima" src="assets/ig/03.jpg" alt="Post originale"></figcaption></figure>
+
+<figure><div class="c p3 bl">
+<span class="pill">Abitudini</span>
+<p class="ti">Basta con «da lunedì mi metto a dieta».</p>
+<p class="tx">La nutrizione ha bisogno di costanza, non di punizioni.</p>
+<div class="week"><div><i></i><span>Lu</span></div><div><i></i><span>Ma</span></div><div><i></i><span>Me</span></div><div><i></i><span>Gi</span></div><div><i></i><span>Ve</span></div><div><i></i><span>Sa</span></div><div><i></i><span>Do</span></div></div>
+<p class="lab" style="margin:0">Un po' ogni giorno, anche il weekend.</p>
+</div><figcaption>"Da lunedì"<img class="prima" src="assets/ig/04.jpg" alt="Post originale"></figcaption></figure>
+
+<figure><div class="c p2 bf">
+<p class="ti">E se l'ultima dieta della tua vita non fosse affatto una dieta?</p>
+<div class="plate"><svg data-f="broccolo" style="left:14%;top:16%;width:30%"></svg><svg data-f="pomodoro" style="left:52%;top:18%;width:32%"></svg><svg data-f="uovo" style="left:22%;top:54%;width:20%"></svg><svg data-f="foglia" style="left:48%;top:50%;width:18%;transform:rotate(30deg)"></svg><svg data-f="ribes" style="left:64%;top:56%;width:22%"></svg></div>
+<p class="tx" style="margin-top:auto">Un modo di mangiare che puoi tenere per sempre.</p>
+</div><figcaption>L'ultima dieta<img class="prima" src="assets/ig/05.jpg" alt="Post originale"></figcaption></figure>
+
+<figure><div class="c p2 bl">
+<span class="pill">Fasi della vita</span>
+<p class="ti sm">Menopausa: un nuovo capitolo, non un punto di arrivo.</p>
+<p class="tx">Cosa cambia davvero a tavola, in una serie di post.</p>
+<div class="half" style="background-image:url(https://images.unsplash.com/photo-1758686254593-7c4cd55b2621?w=900&h=700&fit=crop&q=80&auto=format)"></div>
+</div><figcaption>Menopausa<img class="prima" src="assets/ig/06.jpg" alt="Post originale"></figcaption></figure>
+
+<figure><div class="c p1 bl">
+<span class="pill">Fasi della vita</span>
+<p class="ti sm">Età pediatrica: il piacere di mangiare bene si coltiva da piccoli.</p>
+<div class="half" style="background-image:url(https://images.unsplash.com/photo-1653126597520-73efb5fce868?w=900&h=700&fit=crop&q=80&auto=format);background-position:50% 25%"></div>
+</div><figcaption>Età pediatrica<img class="prima" src="assets/ig/07.jpg" alt="Post originale"></figcaption></figure>
+
+<figure><div class="c p3 bp">
+<span class="pill">Fasi della vita</span>
+<p class="ti sm">Gravidanza e allattamento: il cibo come strumento di salute, per te e per il tuo bambino.</p>
+<svg class="bigf" data-f="pera" style="width:34cqw;left:18cqw;bottom:8cqw;transform:rotate(-8deg)"></svg>
+<svg class="bigf" data-f="mela" style="width:26cqw;left:50cqw;bottom:9cqw;transform:rotate(10deg)"></svg>
+<svg class="bigf" data-f="foglia" style="width:14cqw;left:74cqw;bottom:22cqw;transform:rotate(24deg)"></svg>
+</div><figcaption>Gravidanza e allattamento<img class="prima" src="assets/ig/08.jpg" alt="Post originale"></figcaption></figure>
+
+<figure><div class="c p1 bl">
+<span class="pill">Chi sono</span>
+<p class="ti sm">Ciao, sono Arianna.</p>
+<p class="tx">Biologa nutrizionista a Vicenza e Valdagno. Il mio obiettivo più grande: la tua autonomia a tavola.</p>
+<div class="half" style="background-image:url(assets/ig/09.jpg);background-position:50% 62%"></div>
+</div><figcaption>Presentazione<img class="prima" src="assets/ig/09.jpg" alt="Post originale"></figcaption></figure>
+
+</div>
+</section>
+</div>
+</div>
+
+<script>
+/* c1/c2/c3 = pieno, c1l… = chiaro, o1… = colore del testo sul pieno */
+const V={
+serra:{n:'Serra',d:'Dalla reference Mighty Green: verde bosco, arancio, lavanda e lime su crema. La più vegetale e allegra.',
+ paper:'#F6EEDF',ink:'#152B1F',c1:'#E5731B',c1l:'#FBDDBE',o1:'#152B1F',c2:'#8E84E2',c2l:'#E2DEF8',o2:'#152B1F',c3:'#79B13E',c3l:'#DDEBC0',o3:'#152B1F',
+ fr:{red:'#E8553E',orange:'#E5731B','orange-l':'#FBC48E',yellow:'#F4CF4F',green:'#2F7A4E',lime:'#A9CF63',blue:'#7C70DD',deep:'#B23A48',light:'#FFF8EC',dark:'#152B1F',water:'#C9DDF2','water-d':'#A9C8EC'}},
+frutteto:{n:'Frutteto',d:'Dalla reference Picky: pomodoro, lilla e verde, con un bordeaux al posto del nero. La più "cibo" e la più calda.',
+ paper:'#FBF6EA',ink:'#4A1612',c1:'#EF644E',c1l:'#FBD6CE',o1:'#4A1612',c2:'#A996E6',c2l:'#E8E2F8',o2:'#4A1612',c3:'#40A26D',c3l:'#D0EBDA',o3:'#4A1612',
+ fr:{red:'#E8452F',orange:'#F38B1F','orange-l':'#FBC27E',yellow:'#F2D14B',green:'#2F9A60',lime:'#8CC64A',blue:'#6A5BC9',deep:'#8E1F2A',light:'#FFF8EC',dark:'#4A1612',water:'#D3E6F6','water-d':'#B0D0EE'}},
+studio:{n:'Studio',d:'Dalla reference Talkspirit: rosso, prugna e blu su un neutro caldo, con un prugna quasi nero. La più seria ed editoriale.',
+ paper:'#F4F0EB',ink:'#24111F',c1:'#C4371C',c1l:'#F7D5CA',o1:'#F4F0EB',c2:'#7B2350',c2l:'#EFD5E0',o2:'#F4F0EB',c3:'#5A7FE0',c3l:'#DAE3FB',o3:'#24111F',
+ fr:{red:'#D8432A',orange:'#F07A2C','orange-l':'#F9C3A2',yellow:'#F3C64A',green:'#3E8F5A',lime:'#9CC66A',blue:'#4D63C8',deep:'#7B2350',light:'#FFF7F1',dark:'#24111F',water:'#DAE3FB','water-d':'#B6C7F4'}}
+};
+const FR=['fragola','pomodoro','melograno','mela','ribes','arancia','carota','limone','pera','broccolo','foglia','bietola','mirtilli','uovo','bicchiere'];
+const sys=document.getElementById('sys'),root=document.documentElement;
+function fill(s){const id=s.dataset.f,sym=document.getElementById(id);if(!sym)return;const v=sym.getAttribute('viewBox').split(/\s+/);s.setAttribute('viewBox','0 0 '+v[2]+' '+v[3]);s.setAttribute('aria-hidden','true');s.innerHTML='<use href="#'+id+'"/>'}
+document.getElementById('fruits').innerHTML=FR.map(f=>'<figure><svg data-f="'+f+'"></svg><figcaption>'+f+'</figcaption></figure>').join('');
+document.querySelectorAll('svg[data-f]').forEach(fill);
+function vars(el,v){['paper','ink','c1','c1l','o1','c2','c2l','o2','c3','c3l','o3'].forEach(k=>el.style.setProperty('--'+k,v[k]));for(const k in v.fr)el.style.setProperty('--fr-'+k,v.fr[k])}
+const cmp=document.getElementById('cmp'),tabs=document.getElementById('tabs');
+for(const k in V){const v=V[k];
+ const b=document.createElement('button');b.className='vcard';b.dataset.v=k;
+ b.innerHTML='<h3>'+v.n+'<small>neutri + 3 coppie</small></h3><p>'+v.d+'</p><div class="strip"><i class="n" style="background:'+v.paper+'"></i><i class="n" style="background:'+v.ink+'"></i><i style="background:'+v.c1+'"></i><i style="background:'+v.c1l+'"></i><i style="background:'+v.c2+'"></i><i style="background:'+v.c2l+'"></i><i style="background:'+v.c3+'"></i><i style="background:'+v.c3l+'"></i></div>';
+ cmp.appendChild(b);
+ const t=document.createElement('button');t.dataset.v=k;t.innerHTML='<i style="background:'+v.c1+'"></i><i style="background:'+v.c2+'"></i><i style="background:'+v.c3+'"></i><span style="margin-left:6px;text-transform:none;letter-spacing:0;font-size:14px;color:inherit">'+v.n+'</span>';tabs.appendChild(t)}
+function sw1(name,c,txt){return '<div class="sw"><div class="one" style="background:'+c+';color:'+txt+'"><b>'+name+'</b><code>'+c+'</code></div></div>'}
+function sw2(name,f,l,o,ink){return '<div class="sw"><div class="pair"><div style="background:'+f+';color:'+o+'"><b>'+name+' · pieno</b><code>'+f+'</code></div><div style="background:'+l+';color:'+ink+'"><code>chiaro '+l+'</code></div></div></div>'}
+function setV(k){if(!V[k])k='serra';const v=V[k];vars(sys,v);vars(document.getElementById('biz'),v);vars(document.querySelector('.fruits'),v);
+ document.getElementById('vname').textContent='Versione '+v.n;document.getElementById('vdesc').textContent=v.d;
+ document.getElementById('pal').innerHTML=sw1('Neutro chiaro',v.paper,v.ink)+sw1('Neutro scuro',v.ink,v.paper)+sw2('Coppia 1',v.c1,v.c1l,v.o1,v.ink)+sw2('Coppia 2',v.c2,v.c2l,v.o2,v.ink)+sw2('Coppia 3',v.c3,v.c3l,v.o3,v.ink);
+ document.querySelectorAll('[data-v]').forEach(b=>{if(b.tagName==='BUTTON')b.setAttribute('aria-pressed',b.dataset.v===k)});
+ document.querySelectorAll('.fruits figure').forEach(f=>f.style.background=v.paper);
+ try{localStorage.setItem('ariru-12-v',k)}catch(e){}}
+document.addEventListener('click',e=>{const b=e.target.closest('button[data-v]');if(b)setV(b.dataset.v);const f=e.target.closest('button[data-font]');if(f)setF(f.dataset.font)});
+const SER={petrona:'"Petrona"'};
+function setF(k){if(k!=='sans'&&!SER[k])k='petrona';root.dataset.font=k==='sans'?'sans':'serif';if(SER[k])root.style.setProperty('--lit',SER[k]+',Georgia,serif');document.querySelectorAll('button[data-font]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.font===k));const lb=document.getElementById('serlab');if(lb&&SER[k])lb.textContent='Versione serif · '+SER[k].replace(/"/g,'');try{localStorage.setItem('ariru-12-f',k)}catch(e){}}
+let sf='petrona';try{sf=localStorage.getItem('ariru-12-f')||sf}catch(e){}setF(sf);
+let start='serra';try{start=localStorage.getItem('ariru-12-v')||start}catch(e){}
+setV(start);
+</script>
+<script>
+/* griglia IG: 3 fissati, poi terne foto → pieno → chiaro, dal più recente */
+(function(){
+ const figs=[...document.querySelectorAll('.feed figure')];
+ const PIN=[20,0,14], ORDER=[13,16,15, 17,12,19, 18,5,2, 7,8,10];
+ const g=document.getElementById('iggrid');
+ [...PIN,...ORDER].forEach((i,n)=>{const c=figs[i].querySelector('.c').cloneNode(true);const t=document.createElement('div');t.className='tile';t.appendChild(c);if(n<3)t.insertAdjacentHTML('beforeend','<svg class="pin" viewBox="0 0 16 16" width="13" height="13"><path d="M10 1l5 5-2 1-3 3 1 3-1 1-3-3-4 4-1-1 4-4-3-3 1-1 3 1 3-3z" fill="#fff"/></svg>');g.appendChild(t)});
+ const HL=[['Chi sono','p1','mela'],['Visite','p2','foglia'],['Miti','p1','melograno'],['Fasi della vita','p3','pera'],['Congresso','p2','mirtilli']];
+ document.getElementById('hl').innerHTML=HL.map(h=>'<figure><div class="ring"><div class="'+h[1]+'" style="background:var(--l)"><svg data-f="'+h[2]+'"></svg></div></div><figcaption>'+h[0]+'</figcaption></figure>').join('');
+ document.querySelectorAll('#hl svg[data-f]').forEach(fill);
+})();
+</script>
+<script>
+/* rotazione del biglietto: trascina, al rilascio si ferma sul lato più vicino; clic semplice lo gira */
+(function(){const st=document.getElementById('stage'),bc=document.getElementById('bc');let ry=-18,rx=8,sx=0,sy=0,bx=0,by=0,moved=false,down=false;
+const set=()=>bc.style.transform='rotateX('+rx+'deg) rotateY('+ry+'deg)';set();
+st.addEventListener('pointerdown',e=>{down=true;moved=false;sx=e.clientX;sy=e.clientY;bx=ry;by=rx;bc.classList.add('drag');st.setPointerCapture(e.pointerId)});
+st.addEventListener('pointermove',e=>{if(!down)return;const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)+Math.abs(dy)>4)moved=true;ry=bx+dx*.5;rx=Math.max(-35,Math.min(35,by-dy*.3));set()});
+const up=()=>{if(!down)return;down=false;bc.classList.remove('drag');if(!moved)ry+=180;ry=Math.round(ry/180)*180-12;rx=6;set()};
+st.addEventListener('pointerup',up);st.addEventListener('pointercancel',up);
+st.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();ry+=180;set()}});st.tabIndex=0;})();
+</script>
+</body>
+</html>
