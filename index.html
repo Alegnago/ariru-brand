@@ -345,19 +345,31 @@ svg.line polyline:last-child{stroke-width:3.4}
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
 <symbol id="emb-sil" viewBox="-4 -2 108 114" overflow="visible"><g filter="url(#secco-l)"><path d="M18 34 L50 24 L84 34 L92 56 L78 86 L52 108 L28 90 L10 62 Z M28 30 L34 8 L44 24 L52 4 L60 24 L72 10 L72 32 L50 26 Z"/></g></symbol>
 <filter id="secco-l" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB">
-<feGaussianBlur in="SourceAlpha" stdDeviation="1.2" result="a"/>
-<feOffset in="a" dx="1.2" dy="1.2" result="ao"/><feComposite in="a" in2="ao" operator="arithmetic" k2="1" k3="-1" result="hi"/>
-<feOffset in="a" dx="-1.2" dy="-1.2" result="ai"/><feComposite in="a" in2="ai" operator="arithmetic" k2="1" k3="-1" result="lo"/>
-<feFlood flood-color="#fff" flood-opacity=".85"/><feComposite in2="hi" operator="in" result="H"/>
-<feFlood flood-color="#000" flood-opacity=".34"/><feComposite in2="lo" operator="in" result="L"/>
-<feMerge><feMergeNode in="L"/><feMergeNode in="H"/></feMerge></filter>
+<feGaussianBlur in="SourceAlpha" stdDeviation=".55" result="a"/>
+<feOffset in="a" dx=".8" dy=".8" result="ao"/><feComposite in="a" in2="ao" operator="arithmetic" k2="1" k3="-1" result="hi"/>
+<feOffset in="a" dx="-.8" dy="-.8" result="ai"/><feComposite in="a" in2="ai" operator="arithmetic" k2="1" k3="-1" result="lo"/>
+<feTurbulence type="fractalNoise" baseFrequency="1.4" numOctaves="3" seed="5" result="n"/>
+<feColorMatrix in="n" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1.6 -.45" result="na"/>
+<feComposite in="na" in2="SourceAlpha" operator="in" result="tex"/>
+<feGaussianBlur in="SourceAlpha" stdDeviation="2.2" result="soft"/><feComposite in="soft" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="rim"/>
+<feFlood flood-color="#fff" flood-opacity=".9"/><feComposite in2="hi" operator="in" result="H"/>
+<feFlood flood-color="#000" flood-opacity=".38"/><feComposite in2="lo" operator="in" result="L"/>
+<feFlood flood-color="#000" flood-opacity=".07"/><feComposite in2="tex" operator="in" result="T"/>
+<feFlood flood-color="#fff" flood-opacity=".18"/><feComposite in2="rim" operator="in" result="R"/>
+<feMerge><feMergeNode in="T"/><feMergeNode in="R"/><feMergeNode in="L"/><feMergeNode in="H"/></feMerge></filter>
 <filter id="secco-r" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB">
-<feGaussianBlur in="SourceAlpha" stdDeviation="1.2" result="a"/>
-<feOffset in="a" dx="1.2" dy="1.2" result="ao"/><feComposite in="a" in2="ao" operator="arithmetic" k2="1" k3="-1" result="hi"/>
-<feOffset in="a" dx="-1.2" dy="-1.2" result="ai"/><feComposite in="a" in2="ai" operator="arithmetic" k2="1" k3="-1" result="lo"/>
-<feFlood flood-color="#fff" flood-opacity=".7"/><feComposite in2="lo" operator="in" result="H"/>
-<feFlood flood-color="#000" flood-opacity=".34"/><feComposite in2="hi" operator="in" result="L"/>
-<feMerge><feMergeNode in="L"/><feMergeNode in="H"/></feMerge></filter>
+<feGaussianBlur in="SourceAlpha" stdDeviation=".55" result="a"/>
+<feOffset in="a" dx=".8" dy=".8" result="ao"/><feComposite in="a" in2="ao" operator="arithmetic" k2="1" k3="-1" result="hi"/>
+<feOffset in="a" dx="-.8" dy="-.8" result="ai"/><feComposite in="a" in2="ai" operator="arithmetic" k2="1" k3="-1" result="lo"/>
+<feTurbulence type="fractalNoise" baseFrequency="1.4" numOctaves="3" seed="5" result="n"/>
+<feColorMatrix in="n" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1.6 -.45" result="na"/>
+<feComposite in="na" in2="SourceAlpha" operator="in" result="tex"/>
+<feGaussianBlur in="SourceAlpha" stdDeviation="2.2" result="soft"/><feComposite in="soft" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="rim"/>
+<feFlood flood-color="#fff" flood-opacity=".9"/><feComposite in2="lo" operator="in" result="H"/>
+<feFlood flood-color="#000" flood-opacity=".38"/><feComposite in2="hi" operator="in" result="L"/>
+<feFlood flood-color="#000" flood-opacity=".07"/><feComposite in2="tex" operator="in" result="T"/>
+<feFlood flood-color="#fff" flood-opacity=".18"/><feComposite in2="rim" operator="in" result="R"/>
+<feMerge><feMergeNode in="T"/><feMergeNode in="R"/><feMergeNode in="L"/><feMergeNode in="H"/></feMerge></filter>
 <symbol id="emb-sil-r" viewBox="-4 -2 108 114" overflow="visible"><g filter="url(#secco-r)"><path d="M18 34 L50 24 L84 34 L92 56 L78 86 L52 108 L28 90 L10 62 Z M28 30 L34 8 L44 24 L52 4 L60 24 L72 10 L72 32 L50 26 Z"/></g></symbol>
 <symbol id="emb-fragola" viewBox="-6 -6 112 124"><g filter="url(#secco)"><path d="M18 34 L50 24 L84 34 L92 56 L78 86 L52 108 L28 90 L10 62 Z"/><path d="M28 30 L34 8 L44 24 L52 4 L60 24 L72 10 L72 32 L50 26 Z"/></g><g filter="url(#secco-in)"><path d="M32 46l3.5 10h-5z"/><path d="M50 42l3.5 10h-5z"/><path d="M68 48l3.5 10h-5z"/><path d="M40 64l3.5 10h-5z"/><path d="M60 66l3.5 10h-5z"/><path d="M50 86l3 9h-5z"/><path d="M26 66l3 9h-5z"/><path d="M76 68l2.5 8h-4z"/></g></symbol>
 <filter id="secco" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
