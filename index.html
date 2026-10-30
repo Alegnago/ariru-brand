@@ -106,6 +106,7 @@ svg.die{position:absolute;inset:0;width:100%;height:100%;z-index:2}
 .perf::before{top:-1.6cqw}.perf::after{bottom:-1.6cqw}
 
 .stage.vert{width:280px}
+.cards figcaption .flip{display:inline-block;margin-top:8px;font-size:12px;font-weight:500;color:var(--fg);border:1px solid var(--line);border-radius:999px;padding:3px 10px}
 .stamp{position:absolute!important;left:50%;top:50%;height:27.8cqw;width:auto;transform:translate(-50%,-50%);z-index:1!important;overflow:visible}
 .stamp.v{height:36.53cqw}
 .stamp.R{transform:translate(-50%,-50%) scaleX(-1)}
@@ -412,7 +413,7 @@ svg.line polyline:last-child{stroke-width:3.4}
 
 <section id="biz" style="border-top:0;margin-top:28px;padding-top:0">
 <div class="cards" id="cards"></div>
-<p class="note" style="text-align:center;margin-top:18px">85 × 55 mm, cartoncino opaco, angoli vivi. Trascina o tocca per girarlo.</p>
+<p class="note" style="text-align:center;margin-top:18px">Clicca o tocca un biglietto per girarlo e vedere il retro; trascinandolo lo ruoti a mano. 85 × 55 mm, cartoncino opaco, angoli vivi.</p>
 </section>
 <h1>Sistema finale.</h1>
 <p class="lead">Un neutro chiaro, un neutro scuro e tre coppie colore: ogni coppia ha un pieno e un chiaro e si usa sempre da sola, senza mescolarsi con le altre. Fanno eccezione i frutti e le illustrazioni, che possono usare tutta la tavolozza. Due versioni di carattere, titoli in Petrona con testo in Geologica, oppure tutta Geologica, sempre in pesi leggeri. Tre versioni di colore sugli stessi post.</p>
@@ -951,7 +952,7 @@ function drag(st,bc){let ry=-14,rx=6,sx=0,sy=0,bx=0,by=0,moved=false,down=false;
  st.addEventListener('pointerup',up);st.addEventListener('pointercancel',up);st.tabIndex=0;
  st.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();ry+=180;set()}})}
 function drawCards(){[['cards',CARDS.filter(c=>!c.x)],['xcards',CARDS.filter(c=>c.x)]].forEach(([id,list])=>{const box=document.getElementById(id);if(!box)return;
- if(!box.children.length){box.innerHTML=list.map(c=>'<figure><div class="stage'+(c.v?' vert':'')+'" aria-label="'+c.n+', trascina per girarlo"><div class="bc"></div></div><figcaption><b>'+c.n+'</b>'+c.d+'</figcaption></figure>').join('');box.querySelectorAll('.stage').forEach(st=>drag(st,st.firstElementChild))}
+ if(!box.children.length){box.innerHTML=list.map(c=>'<figure><div class="stage'+(c.v?' vert':'')+'" aria-label="'+c.n+', trascina per girarlo"><div class="bc"></div></div><figcaption><b>'+c.n+'</b>'+c.d+'<span class="flip">↻ Clicca per girarlo</span></figcaption></figure>').join('');box.querySelectorAll('.stage').forEach(st=>drag(st,st.firstElementChild))}
  box.querySelectorAll('.bc').forEach((bc,i)=>{const ed=list[i].edge;bc.innerHTML='<div class="shadow"></div>'+(ed?[-1.1,-0.8,-0.5,-0.2,0.1,0.4,0.7,1]:[-0.9,-0.3,0.3,0.9]).map(z=>'<div class="edge" style="--z:'+z+'px;'+(ed?'background:'+ed:'')+'"></div>').join('')+list[i].f()+list[i].b();bc.querySelectorAll('svg[data-f]').forEach(fill)})});fitName()}
 document.fonts.ready.then(fitName);addEventListener('load',()=>{fitName();setTimeout(fitName,400)});addEventListener('resize',fitName);new MutationObserver(fitName).observe(document.documentElement,{attributes:true,attributeFilter:['data-font']});
 drawCards();
