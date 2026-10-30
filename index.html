@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Petrona:wght@200..700&family=Geologica:wght@200..700&display=swap">
 <style>
 /* Sistema finale: 1 neutro chiaro, 1 neutro scuro, 3 coppie colore (pieno + chiaro). Una coppia per post; i frutti possono mescolare. */
-:root{--lit:"Petrona",Georgia,serif;--geo:"Geologica",system-ui,sans-serif;--serif:var(--lit);--sans:var(--lit);--bg:#FFFFFF;--fg:#1F1F1F;--muted:#6B6866;--line:#E7E3DE}
+:root{--lit:"Petrona",Georgia,serif;--geo:"Geologica",system-ui,sans-serif;--serif:var(--lit);--sans:var(--geo);--bg:#FFFFFF;--fg:#1F1F1F;--muted:#6B6866;--line:#E7E3DE}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:16px;line-height:1.55;padding:0 16px 80px;font-weight:350}
 .wrap{max-width:1120px;margin:0 auto}
@@ -242,14 +242,14 @@ html[data-font="serif"] .ti{font-variation-settings:normal}
 <p class="note" style="text-align:center;margin-top:18px">85 × 55 mm, cartoncino opaco, angoli vivi. La fragola è un timbro a secco: rilievo senza inchiostro, sempre del colore della carta. Trascina o tocca per girarlo.</p>
 </section>
 <h1>Sistema finale.</h1>
-<p class="lead">Un neutro chiaro, un neutro scuro e tre coppie colore: ogni coppia ha un pieno e un chiaro e si usa sempre da sola, senza mescolarsi con le altre. Fanno eccezione i frutti e le illustrazioni, che possono usare tutta la tavolozza. Due versioni di carattere, tutta serif (Petrona) o tutta sans (Geologica), sempre in pesi leggeri. Tre versioni di colore sugli stessi post.</p>
+<p class="lead">Un neutro chiaro, un neutro scuro e tre coppie colore: ogni coppia ha un pieno e un chiaro e si usa sempre da sola, senza mescolarsi con le altre. Fanno eccezione i frutti e le illustrazioni, che possono usare tutta la tavolozza. Due versioni di carattere, titoli in Petrona con testo in Geologica, oppure tutta Geologica, sempre in pesi leggeri. Tre versioni di colore sugli stessi post.</p>
 
 <section>
 <p class="label">Tre versioni</p>
 <div class="cmp" id="cmp"></div>
 </section>
 
-<div class="tabs" role="toolbar" aria-label="Versione" id="tabs"><span>Font</span><button data-font="petrona" style="font-family:Petrona">Serif · Petrona</button><button data-font="sans" style="font-family:Geologica">Sans · Geologica</button><span style="margin-left:10px">Colori</span></div>
+<div class="tabs" role="toolbar" aria-label="Versione" id="tabs"><span>Font</span><button data-font="petrona" style="font-family:Petrona">Petrona + Geologica</button><button data-font="sans" style="font-family:Geologica">Solo Geologica</button><span style="margin-left:10px">Colori</span></div>
 
 <div id="sys">
 <section id="ig">
@@ -297,8 +297,8 @@ html[data-font="serif"] .ti{font-variation-settings:normal}
 <section>
 <p class="label">Tipografia</p>
 <div class="type">
-<div><p class="label" id="serlab">Versione serif · Petrona</p><p class="s1">Mito o evidenza? Le uova e il colesterolo.</p><p class="m">Serif morbida e calda, con un disegno un po' artigianale ma leggibile: titoli in 300, testo in 350–400, etichette in 500. Seria senza essere fredda.</p></div>
-<div><p class="label">Versione sans · Geologica</p><p class="s2">Mito o evidenza? Le uova e il colesterolo.</p><p class="m">Sans dal disegno tecnico ma con angoli morbidi: titoli in 300, testo in 350–400, etichette in 500. Pulita e moderna.</p></div>
+<div><p class="label">Versione 1 · titoli Petrona, testo Geologica</p><p class="s1">Mito o evidenza? Le uova e il colesterolo.</p><p class="m">Serif morbida e calda, con un disegno un po' artigianale ma leggibile: titoli in 300, testo in 350–400, etichette in 500. Seria senza essere fredda.</p></div>
+<div><p class="label">Versione 2 · tutto Geologica</p><p class="s2">Mito o evidenza? Le uova e il colesterolo.</p><p class="m">Sans dal disegno tecnico ma con angoli morbidi: titoli in 300, testo in 350–400, etichette in 500. Pulita e moderna.</p></div>
 </div>
 </section>
 
