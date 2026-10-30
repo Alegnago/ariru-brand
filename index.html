@@ -108,6 +108,8 @@ svg.die{position:absolute;inset:0;width:100%;height:100%;z-index:2}
 .stage.vert{width:280px}
 .stamp{position:absolute!important;left:50%;top:50%;height:27.8cqw;width:auto;transform:translate(-50%,-50%);z-index:1!important;overflow:visible}
 .stamp.v{height:36.53cqw}
+.stamp.R{transform:translate(-50%,-50%) scaleX(-1)}
+.face:not(.b) .stamp:not(.v){height:calc(27.8cqw * .85 / .86)}
 .fol2{width:80%}
 .fol2 span{display:block;width:max-content;white-space:nowrap;font-weight:300;line-height:.92;letter-spacing:-.03em}
 .stage.vert .bc{aspect-ratio:55/85}
@@ -346,9 +348,17 @@ svg.line polyline:last-child{stroke-width:3.4}
 <feGaussianBlur in="SourceAlpha" stdDeviation="1.2" result="a"/>
 <feOffset in="a" dx="1.2" dy="1.2" result="ao"/><feComposite in="a" in2="ao" operator="arithmetic" k2="1" k3="-1" result="hi"/>
 <feOffset in="a" dx="-1.2" dy="-1.2" result="ai"/><feComposite in="a" in2="ai" operator="arithmetic" k2="1" k3="-1" result="lo"/>
-<feFlood flood-color="#fff" flood-opacity=".7"/><feComposite in2="hi" operator="in" result="H"/>
-<feFlood flood-color="#000" flood-opacity=".24"/><feComposite in2="lo" operator="in" result="L"/>
+<feFlood flood-color="#fff" flood-opacity=".85"/><feComposite in2="hi" operator="in" result="H"/>
+<feFlood flood-color="#000" flood-opacity=".34"/><feComposite in2="lo" operator="in" result="L"/>
 <feMerge><feMergeNode in="L"/><feMergeNode in="H"/></feMerge></filter>
+<filter id="secco-r" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB">
+<feGaussianBlur in="SourceAlpha" stdDeviation="1.2" result="a"/>
+<feOffset in="a" dx="1.2" dy="1.2" result="ao"/><feComposite in="a" in2="ao" operator="arithmetic" k2="1" k3="-1" result="hi"/>
+<feOffset in="a" dx="-1.2" dy="-1.2" result="ai"/><feComposite in="a" in2="ai" operator="arithmetic" k2="1" k3="-1" result="lo"/>
+<feFlood flood-color="#fff" flood-opacity=".7"/><feComposite in2="lo" operator="in" result="H"/>
+<feFlood flood-color="#000" flood-opacity=".34"/><feComposite in2="hi" operator="in" result="L"/>
+<feMerge><feMergeNode in="L"/><feMergeNode in="H"/></feMerge></filter>
+<symbol id="emb-sil-r" viewBox="-4 -2 108 114" overflow="visible"><g filter="url(#secco-r)"><path d="M18 34 L50 24 L84 34 L92 56 L78 86 L52 108 L28 90 L10 62 Z M28 30 L34 8 L44 24 L52 4 L60 24 L72 10 L72 32 L50 26 Z"/></g></symbol>
 <symbol id="emb-fragola" viewBox="-6 -6 112 124"><g filter="url(#secco)"><path d="M18 34 L50 24 L84 34 L92 56 L78 86 L52 108 L28 90 L10 62 Z"/><path d="M28 30 L34 8 L44 24 L52 4 L60 24 L72 10 L72 32 L50 26 Z"/></g><g filter="url(#secco-in)"><path d="M32 46l3.5 10h-5z"/><path d="M50 42l3.5 10h-5z"/><path d="M68 48l3.5 10h-5z"/><path d="M40 64l3.5 10h-5z"/><path d="M60 66l3.5 10h-5z"/><path d="M50 86l3 9h-5z"/><path d="M26 66l3 9h-5z"/><path d="M76 68l2.5 8h-4z"/></g></symbol>
 <filter id="secco" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
 <feGaussianBlur in="SourceAlpha" stdDeviation="1.1" result="a"/>
@@ -913,12 +923,12 @@ function tear(seed,top,col){const r=rnd(seed);let pts=[];for(let x=0;x<=100;x+=4
 function tearTop(seed,bot,col){const r=rnd(seed);let pts=[];for(let x=100;x>=0;x-=4){pts.push(x+','+(bot+(r()-.5)*7+Math.sin(x/14)*3).toFixed(1))}
  return '<svg class="tear" viewBox="0 0 100 100" preserveAspectRatio="none" style="height:100%;width:100%;top:0"><polygon points="0,0 100,0 '+pts.join(' ')+'" style="fill:'+col+'"/></svg>'}
 const back=()=>'<div class="face b" style="background:var(--paper);color:var(--ink);padding:7cqw 7.5cqw 6.5cqw"><svg class="stamp" viewBox="-4 -2 108 114" aria-hidden="true"><use href="#emb-sil"/></svg><p class="wm sm2">'+D.nome+'</p><p class="bk-r" style="margin-top:.6cqw;font-size:3.4cqw;letter-spacing:.01em">'+D.ruolo+'</p><div class="bk-cols" style="margin-top:auto">'+D.centri.map(c=>'<div><p>'+c[0]+'</p><p>'+c[1]+'</p><p>'+c[2]+'</p><p>'+c[3]+'</p></div>').join('')+'</div></div>';
-const front=(bg,fg,cls)=>'<div class="face '+cls+'" style="background:'+bg+';color:'+fg+';align-items:center;justify-content:center;text-align:center;padding:7cqw"><div class="fol" style="width:74%"><span class="wm big">'+D.nome+'</span></div><p class="bk-r" style="margin-top:1.6cqw;font-size:3.8cqw;letter-spacing:.01em">'+D.ruolo+'</p><p class="bk-r" style="margin-top:.5cqw;font-size:3.2cqw;letter-spacing:.02em;opacity:.85">'+D.mail+'</p></div>';
+const front=(bg,fg,cls)=>'<div class="face '+cls+'" style="background:'+bg+';color:'+fg+';align-items:center;justify-content:center;text-align:center;padding:7cqw"><svg class="stamp R" viewBox="-4 -2 108 114" aria-hidden="true"><use href="#emb-sil-r"/></svg><div class="fol" style="width:74%"><span class="wm big">'+D.nome+'</span></div><p class="bk-r" style="margin-top:1.6cqw;font-size:3.8cqw;letter-spacing:.01em">'+D.ruolo+'</p><p class="bk-r" style="margin-top:.5cqw;font-size:3.2cqw;letter-spacing:.02em;opacity:.85">'+D.mail+'</p></div>';
 const CARDS=[
  {n:'Versione 1',d:'Fronte e retro nel neutro chiaro.',f:()=>front('var(--paper)','var(--ink)',''),b:back},
  {n:'Versione 2',d:'Fronte nel pieno con testo chiaro e nome leggero; retro nel neutro chiaro.',f:()=>front('var(--cd)','var(--paper)','lite'),b:back},
  {v:1,n:'Verticale',d:'55 × 85 mm. Nome e cognome in alto, ruolo e mail in basso a destra. Dietro: nome e ruolo in alto, i due centri in basso.',
-  f:()=>'<div class="face x" style="background:var(--paper);color:var(--ink)"><div class="in" style="inset:8cqw"><div class="fol2"><span class="wm">Arianna</span><span class="wm">Ruaro</span></div><div style="margin-top:auto;text-align:right"><p class="bk-n" style="font-size:5.4cqw;font-weight:500">'+D.ruolo+'</p><p class="bk-r" style="font-size:4.6cqw;margin-top:1.6cqw">'+D.mail+'</p></div></div></div>',
+  f:()=>'<div class="face x" style="background:var(--paper);color:var(--ink)"><svg class="stamp v R" viewBox="-4 -2 108 114" aria-hidden="true"><use href="#emb-sil-r"/></svg><div class="in" style="inset:8cqw"><div class="fol2"><span class="wm">Arianna</span><span class="wm">Ruaro</span></div><div style="margin-top:auto;text-align:right"><p class="bk-n" style="font-size:5.4cqw;font-weight:500">'+D.ruolo+'</p><p class="bk-r" style="font-size:4.6cqw;margin-top:1.6cqw">'+D.mail+'</p></div></div></div>',
   b:()=>'<div class="face b x" style="background:var(--paper);color:var(--ink)"><svg class="stamp v" viewBox="-4 -2 108 114" aria-hidden="true"><use href="#emb-sil"/></svg><div class="in" style="inset:8cqw"><p class="bk-n" style="font-size:6cqw">'+D.nome+'</p><p class="bk-r" style="font-size:4.6cqw;margin-top:.3cqw">'+D.ruolo+'</p><div class="vcent" style="margin:auto 0 0">'+D.centri.map(c=>'<div><p><b>'+c[0]+'</b></p><p>'+c[1]+'</p><p>'+c[2]+'</p><p>'+c[3]+'</p></div>').join('')+'</div></div></div>'}
 ];
 function fitName(){document.querySelectorAll('.fol2').forEach(f=>{const sp=[...f.children];sp.forEach(x=>x.style.fontSize='100px');const w=f.clientWidth;if(!w)return;const k=Math.min(...sp.map(x=>w/x.scrollWidth));sp.forEach(x=>x.style.fontSize=(100*k*.995)+'px')});document.querySelectorAll('.frow:not(.sm),.xp').forEach(r=>{r.style.fontSize='20px';r.style.width='max-content';const w=r.parentElement.clientWidth,ww=r.scrollWidth;r.style.width='';if(w&&ww)r.style.fontSize=(20*w/ww*.99)+'px'});document.querySelectorAll('.fol').forEach(f=>{const sp=f.firstElementChild;sp.style.fontSize='100px';const w=f.clientWidth;if(w)sp.style.fontSize=(100*w/sp.scrollWidth*.995)+'px'});document.querySelectorAll('.bigname').forEach(bn=>{const sp=[...bn.children];sp.forEach(x=>x.style.fontSize='100px');const h=bn.clientHeight;if(!h)return;const k=Math.min(...sp.map(x=>h/x.scrollHeight));sp.forEach(x=>x.style.fontSize=(100*k*0.99)+'px')})}
