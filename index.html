@@ -52,6 +52,7 @@ section{border-top:1px solid var(--line);margin-top:72px;padding-top:44px}
 .wm{font-family:var(--serif);font-weight:400;font-size:9.6cqw;letter-spacing:-.025em;line-height:1}
 .wm.sm{font-size:4.6cqw;font-weight:500}
 .wm.sm2{font-size:5.6cqw;font-weight:400}
+html[data-dark1="true"] .face:not(.b) .wm{font-weight:300}
 .bk-n{font-family:var(--sans);font-weight:600;font-size:4.2cqw;line-height:1.2}
 .bk-r{font-family:var(--sans);font-size:3.2cqw;margin-top:.8cqw}
 .bk-c{font-family:var(--sans);font-size:3cqw;margin-top:3cqw}
@@ -785,7 +786,7 @@ for(const k in V){const v=V[k];
  const t=document.createElement('button');t.dataset.v=k;t.innerHTML='<i style="background:'+v.c1+'"></i><i style="background:'+v.c2+'"></i><i style="background:'+v.c3+'"></i><span style="margin-left:6px;text-transform:none;letter-spacing:0;font-size:14px;color:inherit">'+v.n+'</span>';tabs.appendChild(t)}
 function sw1(name,c,txt){return '<div class="sw"><div class="one" style="background:'+c+';color:'+txt+'"><b>'+name+'</b><code>'+c+'</code></div></div>'}
 function sw2(name,f,l,o,ink){return '<div class="sw"><div class="pair"><div style="background:'+f+';color:'+o+'"><b>'+name+' · pieno</b><code>'+f+'</code></div><div style="background:'+l+';color:'+ink+'"><code>chiaro '+l+'</code></div></div></div>'}
-function setV(k){if(!V[k])k='serra';const v=V[k];vars(sys,v);vars(document.getElementById('biz'),v);if(window.drawCards)drawCards();vars(document.querySelector('.fruits'),v);
+function setV(k){if(!V[k])k='serra';const v=V[k];root.dataset.dark1=String(v.o1===v.paper);vars(sys,v);vars(document.getElementById('biz'),v);if(window.drawCards)drawCards();vars(document.querySelector('.fruits'),v);
  document.getElementById('vname').textContent='Versione '+v.n;document.getElementById('vdesc').textContent=v.d;
  document.getElementById('pal').innerHTML=sw1('Neutro chiaro',v.paper,v.ink)+sw1('Neutro scuro',v.ink,v.paper)+sw2('Coppia 1',v.c1,v.c1l,v.o1,v.ink)+sw2('Coppia 2',v.c2,v.c2l,v.o2,v.ink)+sw2('Coppia 3',v.c3,v.c3l,v.o3,v.ink);
  document.querySelectorAll('[data-v]').forEach(b=>{if(b.tagName==='BUTTON')b.setAttribute('aria-pressed',b.dataset.v===k)});
@@ -828,8 +829,8 @@ function tearTop(seed,bot,col){const r=rnd(seed);let pts=[];for(let x=100;x>=0;x
  return '<svg class="tear" viewBox="0 0 100 100" preserveAspectRatio="none" style="height:100%;width:100%;top:0"><polygon points="0,0 100,0 '+pts.join(' ')+'" style="fill:'+col+'"/></svg>'}
 const CARDS=[
  {n:'Biglietto',d:'',
-  f:()=>'<div class="face" style="background:var(--ink);color:var(--paper);align-items:center;justify-content:center;text-align:center"><p class="wm">'+D.nome+'</p><p class="bk-r" style="margin-top:3.4cqw">'+D.ruolo+'</p><p class="bk-r" style="margin-top:1cqw">'+D.mail+'</p></div>',
-  b:()=>'<div class="face b" style="background:var(--paper);color:var(--ink);padding:8cqw"><p class="wm sm2">'+D.nome+'</p><div class="bk-cols" style="margin:auto 0">'+D.centri.map(c=>'<div><p>'+c[0]+'</p><p>'+c[1]+'</p><p>'+c[2]+'</p><p>'+c[3]+'</p></div>').join('')+'</div></div>'}
+  f:()=>'<div class="face" style="background:var(--c1);color:var(--o1);align-items:center;justify-content:center;text-align:center"><p class="wm">'+D.nome+'</p><p class="bk-r" style="margin-top:3.4cqw">'+D.ruolo+'</p><p class="bk-r" style="margin-top:1cqw">'+D.mail+'</p></div>',
+  b:()=>'<div class="face b" style="background:var(--c1l);color:var(--ink);padding:8cqw"><p class="wm sm2">'+D.nome+'</p><div class="bk-cols" style="margin:auto 0">'+D.centri.map(c=>'<div><p>'+c[0]+'</p><p>'+c[1]+'</p><p>'+c[2]+'</p><p>'+c[3]+'</p></div>').join('')+'</div></div>'}
 ];
 function fitName(){document.querySelectorAll('.bigname').forEach(bn=>{const sp=[...bn.children];sp.forEach(x=>x.style.fontSize='100px');const h=bn.clientHeight;if(!h)return;const k=Math.min(...sp.map(x=>h/x.scrollHeight));sp.forEach(x=>x.style.fontSize=(100*k*0.99)+'px')})}
 function drag(st,bc){let ry=-14,rx=6,sx=0,sy=0,bx=0,by=0,moved=false,down=false;const set=()=>bc.style.transform='rotateX('+rx+'deg) rotateY('+ry+'deg)';set();
