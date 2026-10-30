@@ -28,9 +28,9 @@ section{border-top:1px solid var(--line);margin-top:72px;padding-top:44px}
 .cards figure{margin:0;display:grid;gap:12px;justify-items:center;width:100%}
 .cards figcaption{font-size:13px;color:var(--muted);text-align:center;line-height:1.4}
 .cards figcaption b{display:block;color:var(--fg);font-weight:500}
-.stage{perspective:1400px;width:330px;max-width:100%;container-type:inline-size;touch-action:pan-y;cursor:grab;user-select:none}
+.stage{perspective:1600px;width:460px;max-width:100%;container-type:inline-size;touch-action:pan-y;cursor:grab;user-select:none}
 .stage:active{cursor:grabbing}
-.bc{position:relative;width:100%;aspect-ratio:55/85;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+.bc{position:relative;width:100%;aspect-ratio:85/55;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.2,.7,.2,1)}
 .bc.drag{transition:none}
 .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;container-type:inline-size;overflow:hidden;display:flex;flex-direction:column;padding:10cqw;box-shadow:0 1px 0 rgba(0,0,0,.04),0 20px 40px -16px rgba(30,25,20,.4),0 4px 10px -4px rgba(30,25,20,.2)}
 .face.b{transform:rotateY(180deg)}
@@ -49,6 +49,14 @@ section{border-top:1px solid var(--line);margin-top:72px;padding-top:44px}
 .tear{position:absolute!important;left:0;right:0;bottom:0;z-index:1!important}
 .row-f{display:flex;justify-content:space-between;align-items:flex-end;gap:1.5cqw}
 .row-f svg{height:auto;flex:1}
+.wm{font-family:var(--serif);font-weight:400;font-size:9.6cqw;letter-spacing:-.025em;line-height:1}
+.wm.sm{font-size:4.6cqw;font-weight:500}
+.bk-n{font-family:var(--sans);font-weight:600;font-size:4.2cqw;line-height:1.2}
+.bk-r{font-family:var(--sans);font-size:3.2cqw;margin-top:.8cqw}
+.bk-c{font-family:var(--sans);font-size:3cqw;margin-top:3cqw}
+.bk-cols{display:grid;grid-template-columns:1fr 1fr;gap:4cqw;margin-top:3.4cqw;font-family:var(--sans);font-size:2.7cqw;line-height:1.4}
+.bk-cols p{margin:0}
+.bk-cols p:first-child{font-weight:500}
 .bigname{flex:1;min-height:0;display:flex;flex-direction:column;align-items:flex-start;writing-mode:vertical-rl;transform:rotate(180deg);font-family:var(--serif);font-weight:300;line-height:.84;letter-spacing:-.03em;overflow:hidden;margin-bottom:5cqw}
 .bigname span{display:block;white-space:nowrap}
 .ftr{margin-top:auto;display:flex;justify-content:space-between;align-items:flex-end;gap:4cqw}
@@ -231,7 +239,7 @@ html[data-font="serif"] .ti{font-variation-settings:normal}
 
 <section id="biz" style="border-top:0;margin-top:28px;padding-top:0">
 <div class="cards" id="cards"></div>
-<p class="note" style="text-align:center;margin-top:18px">55 × 85 mm, cartoncino opaco, angoli vivi. La fragola è un timbro a secco: rilievo senza inchiostro, sempre del colore della carta. Trascina o tocca per girarlo.</p>
+<p class="note" style="text-align:center;margin-top:18px">85 × 55 mm, cartoncino opaco, angoli vivi. La fragola è un timbro a secco: rilievo senza inchiostro, sempre del colore della carta. Trascina o tocca per girarlo.</p>
 </section>
 <h1>Sistema finale.</h1>
 <p class="lead">Un neutro chiaro, un neutro scuro e tre coppie colore: ogni coppia ha un pieno e un chiaro e si usa sempre da sola, senza mescolarsi con le altre. Fanno eccezione i frutti e le illustrazioni, che possono usare tutta la tavolozza. Due versioni di carattere, tutta serif (Petrona) o tutta sans (Geologica), sempre in pesi leggeri. Tre versioni di colore sugli stessi post.</p>
@@ -544,8 +552,8 @@ function tearTop(seed,bot,col){const r=rnd(seed);let pts=[];for(let x=100;x>=0;x
  return '<svg class="tear" viewBox="0 0 100 100" preserveAspectRatio="none" style="height:100%;width:100%;top:0"><polygon points="0,0 100,0 '+pts.join(' ')+'" style="fill:'+col+'"/></svg>'}
 const CARDS=[
  {n:'Biglietto',d:'',
-  f:()=>'<div class="face" style="background:var(--c1);color:var(--o1);padding:7cqw 7cqw 8cqw"><div class="bigname"><span>Arianna</span><span>Ruaro</span></div><div class="ftr"><div><p class="br" style="margin:0">'+D.ruolo+'</p><p class="bm" style="margin-top:1.4cqw">'+D.mail+'</p></div>'+emb(13,'var(--c1)')+'</div></div>',
-  b:()=>'<div class="face b" style="background:var(--paper);color:var(--ink);padding:9cqw 9cqw 8cqw">'+emb(15,'var(--paper)')+'<div style="margin-top:auto">'+addr()+'</div></div>'}
+  f:()=>'<div class="face" style="background:var(--ink);color:var(--paper);align-items:center;justify-content:center">'+emb(24.07,'var(--ink)')+'</div>',
+  b:()=>'<div class="face b" style="background:var(--paper);color:var(--ink);padding:7cqw 7cqw 6.5cqw">'+emb(36,'var(--paper)','position:absolute;right:-6cqw;top:-7cqw;transform:rotate(-14deg);z-index:1')+'<p class="wm sm">'+D.nome+'.</p><div style="margin-top:auto"><p class="bk-n">'+D.nome+'</p><p class="bk-r">'+D.ruolo+'</p><p class="bk-c">'+D.mail+'</p></div><div class="bk-cols">'+D.centri.map(c=>'<div><p>'+c[0]+'</p><p>'+c[1]+'</p><p>'+c[2]+'</p><p>'+c[3]+'</p></div>').join('')+'</div></div>'}
 ];
 function fitName(){document.querySelectorAll('.bigname').forEach(bn=>{const sp=[...bn.children];sp.forEach(x=>x.style.fontSize='100px');const h=bn.clientHeight;if(!h)return;const k=Math.min(...sp.map(x=>h/x.scrollHeight));sp.forEach(x=>x.style.fontSize=(100*k*0.99)+'px')})}
 function drag(st,bc){let ry=-14,rx=6,sx=0,sy=0,bx=0,by=0,moved=false,down=false;const set=()=>bc.style.transform='rotateX('+rx+'deg) rotateY('+ry+'deg)';set();
