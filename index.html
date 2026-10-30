@@ -24,11 +24,11 @@ b{font-weight:600}
 section{border-top:1px solid var(--line);margin-top:72px;padding-top:44px}
 
 /* biglietti da visita 3D, verticali */
-.cards{display:grid;justify-items:center;padding-top:44px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:40px 32px;justify-items:center;padding-top:44px}
 .cards figure{margin:0;display:grid;gap:12px;justify-items:center;width:100%}
 .cards figcaption{font-size:13px;color:var(--muted);text-align:center;line-height:1.4}
 .cards figcaption b{display:block;color:var(--fg);font-weight:500}
-.stage{perspective:1600px;width:460px;max-width:100%;container-type:inline-size;touch-action:pan-y;cursor:grab;user-select:none}
+.stage{perspective:1600px;width:440px;max-width:100%;container-type:inline-size;touch-action:pan-y;cursor:grab;user-select:none}
 .stage:active{cursor:grabbing}
 .bc{position:relative;width:100%;aspect-ratio:85/55;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.2,.7,.2,1)}
 .bc.drag{transition:none}
@@ -52,7 +52,16 @@ section{border-top:1px solid var(--line);margin-top:72px;padding-top:44px}
 .wm{font-family:var(--serif);font-weight:400;font-size:9.6cqw;letter-spacing:-.025em;line-height:1}
 .wm.sm{font-size:4.6cqw;font-weight:500}
 .wm.sm2{font-size:5.6cqw;font-weight:400}
-html[data-dark1="true"] .face:not(.b) .wm{font-weight:300}
+.face.lite .wm{font-weight:300}
+.xp{display:flex;align-items:flex-end;font-family:var(--geo);font-weight:500;font-size:9cqw;line-height:1;letter-spacing:.02em;text-shadow:0 .25cqw 0 rgba(255,255,255,.7),0 -.2cqw .2cqw rgba(0,0,0,.18)}
+.xp span{display:inline-block}
+.xp .sp{width:4cqw}
+.xp .xg{height:9.2cqw;width:auto;margin:0 .4cqw;filter:drop-shadow(0 .25cqw 0 rgba(255,255,255,.7)) drop-shadow(0 -.2cqw .2cqw rgba(0,0,0,.18))}
+.xp .xg.i{height:12cqw;margin:0 .8cqw}
+.xs{font-family:var(--geo);font-size:2.6cqw;font-weight:500;letter-spacing:.06em;line-height:1.35}
+.xs.xl{display:grid;gap:1.2cqw;font-weight:400;font-size:2.3cqw}
+.xs.xl p{margin:0}
+.xs.xl b{font-weight:600}
 .bk-n{font-family:var(--sans);font-weight:600;font-size:4.2cqw;line-height:1.2}
 .bk-r{font-family:var(--sans);font-size:3.2cqw;margin-top:.8cqw}
 .bk-c{font-family:var(--sans);font-size:3cqw;margin-top:3cqw}
@@ -786,7 +795,7 @@ for(const k in V){const v=V[k];
  const t=document.createElement('button');t.dataset.v=k;t.innerHTML='<i style="background:'+v.c1+'"></i><i style="background:'+v.c2+'"></i><i style="background:'+v.c3+'"></i><span style="margin-left:6px;text-transform:none;letter-spacing:0;font-size:14px;color:inherit">'+v.n+'</span>';tabs.appendChild(t)}
 function sw1(name,c,txt){return '<div class="sw"><div class="one" style="background:'+c+';color:'+txt+'"><b>'+name+'</b><code>'+c+'</code></div></div>'}
 function sw2(name,f,l,o,ink){return '<div class="sw"><div class="pair"><div style="background:'+f+';color:'+o+'"><b>'+name+' · pieno</b><code>'+f+'</code></div><div style="background:'+l+';color:'+ink+'"><code>chiaro '+l+'</code></div></div></div>'}
-function setV(k){if(!V[k])k='serra';const v=V[k];root.dataset.dark1=String(v.o1===v.paper);vars(sys,v);vars(document.getElementById('biz'),v);if(window.drawCards)drawCards();vars(document.querySelector('.fruits'),v);
+function setV(k){if(!V[k])k='serra';const v=V[k];{const L=h=>{const c=[1,3,5].map(i=>parseInt(h.substr(i,2),16)/255).map(x=>x<=.03928?x/12.92:((x+.055)/1.055)**2.4);return .2126*c[0]+.7152*c[1]+.0722*c[2]};const cr=(a,b)=>{const x=L(a),y=L(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05)};const best=['c1','c2','c3'].sort((a,b)=>cr(v[b],v.paper)-cr(v[a],v.paper))[0];document.getElementById('biz').style.setProperty('--cd',v[best])}vars(sys,v);vars(document.getElementById('biz'),v);if(window.drawCards)drawCards();vars(document.querySelector('.fruits'),v);
  document.getElementById('vname').textContent='Versione '+v.n;document.getElementById('vdesc').textContent=v.d;
  document.getElementById('pal').innerHTML=sw1('Neutro chiaro',v.paper,v.ink)+sw1('Neutro scuro',v.ink,v.paper)+sw2('Coppia 1',v.c1,v.c1l,v.o1,v.ink)+sw2('Coppia 2',v.c2,v.c2l,v.o2,v.ink)+sw2('Coppia 3',v.c3,v.c3l,v.o3,v.ink);
  document.querySelectorAll('[data-v]').forEach(b=>{if(b.tagName==='BUTTON')b.setAttribute('aria-pressed',b.dataset.v===k)});
@@ -827,10 +836,15 @@ function tear(seed,top,col){const r=rnd(seed);let pts=[];for(let x=0;x<=100;x+=4
  return '<svg class="tear" viewBox="0 0 100 100" preserveAspectRatio="none" style="height:100%;width:100%;top:0"><polygon points="0,100 '+pts.join(' ')+' 100,100" style="fill:'+col+'"/></svg>'}
 function tearTop(seed,bot,col){const r=rnd(seed);let pts=[];for(let x=100;x>=0;x-=4){pts.push(x+','+(bot+(r()-.5)*7+Math.sin(x/14)*3).toFixed(1))}
  return '<svg class="tear" viewBox="0 0 100 100" preserveAspectRatio="none" style="height:100%;width:100%;top:0"><polygon points="0,0 100,0 '+pts.join(' ')+'" style="fill:'+col+'"/></svg>'}
+const back=()=>'<div class="face b" style="background:var(--paper);color:var(--ink);padding:8cqw"><p class="wm sm2">'+D.nome+'</p><p class="bk-r" style="margin-top:1.2cqw">'+D.ruolo+'</p><div class="bk-cols" style="margin-top:auto">'+D.centri.map(c=>'<div><p>'+c[0]+'</p><p>'+c[1]+'</p><p>'+c[2]+'</p><p>'+c[3]+'</p></div>').join('')+'</div></div>';
+const front=(bg,fg,cls)=>'<div class="face '+cls+'" style="background:'+bg+';color:'+fg+';align-items:center;justify-content:center;text-align:center"><p class="wm">'+D.nome+'</p><p class="bk-r" style="margin-top:3.4cqw">'+D.ruolo+'</p><p class="bk-r" style="margin-top:1cqw">'+D.mail+'</p></div>';
 const CARDS=[
- {n:'Biglietto',d:'',
-  f:()=>'<div class="face" style="background:var(--c1);color:var(--o1);align-items:center;justify-content:center;text-align:center"><p class="wm">'+D.nome+'</p><p class="bk-r" style="margin-top:3.4cqw">'+D.ruolo+'</p><p class="bk-r" style="margin-top:1cqw">'+D.mail+'</p></div>',
-  b:()=>'<div class="face b" style="background:var(--c1l);color:var(--ink);padding:8cqw"><p class="wm sm2">'+D.nome+'</p><div class="bk-cols" style="margin:auto 0">'+D.centri.map(c=>'<div><p>'+c[0]+'</p><p>'+c[1]+'</p><p>'+c[2]+'</p><p>'+c[3]+'</p></div>').join('')+'</div></div>'}
+ {n:'Versione 1',d:'Fronte e retro nel neutro chiaro.',f:()=>front('var(--paper)','var(--ink)',''),b:back},
+ {n:'Versione 2',d:'Fronte nel pieno con testo chiaro e nome leggero; retro nel neutro chiaro.',f:()=>front('var(--cd)','var(--paper)','lite'),b:back},
+ {n:'Esperimento',d:'Dalla reference Arketype: nome impresso a caldo nei colori della versione, con frutti al posto di alcune lettere. Retro in maiuscolo piccolo.',
+  f:()=>{const L=[['A','c1'],['R','c2'],['i','carota'],['A','c3'],['N','c1'],['N','c2'],['A','c3'],[' '],['R','c1'],['U','c2'],['A','c3'],['R','c1'],['o','arancia']];
+   return '<div class="face" style="background:var(--paper);color:var(--ink);align-items:center;justify-content:center"><p class="xp">'+L.map(l=>l[0]===' '?'<span class="sp"></span>':(l[1].startsWith('c')?'<span style="color:var(--'+l[1]+')">'+l[0]+'</span>':'<svg data-f="'+l[1]+'" class="xg '+l[0]+'"></svg>')).join('')+'</p><p class="xs" style="position:absolute;right:8cqw;bottom:7cqw;text-align:right">BIOLOGA<br>NUTRIZIONISTA</p></div>'},
+  b:()=>'<div class="face b" style="background:var(--paper);color:var(--ink);padding:8cqw"><p class="xs">ARIANNA RUARO<br>BIOLOGA NUTRIZIONISTA</p><svg data-f="fragola" style="width:7cqw;height:auto;margin-top:2cqw"></svg><div class="xs xl" style="margin-top:auto">'+D.centri.map(c=>'<p>'+c[0].toUpperCase()+' · '+c[1].toUpperCase()+', '+c[2].toUpperCase()+' · '+c[3]+'</p>').join('')+'<p>'+D.mail.toUpperCase()+'</p></div></div>'}
 ];
 function fitName(){document.querySelectorAll('.bigname').forEach(bn=>{const sp=[...bn.children];sp.forEach(x=>x.style.fontSize='100px');const h=bn.clientHeight;if(!h)return;const k=Math.min(...sp.map(x=>h/x.scrollHeight));sp.forEach(x=>x.style.fontSize=(100*k*0.99)+'px')})}
 function drag(st,bc){let ry=-14,rx=6,sx=0,sy=0,bx=0,by=0,moved=false,down=false;const set=()=>bc.style.transform='rotateX('+rx+'deg) rotateY('+ry+'deg)';set();
@@ -840,7 +854,7 @@ function drag(st,bc){let ry=-14,rx=6,sx=0,sy=0,bx=0,by=0,moved=false,down=false;
  st.addEventListener('pointerup',up);st.addEventListener('pointercancel',up);st.tabIndex=0;
  st.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();ry+=180;set()}})}
 function drawCards(){const box=document.getElementById('cards');if(!box)return;
- if(!box.children.length){box.innerHTML=CARDS.map((c,i)=>'<figure><div class="stage" aria-label="Biglietto da visita, trascina per girarlo"><div class="bc"></div></div></figure>').join('');
+ if(!box.children.length){box.innerHTML=CARDS.map((c,i)=>'<figure><div class="stage" aria-label="'+c.n+', trascina per girarlo"><div class="bc"></div></div><figcaption><b>'+c.n+'</b>'+c.d+'</figcaption></figure>').join('');
   box.querySelectorAll('.stage').forEach(st=>drag(st,st.firstElementChild))}
  box.querySelectorAll('.bc').forEach((bc,i)=>{bc.innerHTML='<div class="shadow"></div>'+[-0.9,-0.3,0.3,0.9].map(z=>'<div class="edge" style="--z:'+z+'px"></div>').join('')+CARDS[i].f()+CARDS[i].b();bc.querySelectorAll('svg[data-f]').forEach(fill)});fitName()}
 document.fonts.ready.then(fitName);addEventListener('resize',fitName);new MutationObserver(fitName).observe(document.documentElement,{attributes:true,attributeFilter:['data-font']});
