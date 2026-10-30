@@ -63,6 +63,15 @@ section{border-top:1px solid var(--line);margin-top:72px;padding-top:44px}
 .xs.xl p{margin:0}
 .xs.xl b{font-weight:600}
 .sc{position:absolute;height:auto}
+.fol{width:100%}
+.fol.up span{font-family:var(--geo);font-weight:300;letter-spacing:.02em;line-height:.82}
+.deb{position:absolute;left:0;right:0;bottom:-2cqw;text-align:center;font-size:16cqw;white-space:nowrap;transform:scaleX(-1);color:var(--paper);text-shadow:-.25cqw -.25cqw .3cqw rgba(0,0,0,.16),.25cqw .25cqw .3cqw rgba(255,255,255,.9)}
+.mono{width:11cqw;height:11cqw;border-radius:50%;border:.35cqw solid var(--ink);display:grid;place-items:center;margin:auto}
+.mono svg{width:58%;height:auto;--fr-red:var(--ink);--fr-green:var(--ink);--fr-light:var(--nor)}
+.nor-cols{display:flex;justify-content:space-between;width:100%;text-align:left;font-family:var(--geo);font-size:2.3cqw;line-height:1.4;gap:4cqw}
+.nor-cols div:last-child{text-align:right}
+.nor-cols p{margin:0}.nor-cols b{font-weight:600}
+.fol span{display:block;white-space:nowrap;font-family:var(--serif);font-weight:300;line-height:.9;letter-spacing:-.03em}
 .bk-n{font-family:var(--sans);font-weight:600;font-size:4.2cqw;line-height:1.2}
 .bk-r{font-family:var(--sans);font-size:3.2cqw;margin-top:.8cqw}
 .bk-c{font-family:var(--sans);font-size:3cqw;margin-top:3cqw}
@@ -359,6 +368,7 @@ svg.line polyline:last-child{stroke-width:3.4}
 <button role="tab" data-p="post" aria-selected="true">Post <small>40</small></button>
 <button role="tab" data-p="ig" aria-selected="false">Profilo Instagram</button>
 <button role="tab" data-p="rifatti" aria-selected="false">Post di Arianna rifatti <small>9</small></button>
+<button role="tab" data-p="exp" aria-selected="false">Biglietti, esperimenti <small>5</small></button>
 </nav>
 <div class="panel" data-p="post">
 <section>
@@ -766,6 +776,13 @@ svg.line polyline:last-child{stroke-width:3.4}
 </div>
 </section>
 </div>
+<div class="panel" data-p="exp" hidden>
+<section id="xbiz">
+<h2>Biglietti, esperimenti.</h2>
+<p class="note">Cinque strade più libere, accanto ai due biglietti base che restano in cima alla pagina. Trascina o tocca per girarli.</p>
+<div class="cards" id="xcards"></div>
+</section>
+</div>
 </div>
 </div>
 
@@ -796,7 +813,7 @@ for(const k in V){const v=V[k];
  const t=document.createElement('button');t.dataset.v=k;t.innerHTML='<i style="background:'+v.c1+'"></i><i style="background:'+v.c2+'"></i><i style="background:'+v.c3+'"></i><span style="margin-left:6px;text-transform:none;letter-spacing:0;font-size:14px;color:inherit">'+v.n+'</span>';tabs.appendChild(t)}
 function sw1(name,c,txt){return '<div class="sw"><div class="one" style="background:'+c+';color:'+txt+'"><b>'+name+'</b><code>'+c+'</code></div></div>'}
 function sw2(name,f,l,o,ink){return '<div class="sw"><div class="pair"><div style="background:'+f+';color:'+o+'"><b>'+name+' · pieno</b><code>'+f+'</code></div><div style="background:'+l+';color:'+ink+'"><code>chiaro '+l+'</code></div></div></div>'}
-function setV(k){if(!V[k])k='serra';const v=V[k];{const L=h=>{const c=[1,3,5].map(i=>parseInt(h.substr(i,2),16)/255).map(x=>x<=.03928?x/12.92:((x+.055)/1.055)**2.4);return .2126*c[0]+.7152*c[1]+.0722*c[2]};const cr=(a,b)=>{const x=L(a),y=L(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05)};const best=['c1','c2','c3'].sort((a,b)=>cr(v[b],v.paper)-cr(v[a],v.paper))[0];document.getElementById('biz').style.setProperty('--cd',v[best])}vars(sys,v);vars(document.getElementById('biz'),v);if(window.drawCards)drawCards();vars(document.querySelector('.fruits'),v);
+function setV(k){if(!V[k])k='serra';const v=V[k];{const L=h=>{const c=[1,3,5].map(i=>parseInt(h.substr(i,2),16)/255).map(x=>x<=.03928?x/12.92:((x+.055)/1.055)**2.4);return .2126*c[0]+.7152*c[1]+.0722*c[2]};const cr=(a,b)=>{const x=L(a),y=L(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05)};const best=['c1','c2','c3'].sort((a,b)=>cr(v[b],v.paper)-cr(v[a],v.paper))[0];document.getElementById('biz').style.setProperty('--cd',v[best]);const X=document.getElementById('xbiz');if(X){vars(X,v);X.style.setProperty('--fol',v[best]);X.style.setProperty('--foll',v[best+'l']);X.style.setProperty('--cd',v[best]);const dk=['c1','c2','c3'].filter(c=>v['o'+c[1]]===v.ink).sort((a,b)=>cr(v[b],v.ink)-cr(v[a],v.ink))[0]||'c1';X.style.setProperty('--nor',v[dk])}}vars(sys,v);vars(document.getElementById('biz'),v);if(window.drawCards)drawCards();vars(document.querySelector('.fruits'),v);
  document.getElementById('vname').textContent='Versione '+v.n;document.getElementById('vdesc').textContent=v.d;
  document.getElementById('pal').innerHTML=sw1('Neutro chiaro',v.paper,v.ink)+sw1('Neutro scuro',v.ink,v.paper)+sw2('Coppia 1',v.c1,v.c1l,v.o1,v.ink)+sw2('Coppia 2',v.c2,v.c2l,v.o2,v.ink)+sw2('Coppia 3',v.c3,v.c3l,v.o3,v.ink);
  document.querySelectorAll('[data-v]').forEach(b=>{if(b.tagName==='BUTTON')b.setAttribute('aria-pressed',b.dataset.v===k)});
@@ -842,26 +859,38 @@ const front=(bg,fg,cls)=>'<div class="face '+cls+'" style="background:'+bg+';col
 const CARDS=[
  {n:'Versione 1',d:'Fronte e retro nel neutro chiaro.',f:()=>front('var(--paper)','var(--ink)',''),b:back},
  {n:'Versione 2',d:'Fronte nel pieno con testo chiaro e nome leggero; retro nel neutro chiaro.',f:()=>front('var(--cd)','var(--paper)','lite'),b:back},
- {n:'Esperimento',d:'Dalla reference Arketype: frutti e verdure sparsi come su un tavolo, testi appoggiati agli angoli. Colori liberi, come da regola per le illustrazioni.',
+ {x:1,n:'Frutti sparsi',d:'Frutti e verdure sparsi come su un tavolo, testi appoggiati agli angoli. Colori liberi, come da regola per le illustrazioni.',
   f:()=>'<div class="face" style="background:var(--paper);color:var(--ink);padding:0"><div class="pat">'+'<svg data-f="fragola" class="sc" style="left:56%;top:12%;width:9cqw;transform:rotate(-14deg)"></svg>'+'<svg data-f="pera" class="sc" style="left:78%;top:30%;width:8cqw;transform:rotate(18deg)"></svg>'+'<svg data-f="carota" class="sc" style="left:40%;top:44%;width:5cqw;transform:rotate(-38deg)"></svg>'+'<svg data-f="limone" class="sc" style="left:62%;top:58%;width:11cqw;transform:rotate(8deg)"></svg>'+'<svg data-f="broccolo" class="sc" style="left:84%;top:64%;width:9cqw;transform:rotate(-10deg)"></svg>'+'<svg data-f="mela" class="sc" style="left:22%;top:40%;width:8cqw;transform:rotate(12deg)"></svg>'+'<svg data-f="melograno" class="sc" style="left:30%;top:70%;width:9cqw;transform:rotate(-6deg)"></svg>'+'<svg data-f="foglia" class="sc" style="left:48%;top:74%;width:6cqw;transform:rotate(30deg)"></svg>'+'<svg data-f="mirtilli" class="sc" style="left:70%;top:8%;width:8cqw;transform:rotate(0deg)"></svg>'+'</div><p class="wm" style="position:absolute;left:7cqw;top:7cqw;font-size:7.4cqw">Arianna<br>Ruaro</p><p class="xs" style="position:absolute;left:7cqw;bottom:6.5cqw">'+D.mail.toUpperCase()+'</p><p class="xs" style="position:absolute;right:7cqw;bottom:6.5cqw;text-align:right">BIOLOGA<br>NUTRIZIONISTA</p></div>',
-  b:()=>'<div class="face b" style="background:var(--paper);color:var(--ink);padding:0"><div class="pat">'+'<svg data-f="pomodoro" class="sc" style="left:70%;top:14%;width:9cqw;transform:rotate(10deg)"></svg>'+'<svg data-f="pera" class="sc" style="left:84%;top:40%;width:7cqw;transform:rotate(-16deg)"></svg>'+'<svg data-f="fragola" class="sc" style="left:58%;top:46%;width:6cqw;transform:rotate(20deg)"></svg>'+'<svg data-f="foglia" class="sc" style="left:78%;top:66%;width:6cqw;transform:rotate(-24deg)"></svg>'+'</div><div class="xs xl" style="position:absolute;left:7cqw;top:7cqw;max-width:46%"><p><b>'+D.centri[0][0].toUpperCase()+'</b><br>'+D.centri[0][1].toUpperCase()+'<br>'+D.centri[0][2].toUpperCase()+'<br>'+D.centri[0][3]+'</p></div><div class="xs xl" style="position:absolute;left:7cqw;bottom:6.5cqw;max-width:52%"><p><b>'+D.centri[1][0].toUpperCase()+'</b><br>'+D.centri[1][1].toUpperCase()+'<br>'+D.centri[1][2].toUpperCase()+'<br>'+D.centri[1][3]+'</p></div></div>'}
+  b:()=>'<div class="face b" style="background:var(--paper);color:var(--ink);padding:0"><div class="pat">'+'<svg data-f="pomodoro" class="sc" style="left:70%;top:14%;width:9cqw;transform:rotate(10deg)"></svg>'+'<svg data-f="pera" class="sc" style="left:84%;top:40%;width:7cqw;transform:rotate(-16deg)"></svg>'+'<svg data-f="fragola" class="sc" style="left:58%;top:46%;width:6cqw;transform:rotate(20deg)"></svg>'+'<svg data-f="foglia" class="sc" style="left:78%;top:66%;width:6cqw;transform:rotate(-24deg)"></svg>'+'</div><div class="xs xl" style="position:absolute;left:7cqw;top:7cqw;max-width:46%"><p><b>'+D.centri[0][0].toUpperCase()+'</b><br>'+D.centri[0][1].toUpperCase()+'<br>'+D.centri[0][2].toUpperCase()+'<br>'+D.centri[0][3]+'</p></div><div class="xs xl" style="position:absolute;left:7cqw;bottom:6.5cqw;max-width:52%"><p><b>'+D.centri[1][0].toUpperCase()+'</b><br>'+D.centri[1][1].toUpperCase()+'<br>'+D.centri[1][2].toUpperCase()+'<br>'+D.centri[1][3]+'</p></div></div>'},
+ {x:1,n:'Lettere-frutto',d:'Dalla reference Arketype: nome nei tre pieni della versione, con carota e arancia al posto di "i" e "o". Retro in maiuscolo piccolo.',
+  f:()=>{const L=[['A','c1'],['R','c2'],['i','carota'],['A','c3'],['N','c1'],['N','c2'],['A','c3'],[' '],['R','c1'],['U','c2'],['A','c3'],['R','c1'],['o','arancia']];
+   return '<div class="face" style="background:var(--paper);color:var(--ink);align-items:center;justify-content:center"><p class="xp">'+L.map(l=>l[0]===' '?'<span class="sp"></span>':(l[1].startsWith('c')?'<span style="color:var(--'+l[1]+')">'+l[0]+'</span>':'<svg data-f="'+l[1]+'" class="xg '+l[0]+'"></svg>')).join('')+'</p><p class="xs" style="position:absolute;right:8cqw;bottom:7cqw;text-align:right">BIOLOGA<br>NUTRIZIONISTA</p></div>'},
+  b:()=>'<div class="face b" style="background:var(--paper);color:var(--ink);padding:8cqw"><p class="xs">ARIANNA RUARO<br>BIOLOGA NUTRIZIONISTA</p><svg data-f="fragola" style="width:7cqw;height:auto;margin-top:2cqw"></svg><div class="xs xl" style="margin-top:auto">'+D.centri.map(c=>'<p><b>'+c[0].toUpperCase()+'</b><br>'+c[1].toUpperCase()+', '+c[2].toUpperCase()+' · '+c[3]+'</p>').join('')+'<p>'+D.mail.toUpperCase()+'</p></div></div>'},
+ {x:1,n:'Nome pieno',d:'Dalla reference Studio Folly: tinta piena, nome a tutta larghezza in alto nel chiaro della stessa coppia. Retro uguale, con i dati in piccolo in basso.',
+  f:()=>'<div class="face" style="background:var(--fol);color:var(--foll);padding:5.5cqw 6cqw"><div class="fol"><span>'+D.nome+'</span></div><p class="bk-r" style="margin-top:auto;font-size:3.4cqw">'+D.ruolo+' · '+D.mail+'</p></div>',
+  b:()=>'<div class="face b" style="background:var(--fol);color:var(--foll);padding:6cqw"><div class="bk-cols" style="margin-top:auto">'+D.centri.map(c=>'<div><p>'+c[0]+'</p><p>'+c[1]+'</p><p>'+c[2]+'</p><p>'+c[3]+'</p></div>').join('')+'</div></div>'},
+ {x:1,n:'Rilievo del nome',d:'Dalla reference The Village: neutro chiaro, nome grande nel pieno. Dietro, lo stesso nome specchiato e impresso a secco, come se trasparisse dal fronte.',
+  f:()=>'<div class="face" style="background:var(--paper);color:var(--cd);padding:7cqw"><p class="wm" style="margin-top:auto;font-size:13cqw;line-height:.95">'+D.nome+'</p></div>',
+  b:()=>'<div class="face b" style="background:var(--paper);color:var(--cd);padding:7cqw"><div style="display:flex;justify-content:space-between;gap:4cqw"><div><p class="xs" style="font-size:3cqw;font-weight:600">ARIANNA RUARO</p><p class="xs" style="margin-top:1cqw">'+D.mail.toUpperCase()+'</p></div><p class="wm" style="font-size:4.4cqw;font-weight:300">'+D.ruolo.toLowerCase()+'</p></div><p class="wm deb">'+D.nome+'</p></div>'},
+ {x:1,n:'Nome sul bordo',d:'Dalla reference Norill: tinta piena, nome in maiuscolo a filo del bordo alto, ruolo minuscolo in basso. Dietro: nome e ruolo al centro, la fragola come monogramma, i due centri negli angoli.',
+  f:()=>'<div class="face" style="background:var(--nor);color:var(--ink);padding:2.2cqw 2.4cqw 5cqw;align-items:center"><div class="fol up"><span>'+D.nome.toUpperCase()+'</span></div><p class="xs" style="margin-top:auto;font-size:2.2cqw;letter-spacing:.14em">BIOLOGA NUTRIZIONISTA</p></div>',
+  b:()=>'<div class="face b" style="background:var(--nor);color:var(--ink);padding:6cqw;align-items:center;text-align:center"><p class="xs" style="font-size:2.8cqw;font-weight:600;letter-spacing:.02em">'+D.nome+'</p><p class="xs" style="font-size:2.8cqw;letter-spacing:.02em">'+D.ruolo+'</p><div class="mono"><svg data-f="fragola"></svg></div><div class="nor-cols">'+D.centri.map(c=>'<div><p><b>'+c[0]+'</b></p><p>'+c[1]+', '+c[2]+'</p><p>'+c[3]+'</p></div>').join('')+'</div></div>'}
 ];
-function fitName(){document.querySelectorAll('.bigname').forEach(bn=>{const sp=[...bn.children];sp.forEach(x=>x.style.fontSize='100px');const h=bn.clientHeight;if(!h)return;const k=Math.min(...sp.map(x=>h/x.scrollHeight));sp.forEach(x=>x.style.fontSize=(100*k*0.99)+'px')})}
+function fitName(){document.querySelectorAll('.fol').forEach(f=>{const sp=f.firstElementChild;sp.style.fontSize='100px';const w=f.clientWidth;if(w)sp.style.fontSize=(100*w/sp.scrollWidth*.995)+'px'});document.querySelectorAll('.bigname').forEach(bn=>{const sp=[...bn.children];sp.forEach(x=>x.style.fontSize='100px');const h=bn.clientHeight;if(!h)return;const k=Math.min(...sp.map(x=>h/x.scrollHeight));sp.forEach(x=>x.style.fontSize=(100*k*0.99)+'px')})}
 function drag(st,bc){let ry=-14,rx=6,sx=0,sy=0,bx=0,by=0,moved=false,down=false;const set=()=>bc.style.transform='rotateX('+rx+'deg) rotateY('+ry+'deg)';set();
  st.addEventListener('pointerdown',e=>{down=true;moved=false;sx=e.clientX;sy=e.clientY;bx=ry;by=rx;bc.classList.add('drag');st.setPointerCapture(e.pointerId)});
  st.addEventListener('pointermove',e=>{if(!down)return;const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)+Math.abs(dy)>4)moved=true;ry=bx+dx*.6;rx=Math.max(-35,Math.min(35,by-dy*.3));set()});
  const up=()=>{if(!down)return;down=false;bc.classList.remove('drag');if(!moved)ry+=180;ry=Math.round((ry+14)/180)*180-14;rx=6;set()};
  st.addEventListener('pointerup',up);st.addEventListener('pointercancel',up);st.tabIndex=0;
  st.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();ry+=180;set()}})}
-function drawCards(){const box=document.getElementById('cards');if(!box)return;
- if(!box.children.length){box.innerHTML=CARDS.map((c,i)=>'<figure><div class="stage" aria-label="'+c.n+', trascina per girarlo"><div class="bc"></div></div><figcaption><b>'+c.n+'</b>'+c.d+'</figcaption></figure>').join('');
-  box.querySelectorAll('.stage').forEach(st=>drag(st,st.firstElementChild))}
- box.querySelectorAll('.bc').forEach((bc,i)=>{bc.innerHTML='<div class="shadow"></div>'+[-0.9,-0.3,0.3,0.9].map(z=>'<div class="edge" style="--z:'+z+'px"></div>').join('')+CARDS[i].f()+CARDS[i].b();bc.querySelectorAll('svg[data-f]').forEach(fill)});fitName()}
+function drawCards(){[['cards',CARDS.filter(c=>!c.x)],['xcards',CARDS.filter(c=>c.x)]].forEach(([id,list])=>{const box=document.getElementById(id);if(!box)return;
+ if(!box.children.length){box.innerHTML=list.map(c=>'<figure><div class="stage" aria-label="'+c.n+', trascina per girarlo"><div class="bc"></div></div><figcaption><b>'+c.n+'</b>'+c.d+'</figcaption></figure>').join('');box.querySelectorAll('.stage').forEach(st=>drag(st,st.firstElementChild))}
+ box.querySelectorAll('.bc').forEach((bc,i)=>{bc.innerHTML='<div class="shadow"></div>'+[-0.9,-0.3,0.3,0.9].map(z=>'<div class="edge" style="--z:'+z+'px"></div>').join('')+list[i].f()+list[i].b();bc.querySelectorAll('svg[data-f]').forEach(fill)})});fitName()}
 document.fonts.ready.then(fitName);addEventListener('resize',fitName);new MutationObserver(fitName).observe(document.documentElement,{attributes:true,attributeFilter:['data-font']});
 drawCards();
 </script>
 <script>
-document.querySelectorAll('.ptabs button').forEach(b=>b.addEventListener('click',()=>{const k=b.dataset.p;document.querySelectorAll('.ptabs button').forEach(x=>x.setAttribute('aria-selected',x===b));document.querySelectorAll('.panel').forEach(p=>p.hidden=p.dataset.p!==k);try{localStorage.setItem('ariru-12-tab',k)}catch(e){}}));
+document.querySelectorAll('.ptabs button').forEach(b=>b.addEventListener('click',()=>{const k=b.dataset.p;document.querySelectorAll('.ptabs button').forEach(x=>x.setAttribute('aria-selected',x===b));document.querySelectorAll('.panel').forEach(p=>p.hidden=p.dataset.p!==k);fitName();try{localStorage.setItem('ariru-12-tab',k)}catch(e){}}));
 try{const t=localStorage.getItem('ariru-12-tab');if(t)document.querySelector('.ptabs button[data-p="'+t+'"]')?.click()}catch(e){}
 </script>
 </body>
