@@ -423,7 +423,6 @@ svg.line polyline:last-child{stroke-width:3.4}
 <button role="tab" data-p="post" aria-selected="true">Post <small>40</small></button>
 <button role="tab" data-p="ig" aria-selected="false">Profilo Instagram</button>
 <button role="tab" data-p="rifatti" aria-selected="false">Post di Arianna rifatti <small>9</small></button>
-<button role="tab" data-p="exp" aria-selected="false">Biglietti, esperimenti <small>5</small></button>
 </nav>
 <div class="panel" data-p="post">
 <section>
@@ -831,13 +830,7 @@ svg.line polyline:last-child{stroke-width:3.4}
 </div>
 </section>
 </div>
-<div class="panel" data-p="exp" hidden>
-<section id="xbiz">
-<h2>Biglietti, esperimenti.</h2>
-<p class="note">Cinque idee grafiche più coraggiose, costruite sulla tipografia e sul sistema: il nome tagliato, la figura scientifica, il peso che cresce, il frutto diviso dal bordo, la ripetizione. Trascina o tocca per girarli.</p>
-<div class="cards" id="xcards"></div>
-</section>
-</div>
+
 </div>
 </div>
 
@@ -916,23 +909,7 @@ const CARDS=[
  {n:'Versione 2',d:'Fronte nel pieno con testo chiaro e nome leggero; retro nel neutro chiaro.',f:()=>front('var(--cd)','var(--paper)','lite'),b:back},
  {v:1,n:'Verticale',d:'55 × 85 mm. Nome e cognome in alto, ruolo e mail in basso a destra. Dietro: nome e ruolo in alto, i due centri in basso.',
   f:()=>'<div class="face x" style="background:var(--paper);color:var(--ink)"><div class="in" style="inset:8cqw"><div class="fol2"><span class="wm">Arianna</span><span class="wm">Ruaro</span></div><div style="margin-top:auto;text-align:right"><p class="bk-n" style="font-size:5.4cqw;font-weight:500">'+D.ruolo+'</p><p class="bk-r" style="font-size:4.6cqw;margin-top:1.6cqw">'+D.mail+'</p></div></div></div>',
-  b:()=>'<div class="face b x" style="background:var(--paper);color:var(--ink)"><div class="in" style="inset:8cqw"><p class="bk-n" style="font-size:6cqw">'+D.nome+'</p><p class="bk-r" style="font-size:4.6cqw;margin-top:.3cqw">'+D.ruolo+'</p><div class="vcent" style="margin:auto 0 0">'+D.centri.map(c=>'<div><p><b>'+c[0]+'</b></p><p>'+c[1]+'</p><p>'+c[2]+'</p><p>'+c[3]+'</p></div>').join('')+'</div></div></div>'},
- {x:1,n:'Taglio',d:'Il nome è composto enorme, come su un manifesto, e il biglietto ne è solo una fetta: davanti la metà alta delle lettere, dietro quella bassa. Messi uno sopra l\'altro, il nome si ricompone.',
-  f:()=>'<div class="face x" style="background:var(--c1);color:var(--o1)"><p class="cut" style="top:59%">Arianna</p><div class="in" style="justify-content:flex-start"><p class="xs" style="font-size:2.6cqw">BIOLOGA NUTRIZIONISTA<br>'+D.mail.toUpperCase()+'</p></div></div>',
-  b:()=>'<div class="face b x" style="background:var(--c1);color:var(--o1)"><p class="cut" style="top:-41%">Arianna</p><div class="in" style="justify-content:flex-end"><div class="xs xl">'+D.centri.map(c=>'<p><b>'+c[0].toUpperCase()+'</b> · '+c[1].toUpperCase()+', '+c[2].toUpperCase()+' · '+c[3]+'</p>').join('')+'</div></div></div>'},
- {x:1,n:'Grafico',d:'Il biglietto come una figura di un articolo scientifico: assi, tacche, legenda, didascalia "Fig. 1". I punti sono frutti in miniatura. Rigoroso e un po\' ironico.',
-  f:()=>{const P=[[8,70,'mirtilli'],[18,62,'ribes'],[28,66,'fragola'],[38,52,'carota'],[48,48,'pera'],[58,40,'mela'],[68,30,'limone'],[78,26,'broccolo'],[88,14,'melograno']];
-   return '<div class="face x" style="background:var(--paper);color:var(--ink)"><div class="in"><div style="display:flex;justify-content:space-between"><p class="xs" style="font-size:2.4cqw">FIG. 1 — ARIANNA RUARO</p><p class="xs" style="font-size:2.4cqw">BIOLOGA NUTRIZIONISTA</p></div><div class="plot">'+P.map(q=>'<svg data-f="'+q[2]+'" style="left:'+q[0]+'%;top:'+q[1]+'%"></svg>').join('')+'<span class="yl">varietà</span><span class="xl2">tempo</span></div><p class="xs" style="font-size:2.2cqw;letter-spacing:.02em;font-weight:400">Più varietà nel tempo, meno regole. Dati illustrativi.</p></div></div>'},
-  b:()=>'<div class="face b x" style="background:var(--paper);color:var(--ink)"><div class="in"><p class="xs" style="font-size:2.4cqw">TAB. 1 — DOVE RICEVE</p><table class="tb">'+D.centri.map((c,i)=>'<tr><td>'+(i+1)+'</td><td><b>'+c[0]+'</b><br>'+c[1]+', '+c[2]+'</td><td>'+c[3].replace(' · ','<br>')+'</td></tr>').join('')+'</table><p class="xs" style="margin-top:auto;font-size:2.4cqw">'+D.mail.toUpperCase()+'</p></div></div>'},
- {x:1,n:'Crescita',d:'Il nome cresce di peso lettera dopo lettera, da sottilissimo a pieno: un\'abitudine che si costruisce un passo alla volta. Una sola riga a tutta larghezza.',
-  f:()=>'<div class="face x" style="background:var(--paper);color:var(--c1)"><div class="in" style="justify-content:center"><div class="fol grow"><span>'+[...'Arianna Ruaro'].map((ch,i,a)=>'<b style="font-weight:'+Math.round(200+500*i/(a.length-1))+'">'+(ch===' '?'&nbsp;':ch)+'</b>').join('')+'</span></div><p class="xs" style="position:absolute;left:0;bottom:0;color:var(--ink)">BIOLOGA NUTRIZIONISTA</p><p class="xs" style="position:absolute;right:0;bottom:0;color:var(--ink)">'+D.mail.toUpperCase()+'</p></div></div>',
-  b:()=>'<div class="face b x" style="background:var(--c1);color:var(--o1)"><div class="in"><div class="bk-cols" style="margin-top:auto">'+D.centri.map(c=>'<div><p>'+c[0]+'</p><p>'+c[1]+'</p><p>'+c[2]+'</p><p>'+c[3]+'</p></div>').join('')+'</div></div></div>'},
- {x:1,n:'Metà',d:'Una fragola enorme tagliata dal bordo: metà sul fronte, metà sul retro. Girando il biglietto il frutto continua oltre il taglio.',
-  f:()=>'<div class="face x" style="background:var(--c2l);color:var(--ink)"><svg data-f="fragola" class="half-f" style="right:-38cqw"></svg><div class="in" style="justify-content:flex-end;width:50%"><p class="wm" style="font-size:7cqw">Arianna<br>Ruaro</p><p class="xs" style="margin-top:2cqw">BIOLOGA NUTRIZIONISTA</p></div></div>',
-  b:()=>'<div class="face b x" style="background:var(--c2l);color:var(--ink)"><svg data-f="fragola" class="half-f" style="left:-38cqw"></svg><div class="in" style="align-items:flex-end;text-align:right"><p class="xs">'+D.mail.toUpperCase()+'</p><div class="xs xl" style="margin-top:auto">'+D.centri.map(c=>'<p><b>'+c[0].toUpperCase()+'</b><br>'+c[1].toUpperCase()+'<br>'+c[2].toUpperCase()+' · '+c[3]+'</p>').join('')+'</div></div></div>'},
- {x:1,n:'Ripetizione',d:'Il nome ripetuto riga dopo riga, come un esercizio di calligrafia, quasi invisibile. Solo una riga è nel colore pieno: quella che conta.',
-  f:()=>'<div class="face x" style="background:var(--paper);color:var(--ink)"><div class="rep">'+Array.from({length:7},(_,i)=>'<p'+(i===4?' class="on"':'')+'>Arianna Ruaro Arianna Ruaro</p>').join('')+'</div><div class="in" style="justify-content:flex-end;align-items:flex-end"><p class="xs" style="background:var(--paper);padding:1cqw 1.6cqw">BIOLOGA NUTRIZIONISTA · '+D.mail.toUpperCase()+'</p></div></div>',
-  b:()=>'<div class="face b x" style="background:var(--paper);color:var(--ink)"><div class="in"><div class="bk-cols" style="margin-top:auto">'+D.centri.map(c=>'<div><p>'+c[0]+'</p><p>'+c[1]+'</p><p>'+c[2]+'</p><p>'+c[3]+'</p></div>').join('')+'</div></div></div>'}
+  b:()=>'<div class="face b x" style="background:var(--paper);color:var(--ink)"><div class="in" style="inset:8cqw"><p class="bk-n" style="font-size:6cqw">'+D.nome+'</p><p class="bk-r" style="font-size:4.6cqw;margin-top:.3cqw">'+D.ruolo+'</p><div class="vcent" style="margin:auto 0 0">'+D.centri.map(c=>'<div><p><b>'+c[0]+'</b></p><p>'+c[1]+'</p><p>'+c[2]+'</p><p>'+c[3]+'</p></div>').join('')+'</div></div></div>'}
 ];
 function fitName(){document.querySelectorAll('.fol2').forEach(f=>{const sp=[...f.children];sp.forEach(x=>x.style.fontSize='100px');const w=f.clientWidth;if(!w)return;const k=Math.min(...sp.map(x=>w/x.scrollWidth));sp.forEach(x=>x.style.fontSize=(100*k*.995)+'px')});document.querySelectorAll('.frow:not(.sm),.xp').forEach(r=>{r.style.fontSize='20px';r.style.width='max-content';const w=r.parentElement.clientWidth,ww=r.scrollWidth;r.style.width='';if(w&&ww)r.style.fontSize=(20*w/ww*.99)+'px'});document.querySelectorAll('.fol').forEach(f=>{const sp=f.firstElementChild;sp.style.fontSize='100px';const w=f.clientWidth;if(w)sp.style.fontSize=(100*w/sp.scrollWidth*.995)+'px'});document.querySelectorAll('.bigname').forEach(bn=>{const sp=[...bn.children];sp.forEach(x=>x.style.fontSize='100px');const h=bn.clientHeight;if(!h)return;const k=Math.min(...sp.map(x=>h/x.scrollHeight));sp.forEach(x=>x.style.fontSize=(100*k*0.99)+'px')})}
 function drag(st,bc){let ry=-14,rx=6,sx=0,sy=0,bx=0,by=0,moved=false,down=false;const set=()=>bc.style.transform='rotateX('+rx+'deg) rotateY('+ry+'deg)';set();
