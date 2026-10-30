@@ -23,26 +23,31 @@ b{font-weight:600}
 .note{font-size:15px;color:var(--muted);margin:0 0 18px;max-width:72ch;line-height:1.6}
 section{border-top:1px solid var(--line);margin-top:72px;padding-top:44px}
 
-/* biglietto da visita 3D */
-.stage{perspective:1400px;display:grid;place-items:center;padding:46px 0 8px;touch-action:pan-y;cursor:grab;user-select:none}
+/* biglietti da visita 3D, verticali */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,190px),1fr));gap:36px 24px;padding-top:40px}
+.cards figure{margin:0;display:grid;gap:12px;justify-items:center}
+.cards figcaption{font-size:13px;color:var(--muted);text-align:center;line-height:1.4}
+.cards figcaption b{display:block;color:var(--fg);font-weight:500}
+.stage{perspective:1200px;width:100%;max-width:250px;container-type:inline-size;touch-action:pan-y;cursor:grab;user-select:none}
 .stage:active{cursor:grabbing}
-.bc{position:relative;width:min(100%,460px);aspect-ratio:85/55;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+.bc{position:relative;width:100%;aspect-ratio:55/85;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.2,.7,.2,1)}
 .bc.drag{transition:none}
-.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;container-type:inline-size;overflow:hidden;box-shadow:0 1px 0 rgba(0,0,0,.04),0 18px 40px -14px rgba(30,25,20,.35),0 4px 10px -4px rgba(30,25,20,.18)}
-.face::before{content:"";position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 .3  0 0 0 0 .27  0 0 0 0 .24  0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:.22;mix-blend-mode:multiply;pointer-events:none}
-.face::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,rgba(255,255,255,.10),rgba(255,255,255,0) 40%,rgba(0,0,0,.03));pointer-events:none}
-.front{background:var(--paper);color:var(--ink);padding:8cqw 8cqw 7cqw;display:flex;flex-direction:column}
-.back{background:var(--c1);color:var(--o1);transform:rotateY(180deg);padding:8cqw;display:flex;align-items:center;gap:7cqw}
-.front .who{margin-top:auto}
-.bn{font-family:var(--serif);font-weight:300;font-size:7.4cqw;line-height:1.05;letter-spacing:-.01em}
-.br{font-family:var(--sans);font-weight:400;font-size:3.5cqw;margin-top:1.6cqw;letter-spacing:.02em;opacity:.85}
-.bm{font-family:var(--sans);font-size:3.3cqw;margin-top:4.5cqw;letter-spacing:.01em}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;container-type:inline-size;overflow:hidden;display:flex;flex-direction:column;padding:10cqw;box-shadow:0 1px 0 rgba(0,0,0,.04),0 20px 40px -16px rgba(30,25,20,.4),0 4px 10px -4px rgba(30,25,20,.2)}
+.face.b{transform:rotateY(180deg)}
+.face::before{content:"";position:absolute;inset:0;z-index:5;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 .3  0 0 0 0 .27  0 0 0 0 .24  0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:.24;mix-blend-mode:multiply;pointer-events:none}
+.face > *{position:relative;z-index:2}
+.bn{font-family:var(--serif);font-weight:300;font-size:11cqw;line-height:1.02;letter-spacing:-.015em}
+.br{font-family:var(--sans);font-size:4.8cqw;margin-top:2.4cqw;opacity:.9}
+.bm{font-family:var(--sans);font-size:4.4cqw;margin-top:5cqw}
+.addr{font-family:var(--sans);font-size:4.1cqw;line-height:1.42;display:grid;gap:6cqw}
+.addr b{font-weight:500;display:block;font-size:4.5cqw;margin-bottom:.8cqw}
+.addr p{margin:0}
 .emb{display:block;height:auto}
-.emb.sm{width:9cqw;position:absolute;top:8cqw;right:8cqw;color:var(--paper)}
-.emb.lg{width:19cqw;flex:none;color:var(--c1)}
-.back .data{font-family:var(--sans);font-size:2.9cqw;line-height:1.45;display:grid;gap:4.5cqw}
-.back .data p{margin:0}
-.back .data b{font-weight:500;display:block;font-size:3.3cqw;margin-bottom:.6cqw}
+.pat{position:absolute!important;inset:0;z-index:1!important}
+.pat svg{position:absolute}
+.tear{position:absolute!important;left:0;right:0;bottom:0;z-index:1!important}
+.row-f{display:flex;justify-content:space-between;align-items:flex-end;gap:1.5cqw}
+.row-f svg{height:auto;flex:1}
 /* confronto versioni */
 .cmp{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
 .vcard{border:1px solid var(--line);border-radius:18px;padding:16px;cursor:pointer;background:#fff;text-align:left;font:inherit;color:inherit}
@@ -193,6 +198,11 @@ html[data-font="serif"] .ti{font-variation-settings:normal}
 <symbol id="emb-fragola" viewBox="0 0 100 112"><g filter="url(#rilievo)"><path d="M18 34 L50 24 L84 34 L92 56 L78 86 L52 108 L28 90 L10 62 Z" fill="currentColor"/><path d="M28 30 L34 8 L44 24 L52 4 L60 24 L72 10 L72 32 L50 26 Z" fill="currentColor"/></g><g filter="url(#incavo)" fill="currentColor"><path d="M32 46l3.5 10h-5z"/><path d="M50 42l3.5 10h-5z"/><path d="M68 48l3.5 10h-5z"/><path d="M40 64l3.5 10h-5z"/><path d="M60 66l3.5 10h-5z"/><path d="M50 86l3 9h-5z"/><path d="M26 66l3 9h-5z"/><path d="M76 68l2.5 8h-4z"/></g></symbol>
 <filter id="rilievo" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="-.7" dy="-.7" stdDeviation=".5" flood-color="#fff" flood-opacity=".85"/><feDropShadow dx=".8" dy=".9" stdDeviation=".7" flood-color="#000" flood-opacity=".22"/></filter>
 <filter id="incavo" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx=".5" dy=".5" stdDeviation=".3" flood-color="#fff" flood-opacity=".8"/><feDropShadow dx="-.5" dy="-.5" stdDeviation=".35" flood-color="#000" flood-opacity=".25"/></filter>
+<filter id="sil"><feFlood style="flood-color:var(--ink)"/><feComposite in2="SourceAlpha" operator="in"/></filter>
+<filter id="sil1l"><feFlood style="flood-color:var(--c1l)"/><feComposite in2="SourceAlpha" operator="in"/></filter>
+<filter id="sil2l"><feFlood style="flood-color:var(--c2l)"/><feComposite in2="SourceAlpha" operator="in"/></filter>
+<filter id="sil3l"><feFlood style="flood-color:var(--c3l)"/><feComposite in2="SourceAlpha" operator="in"/></filter>
+<filter id="sil-f"><feFlood style="flood-color:var(--c1)"/><feComposite in2="SourceAlpha" operator="in"/></filter>
 <filter id="grana"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" seed="4"/><feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .55 0"/></filter>
 <symbol id="fragola" viewBox="0 0 100 112"><path d="M18 34 L50 24 L84 34 L92 56 L78 86 L52 108 L28 90 L10 62 Z" style="fill:var(--fr-red)"/><path d="M28 30 L34 8 L44 24 L52 4 L60 24 L72 10 L72 32 L50 26 Z" style="fill:var(--fr-green)"/><g style="fill:var(--fr-light)"><path d="M32 46l3.5 10h-5z"/><path d="M50 42l3.5 10h-5z"/><path d="M68 48l3.5 10h-5z"/><path d="M40 64l3.5 10h-5z"/><path d="M60 66l3.5 10h-5z"/><path d="M50 86l3 9h-5z"/><path d="M26 66l3 9h-5z"/><path d="M76 68l2.5 8h-4z"/></g></symbol>
 <symbol id="carota" viewBox="0 0 60 140"><path d="M24 34 L16 4 M30 34 L32 0 M36 34 L48 8" style="stroke:var(--fr-green)" stroke-width="6"/><path d="M12 36 L48 34 L40 76 L26 138 L18 84 Z" style="fill:var(--fr-orange)"/><path d="M20 52 L32 50 M24 70 L36 68 M24 92 L32 91" style="stroke:var(--fr-orange-l)" stroke-width="3"/></symbol>
@@ -216,23 +226,8 @@ html[data-font="serif"] .ti{font-variation-settings:normal}
 <div class="wrap">
 
 <section id="biz" style="border-top:0;margin-top:28px;padding-top:0">
-<div class="stage" id="stage" aria-label="Biglietto da visita, trascina per ruotarlo">
-<div class="bc" id="bc">
-<div class="face front">
-<svg class="emb sm" viewBox="0 0 100 112" aria-hidden="true"><use href="#emb-fragola"/></svg>
-<div class="who"><p class="bn" data-k="nome">Arianna Ruaro</p><p class="br" data-k="ruolo">Biologa nutrizionista</p></div>
-<p class="bm" data-k="mail">info@ariannaruaro.it</p>
-</div>
-<div class="face back">
-<svg class="emb lg" viewBox="0 0 100 112" aria-hidden="true"><use href="#emb-fragola"/></svg>
-<div class="data" id="bdata">
-<div><b>Centro Medico Piscine di Vicenza</b><p>Viale Arturo Ferrarin, 71 · Vicenza</p><p>0444 929397</p></div>
-<div><b>Poliambulatorio Al Maglio in Salute</b><p>Via Cesare Battisti, 19 · Maglio di Sopra, Valdagno</p><p>0445 1947715 · 340 740 1357</p></div>
-</div>
-</div>
-</div>
-</div>
-<p class="note" style="text-align:center;margin-top:14px">Trascina per girarlo · 85 × 55 mm, cartoncino opaco, fragola a secco (rilievo senza inchiostro)</p>
+<div class="cards" id="cards"></div>
+<p class="note" style="text-align:center;margin-top:18px">Sette biglietti verticali, 55 × 85 mm, cartoncino opaco, angoli vivi. Trascina o tocca per girarli.</p>
 </section>
 <h1>Sistema finale.</h1>
 <p class="lead">Un neutro chiaro, un neutro scuro e tre coppie colore: ogni coppia ha un pieno e un chiaro e si usa sempre da sola, senza mescolarsi con le altre. Fanno eccezione i frutti e le illustrazioni, che possono usare tutta la tavolozza. Due versioni di carattere, tutta serif (Petrona) o tutta sans (Geologica), sempre in pesi leggeri. Tre versioni di colore sugli stessi post.</p>
@@ -502,7 +497,7 @@ for(const k in V){const v=V[k];
  const t=document.createElement('button');t.dataset.v=k;t.innerHTML='<i style="background:'+v.c1+'"></i><i style="background:'+v.c2+'"></i><i style="background:'+v.c3+'"></i><span style="margin-left:6px;text-transform:none;letter-spacing:0;font-size:14px;color:inherit">'+v.n+'</span>';tabs.appendChild(t)}
 function sw1(name,c,txt){return '<div class="sw"><div class="one" style="background:'+c+';color:'+txt+'"><b>'+name+'</b><code>'+c+'</code></div></div>'}
 function sw2(name,f,l,o,ink){return '<div class="sw"><div class="pair"><div style="background:'+f+';color:'+o+'"><b>'+name+' · pieno</b><code>'+f+'</code></div><div style="background:'+l+';color:'+ink+'"><code>chiaro '+l+'</code></div></div></div>'}
-function setV(k){if(!V[k])k='serra';const v=V[k];vars(sys,v);vars(document.getElementById('biz'),v);vars(document.querySelector('.fruits'),v);
+function setV(k){if(!V[k])k='serra';const v=V[k];vars(sys,v);vars(document.getElementById('biz'),v);if(window.drawCards)drawCards();vars(document.querySelector('.fruits'),v);
  document.getElementById('vname').textContent='Versione '+v.n;document.getElementById('vdesc').textContent=v.d;
  document.getElementById('pal').innerHTML=sw1('Neutro chiaro',v.paper,v.ink)+sw1('Neutro scuro',v.ink,v.paper)+sw2('Coppia 1',v.c1,v.c1l,v.o1,v.ink)+sw2('Coppia 2',v.c2,v.c2l,v.o2,v.ink)+sw2('Coppia 3',v.c3,v.c3l,v.o3,v.ink);
  document.querySelectorAll('[data-v]').forEach(b=>{if(b.tagName==='BUTTON')b.setAttribute('aria-pressed',b.dataset.v===k)});
@@ -528,14 +523,49 @@ setV(start);
 })();
 </script>
 <script>
-/* rotazione del biglietto: trascina, al rilascio si ferma sul lato più vicino; clic semplice lo gira */
-(function(){const st=document.getElementById('stage'),bc=document.getElementById('bc');let ry=-18,rx=8,sx=0,sy=0,bx=0,by=0,moved=false,down=false;
-const set=()=>bc.style.transform='rotateX('+rx+'deg) rotateY('+ry+'deg)';set();
-st.addEventListener('pointerdown',e=>{down=true;moved=false;sx=e.clientX;sy=e.clientY;bx=ry;by=rx;bc.classList.add('drag');st.setPointerCapture(e.pointerId)});
-st.addEventListener('pointermove',e=>{if(!down)return;const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)+Math.abs(dy)>4)moved=true;ry=bx+dx*.5;rx=Math.max(-35,Math.min(35,by-dy*.3));set()});
-const up=()=>{if(!down)return;down=false;bc.classList.remove('drag');if(!moved)ry+=180;ry=Math.round(ry/180)*180-12;rx=6;set()};
-st.addEventListener('pointerup',up);st.addEventListener('pointercancel',up);
-st.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();ry+=180;set()}});st.tabIndex=0;})();
+/* biglietti verticali: quattro versioni, stessi dati */
+const D={nome:'Arianna Ruaro',ruolo:'Biologa nutrizionista',mail:'info@ariannaruaro.it',
+ centri:[['Centro Medico Piscine di Vicenza','Viale Arturo Ferrarin, 71','Vicenza','0444 929397'],['Poliambulatorio Al Maglio in Salute','Via Cesare Battisti, 19','Maglio di Sopra, Valdagno','0445 1947715 · 340 740 1357']]};
+const addr=()=>'<div class="addr">'+D.centri.map(c=>'<div><b>'+c[0]+'</b><p>'+c[1]+'</p><p>'+c[2]+'</p><p>'+c[3]+'</p></div>').join('')+'</div>';
+const who=(st)=>'<div style="'+(st||'')+'"><p class="bn">'+D.nome.replace(' ','<br>')+'</p><p class="br">'+D.ruolo+'</p><p class="bm">'+D.mail+'</p></div>';
+const emb=(w,col,st)=>'<svg class="emb" viewBox="0 0 100 112" style="width:'+w+'cqw;color:'+col+';'+(st||'')+'" aria-hidden="true"><use href="#emb-fragola"/></svg>';
+const SV=c=>['red','orange','orange-l','yellow','green','lime','blue','deep','light','dark'].map(k=>'--fr-'+k+':'+c).join(';');
+function rnd(seed){return()=>{seed=(seed*16807)%2147483647;return seed/2147483647}}
+function pattern(seed,fil,clear){const r=rnd(seed),F=['fragola','pomodoro','melograno','mela','pera','limone','foglia','broccolo','carota','ribes','arancia','bietola'];let h='<div class="pat">';
+ for(let y=-6;y<106;y+=13)for(let x=-8;x<104;x+=17){const cx=x+(r()-.5)*8,cy=y+(r()-.5)*6;if(clear&&cy>clear[0]&&cy<clear[1])continue;const f=F[Math.floor(r()*F.length)],w=15+r()*9,rot=Math.round((r()-.5)*70);h+='<svg data-f="'+f+'" style="left:'+cx+'%;top:'+cy+'%;width:'+w+'%;height:auto;transform:rotate('+rot+'deg);'+SV(fil)+'"></svg>'}
+ return h+'</div>'}
+function tear(seed,top,col){const r=rnd(seed);let pts=[];for(let x=0;x<=100;x+=4){pts.push(x+','+(top+(r()-.5)*7+Math.sin(x/14)*3).toFixed(1))}
+ return '<svg class="tear" viewBox="0 0 100 100" preserveAspectRatio="none" style="height:100%;width:100%;top:0"><polygon points="0,100 '+pts.join(' ')+' 100,100" style="fill:'+col+'"/></svg>'}
+function tearTop(seed,bot,col){const r=rnd(seed);let pts=[];for(let x=100;x>=0;x-=4){pts.push(x+','+(bot+(r()-.5)*7+Math.sin(x/14)*3).toFixed(1))}
+ return '<svg class="tear" viewBox="0 0 100 100" preserveAspectRatio="none" style="height:100%;width:100%;top:0"><polygon points="0,0 100,0 '+pts.join(' ')+'" style="fill:'+col+'"/></svg>'}
+const CARDS=[
+ {n:'Rilievo',d:'Neutro chiaro, solo la fragola a secco. Dietro, il pieno con gli indirizzi.',
+  f:()=>'<div class="face" style="background:var(--paper);color:var(--ink)">'+emb(26,'var(--paper)','margin:8cqw auto 0')+who('margin-top:auto')+'</div>',
+  b:()=>'<div class="face b" style="background:var(--c1);color:var(--o1)">'+emb(14,'var(--c1)')+'<div style="margin-top:auto">'+addr()+'</div></div>'},
+ {n:'Pattern',d:'Dalla reference Humtree: frutti in silhouette scura sul pieno, nome in una fascia pulita.',
+  f:()=>'<div class="face" style="background:var(--c3);color:var(--ink)">'+pattern(7,'var(--ink)',[30,60])+who('margin:auto 0;background:var(--c3);padding:3cqw 0')+'</div>',
+  b:()=>'<div class="face b" style="background:var(--c3);color:var(--ink)"><div style="margin-top:auto">'+addr()+'</div><div class="row-f" style="margin-top:8cqw"><svg data-f="fragola" style="'+SV('var(--ink)')+'"></svg><svg data-f="pera" style="'+SV('var(--ink)')+'"></svg><svg data-f="mela" style="'+SV('var(--ink)')+'"></svg><svg data-f="carota" style="flex:.5;'+SV('var(--ink)')+'"></svg><svg data-f="limone" style="'+SV('var(--ink)')+'"></svg><svg data-f="melograno" style="'+SV('var(--ink)')+'"></svg></div></div>'},
+ {n:'Strappo',d:'Dalla reference Fallen Grape: chiaro sopra, il pieno strappato sotto. Una sola coppia.',
+  f:()=>'<div class="face" style="background:var(--c2l);color:var(--ink)">'+tear(11,58,'var(--c2)')+emb(13,'var(--c2l)','margin:0 auto')+who('margin-top:7cqw;text-align:center')+'</div>',
+  b:()=>'<div class="face b" style="background:var(--c2);color:var(--o2)">'+tearTop(5,30,'var(--c2l)')+'<div style="margin-top:auto">'+addr()+'</div></div>'},
+ {n:'Inchiostro',d:'Neutro scuro con la fragola a secco tono su tono. Dietro, il neutro chiaro con i dati.',
+  f:()=>'<div class="face" style="background:var(--ink);color:var(--paper)">'+emb(22,'var(--ink)','margin:0 0 0 auto')+who('margin-top:auto')+'</div>',
+  b:()=>'<div class="face b" style="background:var(--paper);color:var(--ink)">'+addr()+'<div style="margin-top:auto;display:flex;justify-content:space-between;align-items:flex-end"><p class="br" style="margin:0">'+D.nome+'</p>'+emb(12,'var(--paper)')+'</div></div>'},
+ ...[1,2,3].map((k,i)=>({n:'Seme '+['I','II','III'][i],d:i===0?'Dalla reference delle bustine di semi: tinta piena, un solo frutto nel chiaro, nome piccolo in maiuscolo. Si fa in tutte e tre le coppie.':'Stessa bustina, coppia '+k+'.',
+  f:()=>'<div class="face" style="background:var(--c'+k+');color:var(--o'+k+');text-align:center;align-items:center"><p class="br" style="margin:0;font-size:4cqw;letter-spacing:.04em">ariannaruaro</p><svg data-f="'+['fragola','pera','melograno'][i]+'" style="width:46cqw;height:auto;margin:auto 0;'+SV('var(--c'+k+'l)')+'"></svg><p class="bn" style="font-family:var(--sans);font-weight:400;font-size:6.4cqw;letter-spacing:.14em;text-transform:uppercase">'+D.nome+'</p><p class="br" style="font-size:4cqw">'+D.ruolo+' · '+D.mail+'</p></div>',
+  b:()=>'<div class="face b" style="background:var(--c'+k+');color:var(--o'+k+');text-align:center"><svg data-f="'+['fragola','pera','melograno'][i]+'" style="width:16cqw;height:auto;margin:0 auto;'+SV('var(--c'+k+'l)')+'"></svg><div style="margin:auto 0">'+addr()+'</div></div>'}))
+];
+function drag(st,bc){let ry=-14,rx=6,sx=0,sy=0,bx=0,by=0,moved=false,down=false;const set=()=>bc.style.transform='rotateX('+rx+'deg) rotateY('+ry+'deg)';set();
+ st.addEventListener('pointerdown',e=>{down=true;moved=false;sx=e.clientX;sy=e.clientY;bx=ry;by=rx;bc.classList.add('drag');st.setPointerCapture(e.pointerId)});
+ st.addEventListener('pointermove',e=>{if(!down)return;const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)+Math.abs(dy)>4)moved=true;ry=bx+dx*.6;rx=Math.max(-35,Math.min(35,by-dy*.3));set()});
+ const up=()=>{if(!down)return;down=false;bc.classList.remove('drag');if(!moved)ry+=180;ry=Math.round((ry+14)/180)*180-14;rx=6;set()};
+ st.addEventListener('pointerup',up);st.addEventListener('pointercancel',up);st.tabIndex=0;
+ st.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();ry+=180;set()}})}
+function drawCards(){const box=document.getElementById('cards');if(!box)return;
+ if(!box.children.length){box.innerHTML=CARDS.map((c,i)=>'<figure><div class="stage" aria-label="Biglietto '+c.n+', trascina per girarlo"><div class="bc"></div></div><figcaption><b>'+(i+1)+' · '+c.n+'</b>'+c.d+'</figcaption></figure>').join('');
+  box.querySelectorAll('.stage').forEach(st=>drag(st,st.firstElementChild))}
+ box.querySelectorAll('.bc').forEach((bc,i)=>{bc.innerHTML=CARDS[i].f()+CARDS[i].b();bc.querySelectorAll('svg[data-f]').forEach(fill)})}
+drawCards();
 </script>
 </body>
 </html>
