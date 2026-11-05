@@ -6,107 +6,108 @@
 <title>Arianna Ruaro · Biologa nutrizionista</title>
 <meta name="description" content="Arianna Ruaro, biologa nutrizionista. Riceve a Vicenza e a Valdagno.">
 <meta name="robots" content="noindex">
-<meta name="theme-color" content="#F6EEDF">
+<meta name="theme-color" content="#ffffff">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Petrona:wght@200..500&family=Geologica:wght@300..600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
 <style>
-:root{--paper:#F6EEDF;--ink:#152B1F;--muted:#4C5A50;--line:rgba(21,43,31,.28);--c1:#E5731B;--serif:"Petrona",Georgia,serif;--sans:"Geologica",system-ui,sans-serif}
+:root{--u:175px;--g:40px;--fg:#000;--muted:#565656;--sub:#8a8a8a;--line:rgba(0,0,0,.08)}
 *{box-sizing:border-box}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.45;font-weight:350;overflow-x:hidden}
+body{margin:0;background:#fff;color:var(--fg);font-family:Inter,system-ui,sans-serif;font-size:14px;line-height:1.4;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 h1,h2,p,address{margin:0;font-style:normal}
-a{color:inherit}
-a:focus-visible,button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
-.wrap{width:min(100% - 32px,1120px);margin:0 auto;padding:28px 0 28px;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:48px;align-items:start}
-.id{position:sticky;top:28px;display:grid;gap:18px}
-h1{font-family:var(--serif);font-weight:300;font-size:clamp(64px,8.6vw,112px);line-height:.9;letter-spacing:-.035em}
-.role{font-size:18px;font-weight:450}
-.photo{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:50% 72%;display:block;max-width:340px}
-.rows{list-style:none;margin:0;padding:0;border-top:1px solid var(--ink)}
-.rows a,.rows button{display:flex;justify-content:space-between;gap:16px;align-items:center;width:100%;min-height:52px;padding:10px 0;background:none;border:0;border-bottom:1px solid var(--line);font:inherit;font-size:16px;font-weight:450;color:inherit;text-align:left;text-decoration:none;cursor:pointer}
-.rows a:hover,.rows button:hover{text-decoration:underline;text-underline-offset:3px}
-.rows span{color:var(--muted);font-weight:350}
-.main{display:grid;gap:40px;min-width:0}
-#map-box{position:relative;aspect-ratio:7/5;background:#EFE5D2;overflow:hidden}
-#map{position:absolute;inset:0}
-.fb{position:absolute;inset:0;display:grid;place-items:center;padding:24px;text-align:center;font-size:14px;color:var(--muted)}
-.pin{display:grid;justify-items:center;background:none;border:0;padding:0;color:var(--ink);font:inherit;cursor:pointer}
-.pin b{background:var(--ink);color:var(--paper);font-size:13px;font-weight:450;line-height:1;padding:7px 9px;white-space:nowrap}
-.pin i{display:block;width:1px;height:14px;background:var(--ink)}
-.pin u{display:block;width:9px;height:9px;border-radius:50%;background:var(--c1)}
-.pin.on b{background:var(--c1);color:var(--ink)}
-.maplibregl-ctrl-attrib{font-size:10px}
-.centri{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px}
-.centro{display:grid;gap:12px;align-content:start;scroll-margin-top:16px}
-h2{font-family:var(--serif);font-weight:400;font-size:27px;line-height:1.08;letter-spacing:-.012em}
-.centro address{color:var(--muted)}
-.temi{font-size:16px;border-top:1px solid var(--ink);padding-top:12px}
-@media (max-width:820px){
- .wrap{grid-template-columns:minmax(0,1fr);gap:32px;padding-top:20px}
- .id{position:static}
- h1{font-size:clamp(68px,23vw,112px)}
- .photo{max-width:none;aspect-ratio:1/1;object-position:50% 58%}
- #map-box{aspect-ratio:1/1}
- .centri{grid-template-columns:minmax(0,1fr);gap:28px}
- .main{gap:32px}
+a{color:inherit;text-decoration:none}
+a:focus-visible,button:focus-visible{outline:2px solid #000;outline-offset:2px}
+.page{max-width:1728px;margin:0 auto;padding:64px;display:flex;justify-content:space-between;gap:64px;align-items:flex-start}
+.side{position:sticky;top:64px;flex:1;min-width:0;max-width:480px}
+.av{width:184px;height:184px;border-radius:50%;background:url(../assets/ig/09.jpg) 39% 47%/330% auto no-repeat}
+h1{margin-top:32px;font-size:44px;font-weight:700;letter-spacing:-2px;line-height:1.2}
+.bio{margin-top:12px;font-size:20px;color:var(--muted);line-height:1.4}
+.grid{width:calc(var(--u)*4 + var(--g)*3);flex:none;display:grid;grid-template-columns:repeat(4,var(--u));grid-auto-rows:var(--u);gap:var(--g)}
+.t{position:relative;background:#fff;border-radius:24px;border:1px solid var(--line);box-shadow:0 2px 4px rgba(0,0,0,.04);padding:24px;min-width:0;overflow:hidden;display:flex;flex-direction:column;transition:box-shadow .15s}
+a.t:hover,button.t:hover{box-shadow:0 4px 12px rgba(0,0,0,.08)}
+button.t{font:inherit;color:inherit;text-align:left;cursor:pointer}
+.w2{grid-column:span 2}.h2{grid-row:span 2}
+.ic{width:40px;height:40px;border-radius:10px;border:1px solid var(--line);display:grid;place-items:center;flex:none}
+.ic svg{width:22px;height:22px}
+.name{font-size:14px;font-weight:500;line-height:1.3;margin-top:12px}
+.sub{font-size:12px;color:var(--sub);margin-top:4px;line-height:1.35;overflow-wrap:anywhere}
+.ttl{font-size:14px;font-weight:600;line-height:1.3}
+.addr{font-size:14px;color:var(--muted);margin-top:4px}
+.acts{margin-top:auto;display:flex;flex-wrap:wrap;gap:6px}
+.pill{display:inline-flex;align-items:center;min-height:32px;padding:6px 12px;border-radius:8px;background:#f5f5f5;font-size:12px;font-weight:500;line-height:1.2;white-space:nowrap}
+.pill:hover{background:#ebebeb}
+.txt{font-size:20px;font-weight:600;letter-spacing:-.4px;line-height:1.25;margin:auto 0}
+.map{padding:0}
+#map{position:absolute;inset:0;background:#f2f2f0}
+.fb{position:absolute;inset:0;display:grid;place-items:center;padding:24px;text-align:center;color:var(--sub);font-size:12px}
+.pin{display:grid;justify-items:center;background:none;border:0;padding:0;color:#000;font:inherit;cursor:pointer}
+.pin b{background:#fff;font-size:12px;font-weight:600;line-height:1;padding:7px 10px;border-radius:999px;box-shadow:0 2px 8px rgba(0,0,0,.18);white-space:nowrap}
+.pin u{display:block;width:12px;height:12px;margin-top:5px;border-radius:50%;background:#000;box-shadow:0 0 0 3px #fff}
+.pin.on b{background:#000;color:#fff}
+.maplibregl-ctrl-attrib{font-size:9px}
+.centro.on{box-shadow:0 0 0 2px #000}
+@media (max-width:1279px){
+ :root{--g:24px}
+ .page{flex-direction:column;align-items:center;gap:40px;padding:48px 24px}
+ .side{position:static;width:calc(var(--u)*2 + var(--g));max-width:100%;flex:none}
+ .grid{width:min(100%,calc(var(--u)*2 + var(--g)));grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:auto}
+ .t{min-height:0}
+ .sq{aspect-ratio:1/1}
+ .w2.h2{aspect-ratio:1/1}
+ .w2:not(.h2){min-height:175px}
+ .av{width:120px;height:120px}
+ h1{margin-top:24px;font-size:36px;letter-spacing:-1.5px}
+ .bio{font-size:18px}
 }
+@media (pointer:coarse){.pill{min-height:40px}}
+@media (max-width:400px){.t{padding:20px}.page{padding:40px 20px}}
 </style>
 </head>
 <body>
-<div class="wrap">
-<header class="id">
-<h1>Arianna<br>Ruaro</h1>
-<p class="role">Biologa nutrizionista</p>
-<img class="photo" src="../assets/ig/09.jpg" alt="Arianna Ruaro alla scrivania, con un blazer rosa" width="512" height="640">
-<ul class="rows">
-<li><a href="https://www.instagram.com/ariannaruaro.nutrizionista/" target="_blank" rel="noopener">Instagram <span>@ariannaruaro.nutrizionista</span></a></li>
-<li><button id="save" type="button">Salva il contatto <span>in rubrica</span></button></li>
-</ul>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-ig" viewBox="0 0 24 24"><rect x="3.500" y="3.500" width="17" height="17" rx="5" fill="none" stroke="currentColor" stroke-width="1.800"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.800"/><circle cx="17" cy="7" r="1.100" fill="currentColor"/></symbol>
+<symbol id="i-save" viewBox="0 0 24 24"><circle cx="12" cy="8.500" r="4" fill="none" stroke="currentColor" stroke-width="1.800"/><path d="M4.500 20c1-4 4-6 7.500-6s6.500 2 7.500 6" fill="none" stroke="currentColor" stroke-width="1.800" stroke-linecap="round"/></symbol>
+</defs></svg>
+<div class="page">
+<header class="side">
+<div class="av" role="img" aria-label="Foto di Arianna Ruaro"></div>
+<h1>Arianna Ruaro</h1>
+<p class="bio">Biologa nutrizionista</p>
 </header>
-<main class="main">
-<div id="map-box"><div id="map"></div><div class="fb" id="fb">Caricamento della mappa…</div></div>
-<div class="centri">
-<section class="centro" data-c="vi">
-<h2>Centro Medico Piscine di Vicenza</h2>
-<address>Viale Arturo Ferrarin, 71<br>Vicenza</address>
-<ul class="rows">
-<li><a href="tel:+390444929397">Chiama <span>0444 929397</span></a></li>
-<li><a href="https://www.google.com/maps/dir/?api=1&destination=Viale+Arturo+Ferrarin+71,+Vicenza" target="_blank" rel="noopener">Indicazioni <span>Google Maps</span></a></li>
-</ul>
+<main class="grid">
+<section class="t map w2 h2" aria-label="Mappa dei due centri"><div id="map"></div><div class="fb" id="fb">Caricamento della mappa…</div></section>
+<section class="t w2 centro" data-c="vi">
+<h2 class="ttl">Centro Medico Piscine di Vicenza</h2>
+<address class="addr">Viale Arturo Ferrarin, 71, Vicenza</address>
+<div class="acts"><a class="pill" href="tel:+390444929397">0444 929397</a><a class="pill" href="https://www.google.com/maps/dir/?api=1&destination=Viale+Arturo+Ferrarin+71,+Vicenza" target="_blank" rel="noopener">Indicazioni</a></div>
 </section>
-<section class="centro" data-c="va">
-<h2>Poliambulatorio Al Maglio in Salute</h2>
-<address>Via Cesare Battisti, 19<br>Maglio di Sopra, Valdagno</address>
-<ul class="rows">
-<li><a href="tel:+3904451947715">Chiama <span>0445 1947715</span></a></li>
-<li><a href="tel:+393407401357">Cellulare <span>340 740 1357</span></a></li>
-<li><a href="https://www.google.com/maps/dir/?api=1&destination=Via+Cesare+Battisti+19,+Maglio+di+Sopra,+Valdagno" target="_blank" rel="noopener">Indicazioni <span>Google Maps</span></a></li>
-</ul>
+<section class="t w2 centro" data-c="va">
+<h2 class="ttl">Poliambulatorio Al Maglio in Salute</h2>
+<address class="addr">Via Cesare Battisti, 19, Maglio di Sopra, Valdagno</address>
+<div class="acts"><a class="pill" href="tel:+3904451947715">0445 1947715</a><a class="pill" href="tel:+393407401357">340 740 1357</a><a class="pill" href="https://www.google.com/maps/dir/?api=1&destination=Via+Cesare+Battisti+19,+Maglio+di+Sopra,+Valdagno" target="_blank" rel="noopener">Indicazioni</a></div>
 </section>
-</div>
-<p class="temi">Gravidanza e allattamento, età pediatrica, menopausa.</p>
+<a class="t sq" href="https://www.instagram.com/ariannaruaro.nutrizionista/" target="_blank" rel="noopener">
+<span class="ic"><svg aria-hidden="true"><use href="#i-ig"/></svg></span>
+<p class="name">Instagram</p><p class="sub">@ariannaruaro.<wbr>nutrizionista</p>
+</a>
+<button class="t sq" id="save" type="button">
+<span class="ic"><svg aria-hidden="true"><use href="#i-save"/></svg></span>
+<span class="name">Salva il contatto</span><span class="sub">In rubrica</span>
+</button>
+<section class="t w2"><p class="txt">Gravidanza e allattamento, età pediatrica, menopausa.</p></section>
 </main>
 </div>
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <script>
 const CENTRI=[{id:'vi',n:'Vicenza',c:[11.53144,45.55985]},{id:'va',n:'Valdagno',c:[11.28510,45.66363]}];
-const pick=id=>{document.querySelectorAll('.pin').forEach(x=>x.classList.toggle('on',x.dataset.c===id))};
+const pick=id=>{document.querySelectorAll('.pin').forEach(x=>x.classList.toggle('on',x.dataset.c===id));document.querySelectorAll('.centro').forEach(x=>x.classList.toggle('on',x.dataset.c===id))};
 (function(){const fb=document.getElementById('fb'),no='Mappa non disponibile. Usa Indicazioni.';
  if(!window.maplibregl){fb.textContent=no;return}
- let map;try{map=new maplibregl.Map({container:'map',style:'https://tiles.openfreemap.org/styles/positron',bounds:[CENTRI[1].c,CENTRI[0].c],fitBoundsOptions:{padding:{top:70,bottom:50,left:70,right:70}},scrollZoom:false,dragRotate:false,pitchWithRotate:false,dragPan:!matchMedia('(pointer:coarse)').matches,attributionControl:{compact:true}})}catch(e){fb.textContent=no;return}
- window.__map=map;map.touchZoomRotate.disableRotation();
+ let map;try{map=new maplibregl.Map({container:'map',style:'https://tiles.openfreemap.org/styles/positron',bounds:[CENTRI[1].c,CENTRI[0].c],fitBoundsOptions:{padding:{top:64,bottom:48,left:64,right:64}},scrollZoom:false,dragRotate:false,pitchWithRotate:false,dragPan:!matchMedia('(pointer:coarse)').matches,attributionControl:{compact:true}})}catch(e){fb.textContent=no;return}
+ map.touchZoomRotate.disableRotation();
  map.once('style.load',()=>{fb.remove();
-  map.getStyle().layers.forEach(l=>{const id=l.id;
-   if(l.type==='background')map.setPaintProperty(id,'background-color','#EFE5D2');
-   else if(l.type==='fill'&&/water/.test(id))map.setPaintProperty(id,'fill-color','#C9DDF2');
-   else if(l.type==='fill'&&/wood|forest|park|landcover|grass/.test(id))map.setPaintProperty(id,'fill-color','#DDEBC0');
-   else if(l.type==='fill'&&/building/.test(id))map.setPaintProperty(id,'fill-color','#E4D8C2');
-   else if(l.type==='line'&&/water/.test(id))map.setPaintProperty(id,'line-color','#C9DDF2');
-   else if(l.type==='line'&&/highway|road|bridge|tunnel/.test(id))map.setPaintProperty(id,'line-color','#F6EEDF');
-   else if(l.type==='symbol'&&/poi|transit|housenumber|aerodrome|road|highway/.test(id))map.setLayoutProperty(id,'visibility','none');
-   else if(l.type==='symbol')map.setPaintProperty(id,'text-color','#4C5A50');
-  });
-  CENTRI.forEach(c=>{const b=document.createElement('button');b.className='pin';b.type='button';b.dataset.c=c.id;b.setAttribute('aria-label','Vai al centro di '+c.n);b.innerHTML='<b>'+c.n+'</b><i></i><u></u>';b.addEventListener('click',()=>{pick(c.id);document.querySelector('.centro[data-c='+c.id+']').scrollIntoView({block:'start',behavior:'smooth'})});new maplibregl.Marker({element:b,anchor:'bottom'}).setLngLat(c.c).addTo(map)})});
+  map.getStyle().layers.forEach(l=>{if(l.type==='symbol'&&/poi|transit|housenumber|aerodrome|road|highway/.test(l.id))map.setLayoutProperty(l.id,'visibility','none')});
+  CENTRI.forEach(c=>{const b=document.createElement('button');b.className='pin';b.type='button';b.dataset.c=c.id;b.setAttribute('aria-label','Centro di '+c.n);b.innerHTML='<b>'+c.n+'</b><u></u>';b.addEventListener('click',()=>{pick(c.id);document.querySelector('.centro[data-c='+c.id+']').scrollIntoView({block:'center',behavior:'smooth'})});new maplibregl.Marker({element:b,anchor:'bottom'}).setLngLat(c.c).addTo(map)})});
  map.on('error',e=>{if(fb.isConnected&&/style|fetch/i.test(e.error?.message||''))fb.textContent=no});
  document.querySelectorAll('.centro').forEach(c=>{c.addEventListener('mouseenter',()=>pick(c.dataset.c));c.addEventListener('mouseleave',()=>pick(null))});
 })();
