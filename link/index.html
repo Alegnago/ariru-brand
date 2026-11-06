@@ -4,113 +4,235 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Arianna Ruaro · Biologa nutrizionista</title>
-<meta name="description" content="Arianna Ruaro, biologa nutrizionista. Riceve a Vicenza e a Valdagno.">
+<meta name="description" content="Biologa nutrizionista a Vicenza e Valdagno. Dove ricevo, come prenotare, come funziona la prima visita.">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#F6EEDF">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Petrona:wght@200..500&family=Geologica:wght@300..600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Petrona:wght@200..700&family=Geologica:wght@300..700&display=swap">
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
 <style>
-:root{--paper:#F6EEDF;--ink:#152B1F;--muted:#4C5A50;--line:rgba(21,43,31,.28);--c1:#E5731B;--serif:"Petrona",Georgia,serif;--sans:"Geologica",system-ui,sans-serif}
+:root{--paper:#F6EEDF;--white:#FFFBF4;--ink:#152B1F;--muted:#4C5A50;--line:rgba(21,43,31,.14);
+--c1:#E5731B;--c1l:#FBDDBE;--c2:#8E84E2;--c2l:#E2DEF8;--c3:#79B13E;--c3l:#DDEBC0;
+--serif:"Petrona",Georgia,serif;--sans:"Geologica",system-ui,sans-serif;--r:20px;
+--fr-red:#E8553E;--fr-orange:#E5731B;--fr-orange-l:#FBC48E;--fr-yellow:#F4CF4F;--fr-green:#2F7A4E;--fr-lime:#A9CF63;--fr-blue:#8E84E2;--fr-deep:#B23A48;--fr-light:#FFF8EC;--fr-dark:#152B1F}
 *{box-sizing:border-box}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.45;font-weight:350;overflow-x:hidden}
-h1,h2,p,address{margin:0;font-style:normal}
-a{color:inherit}
-a:focus-visible,button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
-.wrap{width:min(100% - 32px,1120px);margin:0 auto;padding:28px 0 28px;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:48px;align-items:start}
-.id{position:sticky;top:28px;display:grid;gap:18px}
-h1{font-family:var(--serif);font-weight:300;font-size:clamp(64px,8.6vw,112px);line-height:.9;letter-spacing:-.035em}
-.role{font-size:18px;font-weight:450}
-.photo{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:50% 72%;display:block;max-width:340px}
-.rows{list-style:none;margin:0;padding:0;border-top:1px solid var(--ink)}
-.rows a,.rows button{display:flex;justify-content:space-between;gap:16px;align-items:center;width:100%;min-height:52px;padding:10px 0;background:none;border:0;border-bottom:1px solid var(--line);font:inherit;font-size:16px;font-weight:450;color:inherit;text-align:left;text-decoration:none;cursor:pointer}
-.rows a:hover,.rows button:hover{text-decoration:underline;text-underline-offset:3px}
-.rows span{color:var(--muted);font-weight:350}
-.main{display:grid;gap:40px;min-width:0}
-#map-box{position:relative;aspect-ratio:7/5;background:#EFE5D2;overflow:hidden}
-#map{position:absolute;inset:0}
-.fb{position:absolute;inset:0;display:grid;place-items:center;padding:24px;text-align:center;font-size:14px;color:var(--muted)}
-.pin{display:grid;justify-items:center;background:none;border:0;padding:0;color:var(--ink);font:inherit;cursor:pointer}
-.pin b{background:var(--ink);color:var(--paper);font-size:13px;font-weight:450;line-height:1;padding:7px 9px;white-space:nowrap}
-.pin i{display:block;width:1px;height:14px;background:var(--ink)}
-.pin u{display:block;width:9px;height:9px;border-radius:50%;background:var(--c1)}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.5;font-weight:350;overflow-x:hidden}
+.bg{position:fixed;inset:0;z-index:-1;background:url(../assets/ig/09.jpg) 50% 28%/cover no-repeat;filter:blur(3px) saturate(.9);transform:scale(1.02)}
+.bg::after{content:"";position:absolute;inset:0;background:color-mix(in srgb,var(--paper) 62%,transparent)}
+h1,h2,p{margin:0}
+.wrap{width:min(100% - 32px,1040px);margin:0 auto;padding:44px 0 56px}
+header{text-align:center;display:grid;justify-items:center;gap:6px;padding-bottom:30px}
+h1{font-family:var(--serif);font-weight:300;font-size:clamp(46px,8vw,76px);line-height:1;letter-spacing:-.025em;text-wrap:balance}
+.role{font-size:17px;font-weight:450}
+.top{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:12px}
+.grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px}
+.t{background:var(--white);border-radius:var(--r);padding:22px;display:flex;flex-direction:column;gap:10px;min-width:0;box-shadow:0 10px 26px -18px rgba(21,43,31,.5)}
+.s2{grid-column:span 2}.s3{grid-column:span 3}.s4{grid-column:span 4}.s6{grid-column:span 6}
+h2{font-family:var(--serif);font-weight:400;font-size:27px;line-height:1.1;letter-spacing:-.012em;text-wrap:balance}
+.t p{color:var(--muted);font-size:15.5px;text-wrap:pretty}
+.lab{font-size:12.5px;font-weight:550;letter-spacing:.03em;color:var(--ink)!important}
+.btn{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:48px;padding:11px 16px;border-radius:12px;border:0;background:var(--c1l);color:var(--ink);font:inherit;font-weight:550;font-size:15px;line-height:1.2;text-decoration:none;cursor:pointer;width:100%;text-align:left;transition:background .15s,transform .1s}
+.btn:hover{background:color-mix(in srgb,var(--c1l) 78%,var(--c1))}
+.btn:active{transform:translateY(1px)}
+.btn svg{width:17px;height:17px;flex:none}
+.btn.main{background:var(--c1)}.btn.main:hover{background:color-mix(in srgb,var(--c1) 88%,var(--ink))}
+.btn.ghost{background:transparent;box-shadow:inset 0 0 0 1px var(--line)}.btn.ghost:hover{background:rgba(21,43,31,.05)}
+.pillb{display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:8px 15px;border:0;border-radius:999px;background:var(--white);color:var(--ink);font:inherit;font-size:14px;font-weight:500;text-decoration:none;cursor:pointer}
+.pillb:hover{background:var(--c1l)}
+.pillb svg{width:17px;height:17px}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.bt{margin-top:auto;display:grid;gap:8px;padding-top:6px}
+/* mappa */
+.map-t{padding:0;overflow:hidden;position:relative;min-height:400px}
+#map{position:absolute;inset:0;background:var(--paper)}
+.map-fb{position:absolute;inset:0;display:grid;place-items:center;color:var(--muted);font-size:14px;padding:24px;text-align:center}
+.map-t .lbl{position:absolute;left:12px;top:12px;z-index:2;background:var(--white);border-radius:12px;padding:8px 12px;font-family:var(--serif);font-size:19px;line-height:1.1}
+.pin{display:grid;justify-items:center;background:none;border:0;padding:0;cursor:pointer;color:var(--ink);font:inherit}
+.pin b{display:block;background:var(--ink);color:var(--paper);font-size:13px;font-weight:500;line-height:1;padding:8px 11px;border-radius:999px;white-space:nowrap;transition:background .15s,color .15s}
+.pin i{display:block;width:2px;height:12px;background:var(--ink)}
+.pin u{display:block;width:12px;height:12px;border-radius:50%;background:var(--c1);box-shadow:0 0 0 3px var(--white)}
 .pin.on b{background:var(--c1);color:var(--ink)}
 .maplibregl-ctrl-attrib{font-size:10px}
-.centri{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px}
-.centro{display:grid;gap:12px;align-content:start;scroll-margin-top:16px}
-h2{font-family:var(--serif);font-weight:400;font-size:27px;line-height:1.08;letter-spacing:-.012em}
-.centro address{color:var(--muted)}
-.temi{font-size:16px;border-top:1px solid var(--ink);padding-top:12px}
+.centre{transition:box-shadow .2s}
+.centre.on{box-shadow:0 0 0 2px var(--c1),0 10px 26px -18px rgba(21,43,31,.5)}
+.centre .addr{font-style:normal;color:var(--muted);font-size:15.5px}
+.tel{color:var(--ink);font-weight:500;white-space:nowrap}
+.side{display:grid;gap:14px;min-width:0}
+/* tinte */
+.k-ink{background:var(--ink);color:var(--paper)}.k-ink p{color:color-mix(in srgb,var(--paper) 86%,transparent)}.k-ink .lab{color:var(--paper)!important}
+.k-c2{background:var(--c2l)}.k-c3{background:var(--c3l)}.k-c1{background:var(--c1l)}
+.k-c1 p,.k-c2 p,.k-c3 p{color:var(--ink)}
+.k-c2 .btn{background:var(--c2)}.k-c2 .btn:hover{background:color-mix(in srgb,var(--c2) 85%,var(--ink))}
+.k-c3 .btn{background:var(--c3)}.k-c3 .btn:hover{background:color-mix(in srgb,var(--c3) 85%,var(--ink))}
+.k-ink .btn{background:var(--paper)}.k-ink .btn:hover{background:var(--c1l)}
+/* temi */
+.topics{list-style:none;margin:4px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.topics li{display:grid;justify-items:start;gap:8px;background:var(--paper);border-radius:14px;padding:14px;font-size:14.5px;font-weight:450;line-height:1.25}
+.topics svg{height:38px;width:auto}
+/* passi */
+.steps{list-style:none;margin:4px 0 0;padding:0;display:grid;gap:10px;counter-reset:s}
+.steps li{display:grid;grid-template-columns:30px 1fr;gap:11px;font-size:15px;line-height:1.35;counter-increment:s}
+.steps li::before{content:counter(s);width:30px;height:30px;border-radius:50%;background:var(--c2);display:grid;place-items:center;font-size:14px;font-weight:550}
+.steps b{display:block;font-weight:550}
+/* domande */
+.faq details{border-top:1px solid var(--line);padding:0}
+.faq details:last-child{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;padding:13px 0;font-weight:500;font-size:15.5px;display:flex;justify-content:space-between;gap:12px;align-items:center}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-size:21px;line-height:1;font-weight:300}
+.faq details[open] summary::after{content:"–"}
+.faq details p{padding-bottom:14px}
+footer{text-align:center;font-size:12.5px;color:var(--ink);padding-top:24px}
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:999px;font-size:14px;opacity:0;transition:.2s;pointer-events:none;z-index:9}
+.toast.on{opacity:1;transform:translate(-50%,0)}
 @media (max-width:820px){
- .wrap{grid-template-columns:minmax(0,1fr);gap:32px;padding-top:20px}
- .id{position:static}
- h1{font-size:clamp(68px,23vw,112px)}
- .photo{max-width:none;aspect-ratio:1/1;object-position:50% 58%}
- #map-box{aspect-ratio:1/1}
- .centri{grid-template-columns:minmax(0,1fr);gap:28px}
- .main{gap:32px}
+ .wrap{padding-top:32px}
+ .grid{grid-template-columns:minmax(0,1fr);gap:12px}
+ .s2,.s3,.s4,.s6{grid-column:auto}
+ .map-t{min-height:320px}
+ .topics{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .t{padding:20px}
 }
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="pera" viewBox="0 0 84 120"><path d="M42 20 L44 2 L50 2 L48 20 Z" style="fill:var(--fr-dark)"/><path d="M38 20 L52 18 L58 38 L74 62 L80 88 L68 110 L42 118 L16 110 L4 88 L10 62 L26 38 Z" style="fill:var(--fr-lime)"/><path d="M18 76 l8 -10 l0 9 z" style="fill:var(--fr-light)"/></symbol>
+<symbol id="carota" viewBox="0 0 60 140"><path d="M24 34 L16 4 M30 34 L32 0 M36 34 L48 8" style="stroke:var(--fr-green)" stroke-width="6"/><path d="M12 36 L48 34 L40 76 L26 138 L18 84 Z" style="fill:var(--fr-orange)"/><path d="M20 52 L32 50 M24 70 L36 68 M24 92 L32 91" style="stroke:var(--fr-orange-l)" stroke-width="3"/></symbol>
+<symbol id="melograno" viewBox="0 0 120 122"><path d="M48 20 L42 2 L55 13 L60 0 L65 13 L78 2 L72 20 Z" style="fill:var(--fr-deep)"/><path d="M22 36 L60 18 L98 36 L112 72 L94 106 L60 118 L26 106 L8 72 Z" style="fill:var(--fr-red)"/><g style="fill:var(--fr-light)"><rect x="30" y="46" width="8" height="7" transform="rotate(12 34 49)"/><rect x="44" y="40" width="8" height="7" transform="rotate(-10 48 43)"/><rect x="34" y="62" width="8" height="7" transform="rotate(20 38 65)"/><rect x="48" y="56" width="7" height="7"/><rect x="26" y="78" width="8" height="7" transform="rotate(-14 30 81)"/><rect x="42" y="74" width="8" height="7" transform="rotate(8 46 77)"/><rect x="36" y="92" width="8" height="7" transform="rotate(-6 40 95)"/><rect x="50" y="88" width="7" height="7" transform="rotate(16 53 91)"/><rect x="66" y="42" width="8" height="7" transform="rotate(14 70 45)"/><rect x="80" y="50" width="7" height="7" transform="rotate(-8 83 53)"/><rect x="68" y="60" width="8" height="7" transform="rotate(-18 72 63)"/><rect x="84" y="68" width="8" height="7" transform="rotate(10 88 71)"/><rect x="70" y="78" width="8" height="7" transform="rotate(6 74 81)"/><rect x="64" y="96" width="8" height="7" transform="rotate(-12 68 99)"/><rect x="82" y="88" width="7" height="7" transform="rotate(20 85 91)"/></g></symbol>
+<symbol id="fragola" viewBox="0 0 100 112"><path d="M18 34 L50 24 L84 34 L92 56 L78 86 L52 108 L28 90 L10 62 Z" style="fill:var(--fr-red)"/><path d="M28 30 L34 8 L44 24 L52 4 L60 24 L72 10 L72 32 L50 26 Z" style="fill:var(--fr-green)"/><g style="fill:var(--fr-light)"><path d="M32 46l3.5 10h-5z"/><path d="M50 42l3.5 10h-5z"/><path d="M68 48l3.5 10h-5z"/><path d="M40 64l3.5 10h-5z"/><path d="M60 66l3.5 10h-5z"/><path d="M50 86l3 9h-5z"/><path d="M26 66l3 9h-5z"/><path d="M76 68l2.5 8h-4z"/></g></symbol>
+
+<symbol id="i-arrow" viewBox="0 0 20 20"><path d="M3 10h13M11 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="i-phone" viewBox="0 0 20 20"><path d="M5.2 2.5 7.7 3l1 3.6-1.7 1.3a10 10 0 0 0 5.1 5.1l1.3-1.7 3.6 1 .5 2.5c0 1-.9 1.7-2 1.7C8.900 16.500 3.500 11.100 3.500 4.500c0-1.100.7-2 1.700-2Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+<symbol id="i-ig" viewBox="0 0 20 20"><rect x="2.800" y="2.800" width="14.400" height="14.400" rx="4" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="10" cy="10" r="3.300" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="14.300" cy="5.700" r="1" fill="currentColor"/></symbol>
+<symbol id="i-mail" viewBox="0 0 20 20"><rect x="2.500" y="4.500" width="15" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="m3 6 7 5 7-5" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+<symbol id="i-save" viewBox="0 0 20 20"><path d="M10 3v9M6 8.500l4 4 4-4M3.500 16.500h13" fill="none" stroke="currentColor" stroke-width="1.700" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="i-share" viewBox="0 0 20 20"><path d="M10 12V3M6.500 6 10 2.800 13.500 6M5 10H4v7h12v-7h-1" fill="none" stroke="currentColor" stroke-width="1.700" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</defs></svg>
+<div class="bg" aria-hidden="true"></div>
 <div class="wrap">
-<header class="id">
-<h1>Arianna<br>Ruaro</h1>
-<p class="role">Biologa nutrizionista</p>
-<img class="photo" src="../assets/ig/09.jpg" alt="Arianna Ruaro alla scrivania, con un blazer rosa" width="512" height="640">
-<ul class="rows">
-<li><a href="https://www.instagram.com/ariannaruaro.nutrizionista/" target="_blank" rel="noopener">Instagram <span>@ariannaruaro.nutrizionista</span></a></li>
-<li><button id="save" type="button">Salva il contatto <span>in rubrica</span></button></li>
-</ul>
+<header>
+<h1>Arianna Ruaro</h1>
+<p class="role">Biologa nutrizionista · Vicenza e Valdagno</p>
+<p class="role" style="font-weight:350">Educazione alimentare basata sulle evidenze. Niente diete, più autonomia.</p>
+<div class="top">
+<a class="pillb" href="https://www.instagram.com/ariannaruaro.nutrizionista/" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-ig"/></svg>Instagram</a>
+<a class="pillb" href="mailto:info@ariannaruaro.it"><svg aria-hidden="true"><use href="#i-mail"/></svg>Email</a>
+<button class="pillb" id="save" type="button"><svg aria-hidden="true"><use href="#i-save"/></svg>Salva contatto</button>
+<button class="pillb" id="share" type="button"><svg aria-hidden="true"><use href="#i-share"/></svg>Condividi</button>
+</div>
 </header>
-<main class="main">
-<div id="map-box"><div id="map"></div><div class="fb" id="fb">Caricamento della mappa…</div></div>
-<div class="centri">
-<section class="centro" data-c="vi">
+
+<main class="grid">
+<section class="t s3 k-c1">
+<p class="lab">Prima visita</p>
+<h2>Raccontami da dove parti.</h2>
+<p>Parliamo della tua situazione e dei tuoi obiettivi, poi scegliamo insieme il percorso più adatto a te.</p>
+<div class="bt"><a class="btn main" href="#dove">Scegli il centro e prenota<svg aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
+</section>
+<section class="t s3 k-ink">
+<p class="lab">Hai una domanda prima?</p>
+<h2>Scrivimi, ti rispondo io.</h2>
+<p>Se non sai se il percorso fa per te, mandami un messaggio su Instagram o una mail.</p>
+<div class="bt"><a class="btn" href="https://ig.me/m/ariannaruaro.nutrizionista" target="_blank" rel="noopener">Scrivimi su Instagram<svg aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
+</section>
+
+<section class="t s4 map-t" id="dove" aria-label="Mappa dei due centri">
+<div id="map"></div>
+<div class="map-fb" id="mapfb">Caricamento della mappa…</div>
+<p class="lbl">Dove ricevo</p>
+</section>
+<div class="side s2">
+<article class="t centre" data-c="vi">
+<p class="lab">Vicenza</p>
 <h2>Centro Medico Piscine di Vicenza</h2>
-<address>Viale Arturo Ferrarin, 71<br>Vicenza</address>
-<ul class="rows">
-<li><a href="tel:+390444929397">Chiama <span>0444 929397</span></a></li>
-<li><a href="https://www.google.com/maps/dir/?api=1&destination=Viale+Arturo+Ferrarin+71,+Vicenza" target="_blank" rel="noopener">Indicazioni <span>Google Maps</span></a></li>
-</ul>
-</section>
-<section class="centro" data-c="va">
+<address class="addr">Viale Arturo Ferrarin, 71<br>Vicenza</address>
+<div class="bt"><a class="btn main" href="tel:+390444929397"><span>Chiama <span class="tel">0444 929397</span></span><svg aria-hidden="true"><use href="#i-phone"/></svg></a>
+<a class="btn ghost" href="https://www.google.com/maps/dir/?api=1&destination=Viale+Arturo+Ferrarin+71,+Vicenza" target="_blank" rel="noopener">Indicazioni<svg aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
+</article>
+<article class="t centre" data-c="va">
+<p class="lab">Valdagno</p>
 <h2>Poliambulatorio Al Maglio in Salute</h2>
-<address>Via Cesare Battisti, 19<br>Maglio di Sopra, Valdagno</address>
-<ul class="rows">
-<li><a href="tel:+3904451947715">Chiama <span>0445 1947715</span></a></li>
-<li><a href="tel:+393407401357">Cellulare <span>340 740 1357</span></a></li>
-<li><a href="https://www.google.com/maps/dir/?api=1&destination=Via+Cesare+Battisti+19,+Maglio+di+Sopra,+Valdagno" target="_blank" rel="noopener">Indicazioni <span>Google Maps</span></a></li>
+<address class="addr">Via Cesare Battisti, 19<br>Maglio di Sopra, Valdagno</address>
+<div class="bt"><a class="btn main" href="tel:+3904451947715"><span>Chiama <span class="tel">0445 1947715</span></span><svg aria-hidden="true"><use href="#i-phone"/></svg></a>
+<a class="btn" href="tel:+393407401357"><span>Cellulare <span class="tel">340 740 1357</span></span><svg aria-hidden="true"><use href="#i-phone"/></svg></a>
+<a class="btn ghost" href="https://www.google.com/maps/dir/?api=1&destination=Via+Cesare+Battisti+19,+Maglio+di+Sopra,+Valdagno" target="_blank" rel="noopener">Indicazioni<svg aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
+</article>
+</div>
+
+<section class="t s6">
+<p class="lab">Di cosa mi occupo</p>
+<h2>Nutrizione in ogni fase della vita.</h2>
+<ul class="topics">
+<li><svg viewBox="0 0 84 120" aria-hidden="true"><use href="#pera"/></svg>Gravidanza e allattamento</li>
+<li><svg viewBox="0 0 60 140" aria-hidden="true"><use href="#carota"/></svg>Età pediatrica</li>
+<li><svg viewBox="0 0 120 122" aria-hidden="true"><use href="#melograno"/></svg>Menopausa</li>
+<li><svg viewBox="0 0 100 112" aria-hidden="true"><use href="#fragola"/></svg>Educazione alimentare</li>
 </ul>
 </section>
+
+<section class="t s3 k-c2">
+<p class="lab">Come funziona</p>
+<h2>La prima visita, in quattro passi.</h2>
+<ol class="steps">
+<li><span><b>Ascolto</b>Abitudini, storia clinica e obiettivi.</span></li>
+<li><span><b>Misure</b>Peso, circonferenze e composizione corporea.</span></li>
+<li><span><b>Piano</b>Costruito insieme, non imposto.</span></li>
+<li><span><b>Controllo</b>Vediamo cosa funziona e aggiustiamo il tiro.</span></li>
+</ol>
+</section>
+<section class="t s3">
+<p class="lab">Domande frequenti</p>
+<h2>Prima di prenotare.</h2>
+<div class="faq">
+<details><summary>Mi darai una dieta da seguire?</summary><p>L'obiettivo non è una dieta rigida: è farti diventare autonoma o autonomo nelle scelte di ogni giorno.</p></details>
+<details><summary>Dove ci vediamo?</summary><p>A Vicenza al Centro Medico Piscine, oppure a Maglio di Sopra (Valdagno) al Poliambulatorio Al Maglio in Salute.</p></details>
+<details><summary>Come prenoto?</summary><p>Chiama il centro che preferisci. Per una domanda prima di prenotare, scrivimi su Instagram.</p></details>
 </div>
-<p class="temi">Gravidanza e allattamento, età pediatrica, menopausa.</p>
+</section>
+
+<section class="t s4 k-c3">
+<p class="lab">Chi sono</p>
+<h2>Scienza, non regole.</h2>
+<p>Sono Arianna, biologa nutrizionista. Ho presentato un poster al 48° congresso ESPEN di nutrizione clinica. Il mio obiettivo più grande è la tua autonomia a tavola.</p>
+<div class="bt"><a class="btn" href="https://www.instagram.com/ariannaruaro.nutrizionista/" target="_blank" rel="noopener">Leggi la serie "Mito o evidenza?"<svg aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
+</section>
+<section class="t s2" style="padding:0;overflow:hidden;min-height:260px;background:url(../assets/ig/09.jpg) 50% 62%/cover" role="img" aria-label="Arianna Ruaro alla scrivania, sorridente, con un blazer rosa"></section>
 </main>
+<footer>© Arianna Ruaro · Biologa nutrizionista</footer>
 </div>
+<div class="toast" id="toast" role="status"></div>
+
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <script>
+/* mappa: MapLibre (fork aperto di Mapbox GL) con tile OpenFreeMap, nessuna chiave */
 const CENTRI=[{id:'vi',n:'Vicenza',c:[11.53144,45.55985]},{id:'va',n:'Valdagno',c:[11.28510,45.66363]}];
-const pick=id=>{document.querySelectorAll('.pin').forEach(x=>x.classList.toggle('on',x.dataset.c===id))};
-(function(){const fb=document.getElementById('fb'),no='Mappa non disponibile. Usa Indicazioni.';
- if(!window.maplibregl){fb.textContent=no;return}
- let map;try{map=new maplibregl.Map({container:'map',style:'https://tiles.openfreemap.org/styles/positron',bounds:[CENTRI[1].c,CENTRI[0].c],fitBoundsOptions:{padding:{top:70,bottom:50,left:70,right:70}},scrollZoom:false,dragRotate:false,pitchWithRotate:false,dragPan:!matchMedia('(pointer:coarse)').matches,attributionControl:{compact:true}})}catch(e){fb.textContent=no;return}
- window.__map=map;map.touchZoomRotate.disableRotation();
+function select(id,move){document.querySelectorAll('.centre').forEach(x=>x.classList.toggle('on',x.dataset.c===id));document.querySelectorAll('.pin').forEach(x=>x.classList.toggle('on',x.dataset.c===id));if(move&&window.__map){const c=CENTRI.find(x=>x.id===id);__map.flyTo({center:c.c,zoom:13.5,duration:900})}}
+(function(){const fb=document.getElementById('mapfb');
+ if(!window.maplibregl){fb.textContent='Mappa non disponibile. Usa i pulsanti Indicazioni.';return}
+ let map;try{map=new maplibregl.Map({container:'map',style:'https://tiles.openfreemap.org/styles/positron',bounds:[CENTRI[1].c,CENTRI[0].c],fitBoundsOptions:{padding:{top:90,bottom:70,left:80,right:80}},scrollZoom:false,dragRotate:false,pitchWithRotate:false,touchZoomRotate:true,cooperativeGestures:false,dragPan:!matchMedia('(pointer:coarse)').matches,attributionControl:{compact:true}})}catch(e){fb.textContent='Mappa non disponibile. Usa i pulsanti Indicazioni.';return}
+ window.__map=map;map.touchZoomRotate.disableRotation();map.addControl(new maplibregl.NavigationControl({showCompass:false}),'bottom-right');
  map.once('style.load',()=>{fb.remove();
   map.getStyle().layers.forEach(l=>{const id=l.id;
-   if(l.type==='background')map.setPaintProperty(id,'background-color','#EFE5D2');
+   if(l.type==='background')map.setPaintProperty(id,'background-color','#F6EEDF');
    else if(l.type==='fill'&&/water/.test(id))map.setPaintProperty(id,'fill-color','#C9DDF2');
    else if(l.type==='fill'&&/wood|forest|park|landcover|grass/.test(id))map.setPaintProperty(id,'fill-color','#DDEBC0');
-   else if(l.type==='fill'&&/building/.test(id))map.setPaintProperty(id,'fill-color','#E4D8C2');
+   else if(l.type==='fill'&&/building/.test(id))map.setPaintProperty(id,'fill-color','#EDE3D1');
    else if(l.type==='line'&&/water/.test(id))map.setPaintProperty(id,'line-color','#C9DDF2');
-   else if(l.type==='line'&&/highway|road|bridge|tunnel/.test(id))map.setPaintProperty(id,'line-color','#F6EEDF');
+   else if(l.type==='line'&&/highway|road|bridge|tunnel/.test(id))map.setPaintProperty(id,'line-color','#FFFBF4');
    else if(l.type==='symbol'&&/poi|transit|housenumber|aerodrome|road|highway/.test(id))map.setLayoutProperty(id,'visibility','none');
    else if(l.type==='symbol')map.setPaintProperty(id,'text-color','#4C5A50');
   });
-  CENTRI.forEach(c=>{const b=document.createElement('button');b.className='pin';b.type='button';b.dataset.c=c.id;b.setAttribute('aria-label','Vai al centro di '+c.n);b.innerHTML='<b>'+c.n+'</b><i></i><u></u>';b.addEventListener('click',()=>{pick(c.id);document.querySelector('.centro[data-c='+c.id+']').scrollIntoView({block:'start',behavior:'smooth'})});new maplibregl.Marker({element:b,anchor:'bottom'}).setLngLat(c.c).addTo(map)})});
- map.on('error',e=>{if(fb.isConnected&&/style|fetch/i.test(e.error?.message||''))fb.textContent=no});
- document.querySelectorAll('.centro').forEach(c=>{c.addEventListener('mouseenter',()=>pick(c.dataset.c));c.addEventListener('mouseleave',()=>pick(null))});
+  CENTRI.forEach(c=>{const b=document.createElement('button');b.className='pin';b.type='button';b.dataset.c=c.id;b.setAttribute('aria-label','Centro di '+c.n);b.innerHTML='<b>'+c.n+'</b><i></i><u></u>';b.addEventListener('click',()=>{select(c.id,false);const card=document.querySelector('.centre[data-c='+c.id+']');if(matchMedia('(max-width:820px)').matches)card.scrollIntoView({block:'center'})});new maplibregl.Marker({element:b,anchor:'bottom'}).setLngLat(c.c).addTo(map)})});
+ map.on('error',e=>{if(fb.isConnected&&e.error&&/style|Failed to fetch/i.test(e.error.message||''))fb.textContent='Mappa non disponibile. Usa i pulsanti Indicazioni.'});
+ document.querySelectorAll('.centre').forEach(c=>{c.addEventListener('mouseenter',()=>select(c.dataset.c,false));c.addEventListener('mouseleave',()=>select(null,false))});
 })();
-document.getElementById('save').addEventListener('click',()=>{const v=['BEGIN:VCARD','VERSION:3.0','N:Ruaro;Arianna;;;','FN:Arianna Ruaro','TITLE:Biologa nutrizionista','TEL;TYPE=WORK:+390444929397','TEL;TYPE=WORK:+3904451947715','TEL;TYPE=CELL:+393407401357','ADR;TYPE=WORK:;;Viale Arturo Ferrarin 71;Vicenza;;;Italia','ADR;TYPE=WORK:;;Via Cesare Battisti 19;Maglio di Sopra, Valdagno;;;Italia','END:VCARD'].join('\r\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([v],{type:'text/vcard'}));a.download='arianna-ruaro.vcf';a.click();URL.revokeObjectURL(a.href)});
+/* utilità */
+const toast=m=>{const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2200)};
+document.getElementById('save').addEventListener('click',()=>{const v=['BEGIN:VCARD','VERSION:3.0','N:Ruaro;Arianna;;;','FN:Arianna Ruaro','TITLE:Biologa nutrizionista','EMAIL:info@ariannaruaro.it','TEL;TYPE=WORK:+390444929397','TEL;TYPE=WORK:+3904451947715','TEL;TYPE=CELL:+393407401357','ADR;TYPE=WORK:;;Viale Arturo Ferrarin 71;Vicenza;;;Italia','ADR;TYPE=WORK:;;Via Cesare Battisti 19;Maglio di Sopra, Valdagno;;;Italia','URL:'+location.href.split('#')[0],'END:VCARD'].join('\r\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([v],{type:'text/vcard'}));a.download='arianna-ruaro.vcf';a.click();URL.revokeObjectURL(a.href)});
+document.getElementById('share').addEventListener('click',async()=>{const u=location.href.split('#')[0];if(navigator.share){try{await navigator.share({title:'Arianna Ruaro, biologa nutrizionista',url:u})}catch(e){}}else{try{await navigator.clipboard.writeText(u);toast('Link copiato')}catch(e){toast(u)}}});
 </script>
 </body>
 </html>
