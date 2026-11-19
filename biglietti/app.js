@@ -12,24 +12,25 @@ function text(lines,x,y,size,family,weight,anchor='start',lineHeight=0,cls=''){
 }
 function cardSvg(card,side){
  const l=D.layouts.find(x=>x.id===card.layoutId),w=l.widthMm*10,h=l.heightMm*10,short=550;
- const title=side==='front'?'Arianna Ruaro · Biologa nutrizionista':`Riceve su appuntamento. ${D.centers.map(c=>`${c.name}. ${c.address}. ${c.phone}`).join('. ')}`;
+ const title=side==='front'?`Arianna Ruaro · Biologa nutrizionista · ${card.front.email}`:`Arianna Ruaro. Biologa nutrizionista. Riceve su appuntamento. ${D.centers.map(c=>`${c.name}. ${c.address}. ${c.phone}`).join('. ')}`;
  let content=`<rect width="${w}" height="${h}" fill="${card.palette.background}"/>`;
  if(side==='front'){
   content+=`<g class="fruit-layer" aria-hidden="true">`+l.fruits.map(f=>{
    const size=f.scale*short,x=f.x*w,y=f.y*h;
    return `<image data-fruit="${f.id}" href="${D.fruits[f.id].png}" x="${x-size/2}" y="${y-size/2}" width="${size}" height="${size}" transform="rotate(${f.rotation} ${x} ${y})"/>`;
   }).join('')+'</g>';
-  const n=l.front.name,q=l.front.qualification;
+  const n=l.front.name,q=l.front.qualification,e=l.front.email;
   const split=n.baselines.length===2?['Arianna','Ruaro']:['Arianna Ruaro'];
   content+=`<g class="front-type" fill="${card.palette.text}">`;
   split.forEach((line,i)=>content+=text([line],n.x*w,n.baselines[i]*h,n.size*short,D.typography[card.typography].nameFamily,n.weight,n.anchor,0,'card-name'));
-  content+=text([q.text],q.x*w,q.y*h,q.size*short,'Geologica',q.weight,q.anchor,0,'card-qualification')+'</g>';
+  content+=text([q.text],q.x*w,q.y*h,q.size*short,'Geologica',q.weight,q.anchor,0,'card-qualification');
+  content+=text([card.front.email],e.x*w,e.y*h,e.size*short,'Geologica',e.weight,e.anchor,0,'card-email')+'</g>';
  }else{
   const b=l.back,x=b.x*w,p=card.orientation==='portrait';
-  content+=`<g class="back-type" fill="${card.palette.text}">`+text([card.back.heading],b.heading.x*w,b.heading.y*h,b.heading.size*short,'Geologica',b.heading.weight,'start',0,'back-heading');
+  content+=`<g class="back-type" fill="${card.palette.text}">`+text([card.back.name],b.name.x*w,b.name.y*h,b.name.size*short,D.typography[card.typography].nameFamily,b.name.weight,'start',0,'back-name')+text([card.back.qualification],b.qualification.x*w,b.qualification.y*h,b.qualification.size*short,'Geologica',b.qualification.weight,'start',0,'back-qualification')+text([card.back.heading],b.heading.x*w,b.heading.y*h,b.heading.size*short,'Geologica',b.heading.weight,'start',0,'back-heading');
   D.centers.forEach((c,i)=>{
-   const pos=b.centers[i],lines=p?c.portrait:{name:[c.name],address:[c.address],phone:[c.phone]};
-   content+=`<g class="center-details" data-center="${i+1}">`+text(lines.name,x,pos.nameY*h,b.nameSize*short,'Geologica',b.nameWeight,'start',(b.lineHeight||0)*h,'center-name')+text(lines.address,x,pos.addressY*h,b.addressSize*short,'Geologica',b.bodyWeight,'start',(b.lineHeight||0)*h,'center-address')+text(lines.phone,x,pos.phoneY*h,b.phoneSize*short,'Geologica',b.bodyWeight,'start',(b.lineHeight||0)*h,'center-phone')+'</g>';
+   const pos=b.centers[i],lines={name:[c.name],address:p?c.portrait.address:[c.address],phone:[c.phone]};
+   content+=`<g class="center-details" data-center="${i+1}">`+text(lines.name,x,pos.nameY*h,b.nameSize*short,'Geologica',b.nameWeight,'start',(b.lineHeight||0)*h,'center-name')+text(lines.address,x,pos.addressY*h,b.addressSize*short,'Geologica',b.bodyWeight,'start',(b.lineHeight||0)*h,'center-address').replace('<text ',`<text opacity="${b.addressOpacity}" `)+text(lines.phone,x,pos.phoneY*h,b.phoneSize*short,'Geologica',b.bodyWeight,'start',(b.lineHeight||0)*h,'center-phone')+'</g>';
   });
   content+=b.lineYs.map(y=>`<path d="M${x} ${y*h}h${b.width*w}" stroke="${card.palette.text}" stroke-width=".65" opacity=".3"/>`).join('')+'</g>';
  }
@@ -56,7 +57,7 @@ function updateFlip(){
   b.classList.toggle('is-flipped',flipped);
   const label=(i===0)!==flipped?'Fronte':'Retro';
   $(`[data-caption="${i}"]`).textContent=label;
-  const content=label==='Fronte'?'Arianna Ruaro, Biologa nutrizionista':`Riceve su appuntamento. ${D.centers.map(c=>`${c.name}, ${c.address}, ${c.phone}`).join('. ')}`;
+  const content=label==='Fronte'?`Arianna Ruaro, Biologa nutrizionista, ${current().front.email}`:`Arianna Ruaro. Biologa nutrizionista. Riceve su appuntamento. ${D.centers.map(c=>`${c.name}, ${c.address}, ${c.phone}`).join('. ')}`;
   b.setAttribute('aria-label',`${label}. ${content}. Gira il biglietto`);
   b.querySelectorAll('.card-side').forEach(s=>s.setAttribute('aria-hidden',String(s.classList.contains('reverse')!==flipped)));
  });
