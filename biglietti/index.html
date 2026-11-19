@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Arianna Ruaro · Business card</title>
+<link rel="stylesheet" href="styles.css">
+<script src="data.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<header class="topbar"><div class="identity">Arianna Ruaro <span>Business card</span></div><a class="edition" href="../">Torna al sistema visivo</a></header>
+<main>
+<form class="controls" aria-label="Scegli il biglietto" onsubmit="return false">
+ <fieldset><legend>Composizione</legend><div class="segments" data-control="composition"><button type="button" data-value="corona" aria-pressed="true">Corona</button><button type="button" data-value="diagonale" aria-pressed="false">Diagonale</button><button type="button" data-value="asimmetrica" aria-pressed="false">Asimmetrica</button></div></fieldset>
+ <fieldset><legend>Formato</legend><div class="segments" data-control="orientation"><button type="button" data-value="landscape" aria-pressed="true">Orizzontale</button><button type="button" data-value="portrait" aria-pressed="false">Verticale</button></div></fieldset>
+ <fieldset class="type-control"><legend>Tipografia</legend><label class="sr-only" for="typography">Tipografia del biglietto</label><select id="typography" name="typography"><option value="petrona">Petrona + Geologica</option><option value="geologica">Solo Geologica</option></select></fieldset>
+ <fieldset><legend>Tonalità</legend><div class="segments tones" data-control="tone"><button type="button" data-value="light" aria-pressed="true"><span class="swatch light"></span>Chiaro</button><button type="button" data-value="dark" aria-pressed="false"><span class="swatch dark"></span>Scuro</button></div></fieldset>
+</form>
+<div id="font-error" role="alert" hidden>Impossibile caricare Petrona o Geologica. Riapri la pagina con la cartella assets accanto a index.html, oppure usa inline.html.</div>
+<section class="workspace" data-orientation="landscape" aria-label="Confronto fronte e retro">
+ <div class="workspace-heading"><h1 id="selection-name">Corona <span>85 × 55 mm</span></h1><button class="text-button flip-button" id="flip" type="button" aria-label="Gira entrambi i biglietti" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10a8 8 0 0 1 14-4l2 2M20 3v5h-5M20 14A8 8 0 0 1 6 20l-2-2M4 23v-5h5"/></svg>Gira <kbd>G</kbd></button></div>
+ <div class="faces" id="faces"></div>
+ <div class="workspace-footer"><p id="selection-status" aria-live="polite" aria-atomic="true">01 / 24 · Petrona + Geologica · Chiaro</p><button type="button" id="overview-toggle" class="text-button" aria-expanded="false" aria-controls="overview"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2 2h6v6H2zM12 2h6v6h-6zM2 12h6v6H2zM12 12h6v6h-6z"/></svg>Tutte le varianti <span class="arrow">↓</span></button></div>
+</section>
+<section id="overview" aria-label="Tutte le 24 varianti" hidden><div class="overview-heading"><h2>Tutte le varianti</h2><span>Seleziona per confrontare</span></div><div class="variant-grid" id="variant-grid"></div></section>
+</main>
+<noscript><p>Attiva JavaScript per confrontare le 24 varianti.</p></noscript>
+</body>
+</html>
